@@ -14,7 +14,10 @@ module NV_soDLA_CACC_assembly_ctrl( // @[:@3.2]
   input         dp2reg_done, // @[:@6.4]
   output        slcg_cell_en, // @[:@6.4]
   output        wait_for_op_en // @[:@6.4]
+  output     cfg_in_en_mask;
 );
+
+  assign cfg_in_en_mask = 1'b1;
   reg  accu_valid; // @[NV_NVDLA_CACC_assembly_ctrl.scala 61:25:@8.4]
   reg [31:0] _RAND_0;
   reg [8:0] accu_pd; // @[Reg.scala 19:20:@10.4]
