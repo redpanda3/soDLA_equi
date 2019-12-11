@@ -13,8 +13,8 @@ module NV_soDLA_CACC_assembly_ctrl( // @[:@3.2]
   input  [4:0]  reg2dp_clip_truncate, // @[:@6.4]
   input         dp2reg_done, // @[:@6.4]
   output        slcg_cell_en, // @[:@6.4]
-  output        wait_for_op_en // @[:@6.4]
-  output     cfg_in_en_mask;
+  output        wait_for_op_en, // @[:@6.4]
+  output        cfg_in_en_mask
 );
 
   assign cfg_in_en_mask = 1'b1;
