@@ -183,7 +183,7 @@ class NV_soDLA_CMAC_CORE_active(useRealClock:Boolean = false)(implicit val conf:
     
   }
 
-  val active = withClockAndReset(internal_clock, !nvdla_core_rstn){new activeImpl} 
+  val active = withClockAndReset(internal_clock, !io.nvdla_core_rstn){new activeImpl} 
 
 }
 
