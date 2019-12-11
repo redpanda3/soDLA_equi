@@ -33,7 +33,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     //
 
     // Write side
-    val fifogenDFTWrQual = Module(new oneHotClk_async_write_clock)
+    val fifogenDFTWrQual = Module(new SO_oneHotClk_async_write_clock)
     val dft_qualifier_wr_enable = fifogenDFTWrQual.io.enable_w
 
     val wr_clk_wr_dft_mgate = Module(new SO_CLK_gate_power)
@@ -43,12 +43,12 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
 
     if(!conf.FPGA){
         // Add a dummy sink to prevent issue related to no fanout on this clock gate
-        val UJ_BLKBOX_UNUSED_FIFOGEN_dft_wr_clkgate_sink = Module(new NV_BLKBOX_SINK)
+        val UJ_BLKBOX_UNUSED_FIFOGEN_dft_wr_clkgate_sink = Module(new SO_BLKBOX_SINK)
         UJ_BLKBOX_UNUSED_FIFOGEN_dft_wr_clkgate_sink.io.A := wr_clk_dft_mgated.asUInt.toBool
     }
 
     // Read side
-    val fifogenDFTRdQual = Module(new oneHotClk_async_read_clock)
+    val fifogenDFTRdQual = Module(new SO_oneHotClk_async_read_clock)
     val dft_qualifier_rd_enable = fifogenDFTRdQual.io.enable_r
 
     val rd_clk_rd_dft_mgate = Module(new SO_CLK_gate_power)
@@ -58,7 +58,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
 
     if(!conf.FPGA){
         // Add a dummy sink to prevent issue related to no fanout on this clock gate
-        val UJ_BLKBOX_UNUSED_FIFOGEN_dft_rd_clkgate_sink = Module(new NV_BLKBOX_SINK)
+        val UJ_BLKBOX_UNUSED_FIFOGEN_dft_rd_clkgate_sink = Module(new SO_BLKBOX_SINK)
         UJ_BLKBOX_UNUSED_FIFOGEN_dft_rd_clkgate_sink.io.A := rd_clk_dft_mgated.asUInt.toBool
     }
 
