@@ -5,7 +5,7 @@ import chisel3.experimental._
 import chisel3.util._
 
 @chiselName
-class NV_NVDLA_CDP_wdma(implicit val conf: nvdlaConfig) extends Module {
+class NV_soDLA_CDP_wdma(implicit val conf: nvdlaConfig) extends Module {
     val io = IO(new Bundle {
         // clk
         val nvdla_core_clk_orig = Input(Clock())
@@ -83,7 +83,7 @@ withClock(io.nvdla_core_clk){
     // Data INPUT pipe and Unpack
     //==============
     val dp2wdma_rdy = Wire(Bool())
-    val pipe_0 = Module(new NV_NVDLA_IS_pipe(conf.CDPBW+17))
+    val pipe_0 = Module(new NV_soDLA_IS_pipe(conf.CDPBW+17))
     pipe_0.io.clk := io.nvdla_core_clk
     pipe_0.io.vi := io.cdp_dp2wdma_pd.valid
     io.cdp_dp2wdma_pd.ready := pipe_0.io.ro
@@ -133,7 +133,7 @@ withClock(io.nvdla_core_clk){
     }
 
     val req_chn_size = RegInit("b0".asUInt(5.W))
-    val u_dat_fifo = Array.fill(conf.ATMM_NUM){Array.fill(conf.BATCH_CDP_NUM){Module(new NV_NVDLA_fifo(depth = 32, width = conf.CDPBW, ram_type = 0, distant_wr_req = false))}}
+    val u_dat_fifo = Array.fill(conf.ATMM_NUM){Array.fill(conf.BATCH_CDP_NUM){Module(new NV_soDLA_fifo(depth = 32, width = conf.CDPBW, ram_type = 0, distant_wr_req = false))}}
     val dat_fifo_wr_pvld = Wire(Vec(conf.ATMM_NUM, Vec(conf.BATCH_CDP_NUM, Bool())))
     val dat_fifo_wr_prdy = Wire(Vec(conf.ATMM_NUM, Vec(conf.BATCH_CDP_NUM, Bool())))
     val dat_wr_rdys = Wire(Vec(conf.ATMM_NUM, Vec(conf.BATCH_CDP_NUM, Bool())))
@@ -179,7 +179,7 @@ withClock(io.nvdla_core_clk){
 
     // FIFO:Write side
     val cmd_fifo_rd_prdy = Wire(Bool())
-    val u_cmd_fifo = Module(new NV_NVDLA_fifo(depth = 4, width = 17, ram_type = 0, distant_wr_req = false))
+    val u_cmd_fifo = Module(new NV_soDLA_fifo(depth = 4, width = 17, ram_type = 0, distant_wr_req = false))
     u_cmd_fifo.io.clk := io.nvdla_core_clk
     u_cmd_fifo.io.pwrbus_ram_pd := io.pwrbus_ram_pd
 
@@ -437,22 +437,22 @@ withClock(io.nvdla_core_clk){
     // DMA Interface
     //==============
 
-    val u_NV_NVDLA_CDP_WDMA_wr = Module(new NV_NVDLA_DMAIF_wr(conf.NVDLA_CDP_MEM_WR_REQ))
-    u_NV_NVDLA_CDP_WDMA_wr.io.nvdla_core_clk := io.nvdla_core_clk
-    u_NV_NVDLA_CDP_WDMA_wr.io.reg2dp_dst_ram_type := io.reg2dp_dst_ram_type
+    val u_NV_soDLA_CDP_WDMA_wr = Module(new NV_soDLA_DMAIF_wr(conf.NVDLA_CDP_MEM_WR_REQ))
+    u_NV_soDLA_CDP_WDMA_wr.io.nvdla_core_clk := io.nvdla_core_clk
+    u_NV_soDLA_CDP_WDMA_wr.io.reg2dp_dst_ram_type := io.reg2dp_dst_ram_type
 
-    u_NV_NVDLA_CDP_WDMA_wr.io.dmaif_wr_req_pd.valid := dma_wr_req_vld
-    dma_wr_req_rdy := u_NV_NVDLA_CDP_WDMA_wr.io.dmaif_wr_req_pd.ready
-    u_NV_NVDLA_CDP_WDMA_wr.io.dmaif_wr_req_pd.bits := dma_wr_req_pd
-    val dma_wr_rsp_complete = u_NV_NVDLA_CDP_WDMA_wr.io.dmaif_wr_rsp_complete
+    u_NV_soDLA_CDP_WDMA_wr.io.dmaif_wr_req_pd.valid := dma_wr_req_vld
+    dma_wr_req_rdy := u_NV_soDLA_CDP_WDMA_wr.io.dmaif_wr_req_pd.ready
+    u_NV_soDLA_CDP_WDMA_wr.io.dmaif_wr_req_pd.bits := dma_wr_req_pd
+    val dma_wr_rsp_complete = u_NV_soDLA_CDP_WDMA_wr.io.dmaif_wr_rsp_complete
 
-    io.cdp2mcif_wr_req_pd <> u_NV_NVDLA_CDP_WDMA_wr.io.mcif_wr_req_pd
-    u_NV_NVDLA_CDP_WDMA_wr.io.mcif_wr_rsp_complete := io.mcif2cdp_wr_rsp_complete
+    io.cdp2mcif_wr_req_pd <> u_NV_soDLA_CDP_WDMA_wr.io.mcif_wr_req_pd
+    u_NV_soDLA_CDP_WDMA_wr.io.mcif_wr_rsp_complete := io.mcif2cdp_wr_rsp_complete
 
 
     if(conf.NVDLA_SECONDARY_MEMIF_ENABLE){
-        io.cdp2cvif_wr_req_pd.get <> u_NV_NVDLA_CDP_WDMA_wr.io.cvif_wr_req_pd.get
-        u_NV_NVDLA_CDP_WDMA_wr.io.cvif_wr_rsp_complete.get := io.cvif2cdp_wr_rsp_complete.get
+        io.cdp2cvif_wr_req_pd.get <> u_NV_soDLA_CDP_WDMA_wr.io.cvif_wr_req_pd.get
+        u_NV_soDLA_CDP_WDMA_wr.io.cvif_wr_rsp_complete.get := io.cvif2cdp_wr_rsp_complete.get
     }
 
     ////////////////////////////////////////////////////////
@@ -461,7 +461,7 @@ withClock(io.nvdla_core_clk){
     val intr_fifo_rd_prdy = dma_wr_rsp_complete
 
     //interrupt fifo
-    val u_intr_fifo = Module{new NV_NVDLA_fifo(depth = 0, width = 1)}
+    val u_intr_fifo = Module{new NV_soDLA_fifo(depth = 0, width = 1)}
     u_intr_fifo.io.clk := io.nvdla_core_clk_orig
     u_intr_fifo.io.pwrbus_ram_pd := io.pwrbus_ram_pd
 
@@ -482,7 +482,7 @@ withClock(io.nvdla_core_clk){
 
 
 
-object NV_NVDLA_CDP_wdmaDriver extends App {
+object NV_soDLA_CDP_wdmaDriver extends App {
   implicit val conf: nvdlaConfig = new nvdlaConfig
-  chisel3.Driver.execute(args, () => new NV_NVDLA_CDP_wdma())
+  chisel3.Driver.execute(args, () => new NV_soDLA_CDP_wdma())
 }

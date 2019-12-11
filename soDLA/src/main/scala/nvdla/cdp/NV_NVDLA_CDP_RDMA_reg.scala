@@ -7,7 +7,7 @@ import chisel3.util._
 //Implementation overview of ping-pong register file.
 
 @chiselName
-class NV_NVDLA_CDP_RDMA_reg extends Module {
+class NV_soDLA_CDP_RDMA_reg extends Module {
     val io = IO(new Bundle {
         //general clock
         val nvdla_core_clk = Input(Clock())      
@@ -58,7 +58,7 @@ withClock(io.nvdla_core_clk){
     val reg_wr_data = Wire(UInt(32.W))
     val s_reg_wr_en = Wire(Bool())
 
-    val u_single_reg = Module(new NV_NVDLA_BASIC_REG_single)
+    val u_single_reg = Module(new NV_soDLA_BASIC_REG_single)
 
     u_single_reg.io.nvdla_core_clk := io.nvdla_core_clk
     u_single_reg.io.reg.offset := reg_offset
@@ -74,7 +74,7 @@ withClock(io.nvdla_core_clk){
     val d0_reg_wr_en = Wire(Bool())
     val reg2dp_d0_op_en = RegInit(false.B)
 
-    val u_dual_reg_d0 = Module(new NV_NVDLA_CDP_RDMA_REG_dual)
+    val u_dual_reg_d0 = Module(new NV_soDLA_CDP_RDMA_REG_dual)
     u_dual_reg_d0.io.nvdla_core_clk := io.nvdla_core_clk
     u_dual_reg_d0.io.reg.offset := reg_offset
     u_dual_reg_d0.io.reg.wr_data := reg_wr_data
@@ -88,7 +88,7 @@ withClock(io.nvdla_core_clk){
     val d1_reg_wr_en = Wire(Bool())
     val reg2dp_d1_op_en = RegInit(false.B)
 
-    val u_dual_reg_d1 = Module(new NV_NVDLA_CDP_RDMA_REG_dual)
+    val u_dual_reg_d1 = Module(new NV_soDLA_CDP_RDMA_REG_dual)
     u_dual_reg_d1.io.nvdla_core_clk := io.nvdla_core_clk
     u_dual_reg_d1.io.reg.offset := reg_offset
     u_dual_reg_d1.io.reg.wr_data := reg_wr_data
@@ -164,7 +164,7 @@ withClock(io.nvdla_core_clk){
     // GENERATE CSB TO REGISTER CONNECTION LOGIC                          //
     //                                                                    //
     ////////////////////////////////////////////////////////////////////////
-    val csb_logic = Module(new NV_NVDLA_CSB_LOGIC)
+    val csb_logic = Module(new NV_soDLA_CSB_LOGIC)
     csb_logic.io.clk := io.nvdla_core_clk
     csb_logic.io.csb2dp <> io.csb2cdp_rdma
     reg_offset := csb_logic.io.reg.offset
@@ -182,6 +182,6 @@ withClock(io.nvdla_core_clk){
 }}
 
 
-object NV_NVDLA_CDP_RDMA_regDriver extends App {
-  chisel3.Driver.execute(args, () => new NV_NVDLA_CDP_RDMA_reg())
+object NV_soDLA_CDP_RDMA_regDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_soDLA_CDP_RDMA_reg())
 }

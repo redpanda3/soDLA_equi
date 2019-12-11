@@ -5,7 +5,7 @@ import chisel3.experimental._
 import chisel3.util._
 
 @chiselName
-class NV_NVDLA_CDP_rdma(implicit val conf: nvdlaConfig) extends Module {
+class NV_soDLA_CDP_rdma(implicit val conf: nvdlaConfig) extends Module {
     val io = IO(new Bundle {
         // clk
         val nvdla_clock = Flipped(new nvdla_clock_if)
@@ -48,15 +48,15 @@ class NV_NVDLA_CDP_rdma(implicit val conf: nvdlaConfig) extends Module {
 //             └──┴──┘       └──┴──┘ 
 withClock(io.nvdla_clock.nvdla_core_clk){
     //=======================================
-    val u_slcg = Module(new NV_NVDLA_slcg(1, false))
-    val u_reg = Module(new NV_NVDLA_CDP_RDMA_reg)
-    val u_ig = Module(new NV_NVDLA_CDP_RDMA_ig)
-    val u_cq = Module(new NV_NVDLA_fifo(
+    val u_slcg = Module(new NV_soDLA_slcg(1, false))
+    val u_reg = Module(new NV_soDLA_CDP_RDMA_reg)
+    val u_ig = Module(new NV_soDLA_CDP_RDMA_ig)
+    val u_cq = Module(new NV_soDLA_fifo(
                         depth = 256, 
                         width = 7,
                         ram_type = 0,
                         distant_wr_req = false))
-    val u_eg = Module(new NV_NVDLA_CDP_RDMA_eg)
+    val u_eg = Module(new NV_soDLA_CDP_RDMA_eg)
     //=======================================
     //        SLCG gen unit
     //---------------------------------------
@@ -135,7 +135,7 @@ withClock(io.nvdla_clock.nvdla_core_clk){
 
 
 
-object NV_NVDLA_CDP_rdmaDriver extends App {
+object NV_soDLA_CDP_rdmaDriver extends App {
   implicit val conf: nvdlaConfig = new nvdlaConfig
-  chisel3.Driver.execute(args, () => new NV_NVDLA_CDP_rdma())
+  chisel3.Driver.execute(args, () => new NV_soDLA_CDP_rdma())
 }

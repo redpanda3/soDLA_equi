@@ -31,7 +31,7 @@ withClock(io.nvdla_core_clk){
 
     val sub_out_prdy = Wire(Bool())
 
-    val pipe_p1 = Module(new NV_NVDLA_BC_pipe(9))
+    val pipe_p1 = Module(new NV_soDLA_BC_pipe(9))
     pipe_p1.io.clk := io.nvdla_core_clk
     pipe_p1.io.vi := io.chn_data_in_rsc_z.valid
     io.chn_data_in_rsc_z.ready := pipe_p1.io.ro
@@ -45,7 +45,7 @@ withClock(io.nvdla_core_clk){
 
     val mul_out_prdy = Wire(Bool())
     
-    val pipe_p2 = Module(new NV_NVDLA_BC_pipe(25))
+    val pipe_p2 = Module(new NV_soDLA_BC_pipe(25))
     pipe_p2.io.clk := io.nvdla_core_clk
     pipe_p2.io.vi := sub_out_pvld
     sub_out_prdy := pipe_p2.io.ro
@@ -56,12 +56,12 @@ withClock(io.nvdla_core_clk){
 
     //truncate
 
-    val shiftright_su = Module(new NV_NVDLA_HLS_shiftrightsu(16+9, 9, 5))
+    val shiftright_su = Module(new NV_soDLA_HLS_shiftrightsu(16+9, 9, 5))
     shiftright_su.io.data_in := mul_data_out
     shiftright_su.io.shift_num := io.cfg_truncate_rsc_z
     val tru_dout = shiftright_su.io.data_out
 
-    val pipe_p3 = Module(new NV_NVDLA_BC_pipe(9))
+    val pipe_p3 = Module(new NV_soDLA_BC_pipe(9))
     pipe_p3.io.clk := io.nvdla_core_clk
     pipe_p3.io.vi := mul_out_pvld
     mul_out_prdy := pipe_p3.io.ro

@@ -8,7 +8,7 @@ import chisel3.iotesters.Driver
 //Implementation overview of ping-pong register file.
 
 @chiselName
-class NV_NVDLA_CDP_reg extends Module {
+class NV_soDLA_CDP_reg extends Module {
     val io = IO(new Bundle {
         //general clock
         val nvdla_core_clk = Input(Clock())      
@@ -75,7 +75,7 @@ withClock(io.nvdla_core_clk){
     val dp2reg_status_0 = Wire(Bool())
     val dp2reg_status_1 = Wire(Bool())
     
-    val u_single_reg = Module(new NV_NVDLA_CDP_REG_single)
+    val u_single_reg = Module(new NV_soDLA_CDP_REG_single)
 
     u_single_reg.io.nvdla_core_clk := io.nvdla_core_clk 
     val s_reg_rd_data = u_single_reg.io.reg.rd_data
@@ -99,7 +99,7 @@ withClock(io.nvdla_core_clk){
     val dp2reg_d0_nan_output_num = RegInit("b0".asUInt(32.W))
     val reg2dp_d0_op_en = RegInit(false.B)
 
-    val u_dual_reg_d0 = Module(new NV_NVDLA_CDP_REG_dual)
+    val u_dual_reg_d0 = Module(new NV_soDLA_CDP_REG_dual)
     u_dual_reg_d0.io.nvdla_core_clk := io.nvdla_core_clk
     u_dual_reg_d0.io.reg.offset := reg_offset
     u_dual_reg_d0.io.reg.wr_data := reg_wr_data
@@ -125,7 +125,7 @@ withClock(io.nvdla_core_clk){
     val dp2reg_d1_nan_output_num = RegInit("b0".asUInt(32.W))
     val reg2dp_d1_op_en = RegInit(false.B)
 
-    val u_dual_reg_d1 = Module(new NV_NVDLA_CDP_REG_dual)
+    val u_dual_reg_d1 = Module(new NV_soDLA_CDP_REG_dual)
     u_dual_reg_d1.io.nvdla_core_clk := io.nvdla_core_clk
     u_dual_reg_d1.io.reg.offset := reg_offset
     u_dual_reg_d1.io.reg.wr_data := reg_wr_data
@@ -216,7 +216,7 @@ withClock(io.nvdla_core_clk){
     // GENERATE CSB TO REGISTER CONNECTION LOGIC                          //
     //                                                                    //
     ////////////////////////////////////////////////////////////////////////
-    val csb_logic = Module(new NV_NVDLA_CSB_LOGIC)
+    val csb_logic = Module(new NV_soDLA_CSB_LOGIC)
     csb_logic.io.clk := io.nvdla_core_clk
     csb_logic.io.csb2dp <> io.csb2cdp
     reg_offset := csb_logic.io.reg.offset
@@ -315,6 +315,6 @@ withClock(io.nvdla_core_clk){
 
 }}
 
-object NV_NVDLA_CDP_regDriver extends App {
-  chisel3.Driver.execute(args, () => new NV_NVDLA_CDP_reg())
+object NV_soDLA_CDP_regDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_soDLA_CDP_reg())
 }

@@ -5,7 +5,7 @@ import chisel3.experimental._
 import chisel3.util._
 
 @chiselName
-class NV_NVDLA_CDP_REG_single extends Module{
+class NV_soDLA_CDP_REG_single extends Module{
     val io = IO(new Bundle{
         // clk
         val nvdla_core_clk = Input(Clock())
