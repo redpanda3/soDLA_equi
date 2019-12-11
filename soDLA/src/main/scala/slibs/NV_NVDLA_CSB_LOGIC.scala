@@ -6,7 +6,7 @@ import chisel3.util._
 
 //bubble collapse
 @chiselName
-class NV_NVDLA_CSB_LOGIC(io_reg_rd_en:Boolean = false) extends Module {
+class NV_soDLA_CSB_LOGIC(io_reg_rd_en:Boolean = false) extends Module {
     val io = IO(new Bundle {
 
         val clk = Input(Clock()) 

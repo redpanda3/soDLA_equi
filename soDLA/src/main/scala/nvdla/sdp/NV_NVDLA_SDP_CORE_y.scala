@@ -15,7 +15,7 @@ class sdp_y_ew_reg2dp_if extends Bundle{
 }
 
 @chiselName
-class NV_NVDLA_SDP_CORE_y(implicit val conf: nvdlaConfig) extends Module {
+class NV_soDLA_SDP_CORE_y(implicit val conf: nvdlaConfig) extends Module {
    val io = IO(new Bundle {
 
         val nvdla_core_clk = Input(Clock())
@@ -89,7 +89,7 @@ withClock(io.nvdla_core_clk){
     //===========================================
 
     //=================================================
-    val u_alu_cvt = Module(new NV_NVDLA_SDP_HLS_Y_cvt_top)
+    val u_alu_cvt = Module(new NV_soDLA_SDP_HLS_Y_cvt_top)
     u_alu_cvt.io.nvdla_core_clk := io.nvdla_core_clk
     u_alu_cvt.io.cvt_data_in <> io.ew_alu_in_data
     u_alu_cvt.io.cfg_cvt.bypass := RegEnable(io.reg2dp_ew.alu_cvt.bypass, false.B, io.op_en_load)
@@ -97,7 +97,7 @@ withClock(io.nvdla_core_clk){
     u_alu_cvt.io.cfg_cvt.scale := RegEnable(io.reg2dp_ew.alu_cvt.scale, "b0".asUInt(16.W), io.op_en_load)
     u_alu_cvt.io.cfg_cvt.truncate := RegEnable(io.reg2dp_ew.alu_cvt.bypass, "b0".asUInt(6.W), io.op_en_load)
 
-    val u_mul_cvt = Module(new NV_NVDLA_SDP_HLS_Y_cvt_top)
+    val u_mul_cvt = Module(new NV_soDLA_SDP_HLS_Y_cvt_top)
     u_mul_cvt.io.nvdla_core_clk := io.nvdla_core_clk
     u_mul_cvt.io.cvt_data_in <> io.ew_mul_in_data
     u_mul_cvt.io.cfg_cvt.bypass := RegEnable(io.reg2dp_ew.mul_cvt.bypass, false.B, io.op_en_load)
@@ -105,7 +105,7 @@ withClock(io.nvdla_core_clk){
     u_mul_cvt.io.cfg_cvt.scale := RegEnable(io.reg2dp_ew.mul_cvt.scale, "b0".asUInt(16.W), io.op_en_load)
     u_mul_cvt.io.cfg_cvt.truncate := RegEnable(io.reg2dp_ew.mul_cvt.bypass, "b0".asUInt(6.W), io.op_en_load)
 
-    val u_core = Module(new NV_NVDLA_SDP_HLS_Y_int_core)
+    val u_core = Module(new NV_soDLA_SDP_HLS_Y_int_core)
     u_core.io.nvdla_core_clk := io.nvdla_core_clk
     u_core.io.chn_alu_op <> u_alu_cvt.io.cvt_data_out
     u_core.io.chn_data_in <> io.ew_data_in_pd
@@ -132,9 +132,9 @@ withClock(io.nvdla_core_clk){
         u_core.io.chn_data_out.ready := io.ew_data_out_pd.ready
     }
 
-    val u_idx = if(conf.NVDLA_SDP_LUT_ENABLE) Some(Module(new NV_NVDLA_SDP_HLS_Y_idx_top)) else None
-    val u_lut = if(conf.NVDLA_SDP_LUT_ENABLE) Some(Module(new NV_NVDLA_SDP_CORE_Y_lut)) else None
-    val u_inp = if(conf.NVDLA_SDP_LUT_ENABLE) Some(Module(new NV_NVDLA_SDP_HLS_Y_inp_top)) else None
+    val u_idx = if(conf.NVDLA_SDP_LUT_ENABLE) Some(Module(new NV_soDLA_SDP_HLS_Y_idx_top)) else None
+    val u_lut = if(conf.NVDLA_SDP_LUT_ENABLE) Some(Module(new NV_soDLA_SDP_CORE_Y_lut)) else None
+    val u_inp = if(conf.NVDLA_SDP_LUT_ENABLE) Some(Module(new NV_soDLA_SDP_HLS_Y_inp_top)) else None
 
     if(conf.NVDLA_SDP_LUT_ENABLE){
         //u_idx
@@ -203,9 +203,9 @@ withClock(io.nvdla_core_clk){
 }}
 
 
-object NV_NVDLA_SDP_CORE_yDriver extends App {
+object NV_soDLA_SDP_CORE_yDriver extends App {
   implicit val conf: nvdlaConfig = new nvdlaConfig
-  chisel3.Driver.execute(args, () => new NV_NVDLA_SDP_CORE_y)
+  chisel3.Driver.execute(args, () => new NV_soDLA_SDP_CORE_y)
 }
 
 
