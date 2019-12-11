@@ -5,7 +5,7 @@ import chisel3.experimental._
 import chisel3.util._
 
 @chiselName
-class NV_NVDLA_CFGROM_rom extends Module {
+class NV_soDLA_CFGROM_rom extends Module {
     val io = IO(new Bundle {
         //general clock
         val nvdla_core_clk = Input(Clock())     
