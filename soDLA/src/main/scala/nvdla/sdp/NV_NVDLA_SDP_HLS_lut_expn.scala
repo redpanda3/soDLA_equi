@@ -58,7 +58,7 @@ withClock(io.nvdla_core_clk){
 
     //log2 function
 
-    val log2_dw_lsd = Module(new NV_DW_lsd(33))
+    val log2_dw_lsd = Module(new SO_DW_lsd(33))
     log2_dw_lsd.io.a := Cat(false.B, lut_index_sub_reg)
     val leadzero = log2_dw_lsd.io.enc
 

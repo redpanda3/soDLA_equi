@@ -44,13 +44,13 @@ withClock(io.clk){
     // then we use one clk gate for write, ram, and read.
     //
     val clk_mgated_skid_enable = Wire(Bool())
-    val clk_rd_mgate_skid = Module(new NV_CLK_gate_power)
+    val clk_rd_mgate_skid = Module(new SO_CLK_gate_power)
     clk_rd_mgate_skid.io.clk := io.clk
     clk_rd_mgate_skid.io.clk_en := clk_mgated_skid_enable
     val clk_mgated_skid = clk_rd_mgate_skid.io.clk_gated
 
     val clk_mgated_enable = Wire(Bool())
-    val clk_mgate = Module(new NV_CLK_gate_power)
+    val clk_mgate = Module(new SO_CLK_gate_power)
     clk_mgate.io.clk := io.clk
     clk_mgate.io.clk_en := clk_mgated_enable
     val clk_mgated = clk_mgate.io.clk_gated

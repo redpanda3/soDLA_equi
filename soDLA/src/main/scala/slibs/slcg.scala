@@ -33,7 +33,7 @@ withClock(io.nvdla_clock.nvdla_core_clk){
     val nvdla_core_clk_slcg_en = cfg_clk_en | io.nvdla_clock.dla_clk_ovr_on_sync.asUInt.toBool |
                                    (io.nvdla_clock.tmc2slcg_disable_clock_gating|io.nvdla_clock.global_clk_ovr_on_sync.asUInt.toBool)
 
-    val nvdla_core_clk_slcg = Module(new NV_CLK_gate_power)
+    val nvdla_core_clk_slcg = Module(new SO_CLK_gate_power)
     nvdla_core_clk_slcg.io.clk := io.nvdla_clock.nvdla_core_clk
     nvdla_core_clk_slcg.io.clk_en := nvdla_core_clk_slcg_en
     io.nvdla_core_gated_clk := nvdla_core_clk_slcg.io.clk_gated
