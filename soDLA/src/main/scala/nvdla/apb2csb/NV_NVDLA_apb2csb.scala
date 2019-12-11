@@ -42,7 +42,7 @@ class NV_soDLA_apb2csb extends Module {
     })
 
   //input  nvdla2csb_wr_complete
-  withClock(io.pclk, !prstn){
+  withClockAndReset(io.pclk, !prstn){
 
     val rd_trans_low = RegInit(false.B)
 
