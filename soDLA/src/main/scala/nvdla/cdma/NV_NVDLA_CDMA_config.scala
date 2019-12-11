@@ -5,7 +5,6 @@ import chisel3.experimental._
 import chisel3.util._
 import scala.math._
 
-@chiselName
 class cdmaConfiguration extends caccConfiguration{
     val CDMA_CBUF_WR_LATENCY = 3
     val NVDLA_HLS_CDMA_CVT_LATENCY = 3
