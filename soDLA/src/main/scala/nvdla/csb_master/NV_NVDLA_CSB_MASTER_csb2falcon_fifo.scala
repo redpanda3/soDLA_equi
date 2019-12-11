@@ -242,7 +242,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     wr_pushing_gray.io.gray := wr_pushing_gray_cntr
     val wr_pushing_gray_cntr_next = wr_pushing_gray.io.gray_next
 
-    val nv_AFIFO_wr_pushing_sync0 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_wr_pushing_sync0 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_wr_pushing_sync0.io.SRC_CLK := wr_clk_wr_mgated_strict_snd_gated
     nv_AFIFO_wr_pushing_sync0.io.SRC_D_NEXT := wr_pushing_gray_cntr_next(0)
     nv_AFIFO_wr_pushing_sync0.io.DST_CLK := rd_clk_dft_mgated
@@ -253,7 +253,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     val wr_pushing_gray_cntr_0 = nv_AFIFO_wr_pushing_sync0.io.SRC_D
     val wr_pushing_gray_cntr_sync_0 = nv_AFIFO_wr_pushing_sync0.io.DST_Q
 
-    val nv_AFIFO_wr_pushing_sync1 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_wr_pushing_sync1 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_wr_pushing_sync1.io.SRC_CLK := wr_clk_wr_mgated_strict_snd_gated
     nv_AFIFO_wr_pushing_sync1.io.SRC_D_NEXT := wr_pushing_gray_cntr_next(1)
     nv_AFIFO_wr_pushing_sync1.io.DST_CLK := rd_clk_dft_mgated
@@ -296,7 +296,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     rd_popping_gray.io.gray := rd_popping_gray_cntr
     val rd_popping_gray_cntr_next = rd_popping_gray.io.gray_next
 
-    val nv_AFIFO_rd_popping_sync0 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_rd_popping_sync0 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_rd_popping_sync0.io.SRC_CLK := rd_clk_rd_mgated_strict_snd_gated
     nv_AFIFO_rd_popping_sync0.io.SRC_D_NEXT := rd_popping_gray_cntr_next(0)
     nv_AFIFO_rd_popping_sync0.io.DST_CLK := wr_clk_strict_rcv_gated
@@ -307,7 +307,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     val rd_popping_gray_cntr_0 = nv_AFIFO_rd_popping_sync0.io.SRC_D
     val rd_popping_gray_cntr_sync_0 = nv_AFIFO_rd_popping_sync0.io.DST_Q
 
-    val nv_AFIFO_rd_popping_sync1 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_rd_popping_sync1 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_rd_popping_sync1.io.SRC_CLK := rd_clk_rd_mgated_strict_snd_gated
     nv_AFIFO_rd_popping_sync1.io.SRC_D_NEXT := rd_popping_gray_cntr_next(1)
     nv_AFIFO_rd_popping_sync1.io.DST_CLK := wr_clk_strict_rcv_gated

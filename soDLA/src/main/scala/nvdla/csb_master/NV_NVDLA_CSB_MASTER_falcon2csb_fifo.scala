@@ -34,7 +34,7 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
     //
 
     // Write side
-    val fifogenDFTWrQual = Module(new oneHotClk_async_write_clock)
+    val fifogenDFTWrQual = Module(new SO_oneHotClk_async_write_clock)
     val dft_qualifier_wr_enable = fifogenDFTWrQual.io.enable_w
 
     val wr_clk_wr_dft_mgate = Module(new SO_CLK_gate_power)
@@ -44,12 +44,12 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
 
     if(!conf.FPGA){
         // Add a dummy sink to prevent issue related to no fanout on this clock gate
-        val UJ_BLKBOX_UNUSED_FIFOGEN_dft_wr_clkgate_sink = Module(new NV_BLKBOX_SINK)
+        val UJ_BLKBOX_UNUSED_FIFOGEN_dft_wr_clkgate_sink = Module(new SO_BLKBOX_SINK)
         UJ_BLKBOX_UNUSED_FIFOGEN_dft_wr_clkgate_sink.io.A := wr_clk_dft_mgated.asUInt.toBool
     }
 
     // Read side
-    val fifogenDFTRdQual = Module(new oneHotClk_async_read_clock)
+    val fifogenDFTRdQual = Module(new SO_oneHotClk_async_read_clock)
     val dft_qualifier_rd_enable = fifogenDFTRdQual.io.enable_r
 
     val rd_clk_rd_dft_mgate = Module(new SO_CLK_gate_power)
@@ -59,7 +59,7 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
 
     if(!conf.FPGA){
         // Add a dummy sink to prevent issue related to no fanout on this clock gate
-        val UJ_BLKBOX_UNUSED_FIFOGEN_dft_rd_clkgate_sink = Module(new NV_BLKBOX_SINK)
+        val UJ_BLKBOX_UNUSED_FIFOGEN_dft_rd_clkgate_sink = Module(new SO_BLKBOX_SINK)
         UJ_BLKBOX_UNUSED_FIFOGEN_dft_rd_clkgate_sink.io.A := rd_clk_dft_mgated.asUInt.toBool
     }
 
@@ -243,7 +243,7 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
     wr_pushing_gray.io.gray := wr_pushing_gray_cntr
     val wr_pushing_gray_cntr_next = wr_pushing_gray.io.gray_next
 
-    val nv_AFIFO_wr_pushing_sync0 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_wr_pushing_sync0 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_wr_pushing_sync0.io.SRC_CLK := wr_clk_wr_mgated_strict_snd_gated
     nv_AFIFO_wr_pushing_sync0.io.SRC_D_NEXT := wr_pushing_gray_cntr_next(0)
     nv_AFIFO_wr_pushing_sync0.io.DST_CLK := rd_clk_dft_mgated
@@ -254,7 +254,7 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
     val wr_pushing_gray_cntr_0 = nv_AFIFO_wr_pushing_sync0.io.SRC_D
     val wr_pushing_gray_cntr_sync_0 = nv_AFIFO_wr_pushing_sync0.io.DST_Q
 
-    val nv_AFIFO_wr_pushing_sync1 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_wr_pushing_sync1 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_wr_pushing_sync1.io.SRC_CLK := wr_clk_wr_mgated_strict_snd_gated
     nv_AFIFO_wr_pushing_sync1.io.SRC_D_NEXT := wr_pushing_gray_cntr_next(1)
     nv_AFIFO_wr_pushing_sync1.io.DST_CLK := rd_clk_dft_mgated
@@ -265,7 +265,7 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
     val wr_pushing_gray_cntr_1 = nv_AFIFO_wr_pushing_sync1.io.SRC_D
     val wr_pushing_gray_cntr_sync_1 = nv_AFIFO_wr_pushing_sync1.io.DST_Q
 
-    val nv_AFIFO_wr_pushing_sync2 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_wr_pushing_sync2 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_wr_pushing_sync2.io.SRC_CLK := wr_clk_wr_mgated_strict_snd_gated
     nv_AFIFO_wr_pushing_sync2.io.SRC_D_NEXT := wr_pushing_gray_cntr_next(2)
     nv_AFIFO_wr_pushing_sync2.io.DST_CLK := rd_clk_dft_mgated
@@ -308,7 +308,7 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
     rd_popping_gray.io.gray := rd_popping_gray_cntr
     val rd_popping_gray_cntr_next = rd_popping_gray.io.gray_next
 
-    val nv_AFIFO_rd_popping_sync0 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_rd_popping_sync0 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_rd_popping_sync0.io.SRC_CLK := rd_clk_rd_mgated_strict_snd_gated
     nv_AFIFO_rd_popping_sync0.io.SRC_D_NEXT := rd_popping_gray_cntr_next(0)
     nv_AFIFO_rd_popping_sync0.io.DST_CLK := wr_clk_strict_rcv_gated
@@ -319,7 +319,7 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
     val rd_popping_gray_cntr_0 = nv_AFIFO_rd_popping_sync0.io.SRC_D
     val rd_popping_gray_cntr_sync_0 = nv_AFIFO_rd_popping_sync0.io.DST_Q
 
-    val nv_AFIFO_rd_popping_sync1 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_rd_popping_sync1 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_rd_popping_sync1.io.SRC_CLK := rd_clk_rd_mgated_strict_snd_gated
     nv_AFIFO_rd_popping_sync1.io.SRC_D_NEXT := rd_popping_gray_cntr_next(1)
     nv_AFIFO_rd_popping_sync1.io.DST_CLK := wr_clk_strict_rcv_gated
@@ -330,7 +330,7 @@ class NV_soDLA_CSB_MASTER_falcon2csb_fifo(implicit val conf: nvdlaConfig)  exten
     val rd_popping_gray_cntr_1 = nv_AFIFO_rd_popping_sync1.io.SRC_D
     val rd_popping_gray_cntr_sync_1 = nv_AFIFO_rd_popping_sync1.io.DST_Q
 
-    val nv_AFIFO_rd_popping_sync2 = Module(new p_STRICTSYNC3DOTM_C_PPP)
+    val nv_AFIFO_rd_popping_sync2 = Module(new SO_p_STRICTSYNC3DOTM_C_PPP)
     nv_AFIFO_rd_popping_sync2.io.SRC_CLK := rd_clk_rd_mgated_strict_snd_gated
     nv_AFIFO_rd_popping_sync2.io.SRC_D_NEXT := rd_popping_gray_cntr_next(1)
     nv_AFIFO_rd_popping_sync2.io.DST_CLK := wr_clk_strict_rcv_gated
