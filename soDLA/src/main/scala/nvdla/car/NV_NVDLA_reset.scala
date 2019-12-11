@@ -35,7 +35,7 @@ class NV_soDLA_reset extends Module {
 //           └─┐  ┐  ┌───────┬──┐  ┌──┘         
 //             │ ─┤ ─┤       │ ─┤ ─┤         
 //             └──┴──┘       └──┴──┘ 
-    val sync_reset_synced_rstn = Module(new sync_reset)
+    val sync_reset_synced_rstn = Module(new SO_sync_reset)
     sync_reset_synced_rstn.io.clk := io.nvdla_clk
     sync_reset_synced_rstn.io.inreset_ := io.dla_reset_rstn
     sync_reset_synced_rstn.io.direct_reset_ := io.direct_reset_

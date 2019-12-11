@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.experimental._
 
 @chiselName
-class LNQD1PO4 extends Module {
+class SO_LNQD1PO4 extends Module {
   val io = IO(new Bundle {
     val D = Input(Bool())
     val EN = Input(Clock())

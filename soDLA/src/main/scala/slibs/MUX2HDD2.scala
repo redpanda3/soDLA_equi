@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.experimental._
 
 @chiselName
-class MUX2HDD2 extends Module {
+class SO_MUX2HDD2 extends Module {
   val io = IO(new Bundle {
     val I0 = Input(Bool())
     val I1 = Input(Bool())

@@ -36,7 +36,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     val fifogenDFTWrQual = Module(new oneHotClk_async_write_clock)
     val dft_qualifier_wr_enable = fifogenDFTWrQual.io.enable_w
 
-    val wr_clk_wr_dft_mgate = Module(new NV_CLK_gate_power)
+    val wr_clk_wr_dft_mgate = Module(new SO_CLK_gate_power)
     wr_clk_wr_dft_mgate.io.clk := io.wr_clk 
     wr_clk_wr_dft_mgate.io.clk_en := dft_qualifier_wr_enable
     val wr_clk_dft_mgated = wr_clk_wr_dft_mgate.io.clk_gated
@@ -51,7 +51,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     val fifogenDFTRdQual = Module(new oneHotClk_async_read_clock)
     val dft_qualifier_rd_enable = fifogenDFTRdQual.io.enable_r
 
-    val rd_clk_rd_dft_mgate = Module(new NV_CLK_gate_power)
+    val rd_clk_rd_dft_mgate = Module(new SO_CLK_gate_power)
     rd_clk_rd_dft_mgate.io.clk := io.rd_clk 
     rd_clk_rd_dft_mgate.io.clk_en := dft_qualifier_rd_enable
     val rd_clk_dft_mgated = rd_clk_rd_dft_mgate.io.clk_gated
@@ -74,13 +74,13 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     // then we use one clk gate for write, ram, and read.
     //
     val wr_clk_wr_mgated_enable = Wire(Bool())// assigned by code at end of this module
-    val wr_clk_wr_mgate = Module(new NV_CLK_gate_power)
+    val wr_clk_wr_mgate = Module(new SO_CLK_gate_power)
     wr_clk_wr_mgate.io.clk := io.wr_clk
     wr_clk_wr_mgate.io.clk_en := wr_clk_wr_mgated_enable
     val wr_clk_wr_mgated = wr_clk_wr_mgate.io.clk_gated
 
     val rd_clk_rd_mgated_enable = Wire(Bool())// assigned by code at end of this module
-    val rd_clk_rd_mgate = Module(new NV_CLK_gate_power)
+    val rd_clk_rd_mgate = Module(new SO_CLK_gate_power)
     rd_clk_rd_mgate.io.clk := io.rd_clk
     rd_clk_rd_mgate.io.clk_en := rd_clk_rd_mgated_enable
     val rd_clk_rd_mgated = rd_clk_rd_mgate.io.clk_gated
@@ -229,7 +229,7 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     val wr_pushing_gray_cntr = Wire(UInt(2.W))
 
     // clk gating of strict synchronizers
-    val wr_clk_wr_mgated_snd_gate = Module(new NV_CLK_gate_power)
+    val wr_clk_wr_mgated_snd_gate = Module(new SO_CLK_gate_power)
     wr_clk_wr_mgated_snd_gate.io.clk := io.wr_clk
     wr_clk_wr_mgated_snd_gate.io.clk_en := dft_qualifier_wr_enable && (wr_pushing)
     val wr_clk_wr_mgated_strict_snd_gated = wr_clk_wr_mgated_snd_gate.io.clk_gated
@@ -276,12 +276,12 @@ class NV_soDLA_CSB_MASTER_csb2falcon_fifo(implicit val conf: nvdlaConfig)  exten
     rd_pushing_gray_cntr := rd_pushing_gray.io.gray
 
     // clk gating of strict synchronizers
-    val rd_clk_rd_mgated_snd_gate = Module(new NV_CLK_gate_power)
+    val rd_clk_rd_mgated_snd_gate = Module(new SO_CLK_gate_power)
     rd_clk_rd_mgated_snd_gate.io.clk := io.rd_clk
     rd_clk_rd_mgated_snd_gate.io.clk_en := dft_qualifier_rd_enable && (rd_popping)
     val rd_clk_rd_mgated_strict_snd_gated = rd_clk_rd_mgated_snd_gate.io.clk_gated
 
-    val wr_clk_rcv_gate = Module(new NV_CLK_gate_power)
+    val wr_clk_rcv_gate = Module(new SO_CLK_gate_power)
     wr_clk_rcv_gate.io.clk := io.wr_clk
     wr_clk_rcv_gate.io.clk_en := dft_qualifier_wr_enable && (wr_count_next_no_wr_popping =/= 0.U)
     val wr_clk_strict_rcv_gated = wr_clk_rcv_gate.io.clk_gated

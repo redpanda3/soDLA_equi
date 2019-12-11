@@ -5,7 +5,7 @@ import chisel3.experimental._
 import chisel3.iotesters.Driver
 
 @chiselName
-class NV_CLK_gate_power extends Module {
+class SO_CLK_gate_power extends Module {
    val io = IO(new Bundle {
         //nvdla core clock
         val clk = Input(Clock())
@@ -16,7 +16,7 @@ class NV_CLK_gate_power extends Module {
 
     })
 
-    val p_clkgate = Module(new CKLNQD12())
+    val p_clkgate = Module(new SO_CKLNQD12())
     p_clkgate.io.TE := false.B
     p_clkgate.io.CP := io.clk
     p_clkgate.io.E := io.clk_en
@@ -25,8 +25,8 @@ class NV_CLK_gate_power extends Module {
 }
 
 
-object NV_CLK_gate_powerDriver extends App {
-  chisel3.Driver.execute(args, () => new NV_CLK_gate_power)
+object SO_CLK_gate_powerDriver extends App {
+  chisel3.Driver.execute(args, () => new SO_CLK_gate_power)
 }
 
 

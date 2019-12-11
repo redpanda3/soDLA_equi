@@ -66,7 +66,7 @@ class NV_soDLA_fifo(depth: Int, width: Int,
     // then we use one clk gate for write, ram, and read.
     //
     val clk_mgated_enable = Wire(Bool())
-    val clk_mgate = Module(new NV_CLK_gate_power)
+    val clk_mgate = Module(new SO_CLK_gate_power)
     clk_mgate.io.clk := io.clk
     clk_mgate.io.clk_en := clk_mgated_enable
     val clk_mgated = clk_mgate.io.clk_gated

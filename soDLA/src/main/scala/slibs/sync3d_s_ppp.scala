@@ -5,7 +5,7 @@ import chisel3.experimental._
 import chisel3.util._
 
 @chiselName
-class sync3d_s_ppp extends Module {
+class SO_sync3d_s_ppp extends Module {
     val io = IO(new Bundle {
         val clk = Input(Clock())
         val d = Input(Bool())
@@ -13,7 +13,7 @@ class sync3d_s_ppp extends Module {
         val q = Output(Bool())
     })
 
-    val nv_GENERIC_CELL = Module(new p_SSYNC3DO_S_PPP())
+    val nv_GENERIC_CELL = Module(new SO_p_SSYNC3DO_S_PPP())
     nv_GENERIC_CELL.io.d := io.d
     nv_GENERIC_CELL.io.clk := io.clk
     nv_GENERIC_CELL.io.set_ := io.set_

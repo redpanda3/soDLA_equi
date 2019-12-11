@@ -6,7 +6,7 @@ import chisel3.experimental._
 import chisel3.iotesters.Driver
 
 @chiselName
-class NV_DW_lsd(a_width:Int = 33) extends Module {
+class SO_DW_lsd(a_width:Int = 33) extends Module {
     val b_width = a_width-1
     val enc_width = log2Ceil(a_width)
     val io = IO(new Bundle {
@@ -47,8 +47,8 @@ class NV_DW_lsd(a_width:Int = 33) extends Module {
 }
 
 
-object NV_DW_lsdDriver extends App {
-  chisel3.Driver.execute(args, () => new NV_DW_lsd)
+object SO_DW_lsdDriver extends App {
+  chisel3.Driver.execute(args, () => new SO_DW_lsd)
 }
 
 

@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.experimental._
 
 @chiselName
-class SDFSNQD1 extends RawModule {
+class SO_SDFSNQD1 extends RawModule {
   val io = IO(new Bundle {
     val SI = Input(Bool())
     val D = Input(Bool())

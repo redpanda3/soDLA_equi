@@ -4,13 +4,13 @@ import chisel3._
 import chisel3.experimental._
 
 @chiselName
-class oneHotClk_async_write_clock extends Module {
+class SO_oneHotClk_async_write_clock extends Module {
   val io = IO(new Bundle{
       val enable_w = Output(Bool())
   })
 
-    val UJ_dft_xclamp_ctrl_asyncfifo_onehotclk_write = Module(new NV_BLKBOX_SRC0)
-    val UJ_dft_xclamp_scan_asyncfifo_onehotclk_write = Module(new NV_BLKBOX_SRC0)
+    val UJ_dft_xclamp_ctrl_asyncfifo_onehotclk_write = Module(new SO_BLKBOX_SRC0)
+    val UJ_dft_xclamp_scan_asyncfifo_onehotclk_write = Module(new SO_BLKBOX_SRC0)
 
     val one_hot_enable = UJ_dft_xclamp_ctrl_asyncfifo_onehotclk_write.io.Y
     val tp = UJ_dft_xclamp_ctrl_asyncfifo_onehotclk_write.io.Y

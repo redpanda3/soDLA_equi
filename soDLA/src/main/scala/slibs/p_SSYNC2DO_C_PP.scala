@@ -5,7 +5,7 @@ import chisel3.experimental._
 import chisel3.util._
 
 @chiselName
-class p_SSYNC2DO_C_PP extends Module {
+class SO_p_SSYNC2DO_C_PP extends Module {
     val io = IO(new Bundle {
         val clk= Input(Clock())
         val d = Input(Bool())
