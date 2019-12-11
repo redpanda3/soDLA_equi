@@ -12,6 +12,7 @@ class NV_soDLA_CMAC_CORE_active(useRealClock:Boolean = false)(implicit val conf:
     val io = IO(new Bundle {
         //clock
         val nvdla_core_clk = Input(Clock())
+        val nvdla_core_rstn = Input(Bool())
 
         // input_dat
         val in_dat = Flipped(ValidIO(new csc2cmac_data_if))  /* data valid */
@@ -182,7 +183,7 @@ class NV_soDLA_CMAC_CORE_active(useRealClock:Boolean = false)(implicit val conf:
     
   }
 
-  val active = withClock(internal_clock){new activeImpl} 
+  val active = withClockAndReset(internal_clock, !nvdla_core_rstn){new activeImpl} 
 
 }
 
