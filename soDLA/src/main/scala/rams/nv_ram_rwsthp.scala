@@ -49,3 +49,7 @@ when (io.we) {
 
 }
 }}
+
+object nv_ram_rwsthpDriver extends App {
+  chisel3.Driver.execute(args, () => new nv_ram_rwsp(60, 168))
+}
