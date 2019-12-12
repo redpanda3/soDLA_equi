@@ -16,3 +16,6 @@ class SO_AN2D4PO4 extends Module {
 }
 
 
+object SO_AN2D4PO4Driver extends App {
+  chisel3.Driver.execute(args, () => new SO_AN2D4PO4())
+}

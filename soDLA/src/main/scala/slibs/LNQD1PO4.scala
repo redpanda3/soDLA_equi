@@ -21,3 +21,6 @@ class SO_LNQD1PO4 extends Module {
 
 }
 
+object SO_LNQD1PO4Driver extends App {
+  chisel3.Driver.execute(args, () => new SO_LNQD1PO4())
+}
