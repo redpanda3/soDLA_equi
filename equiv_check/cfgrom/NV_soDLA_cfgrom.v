@@ -596,7 +596,6 @@ endmodule
 
 // File Name: NV_NVDLA_cfgrom.v
 
-`include "simulate_x_tick.vh"
 module NV_NVDLA_cfgrom (
    nvdla_core_clk     
   ,nvdla_core_rstn    
