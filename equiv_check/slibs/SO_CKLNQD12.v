@@ -1,6 +1,4 @@
 module SO_CKLNQD12( // @[:@3.2]
-  input   clock, // @[:@4.4]
-  input   reset, // @[:@5.4]
   input   CP, // @[:@6.4]
   input   TE, // @[:@6.4]
   input   E, // @[:@6.4]
