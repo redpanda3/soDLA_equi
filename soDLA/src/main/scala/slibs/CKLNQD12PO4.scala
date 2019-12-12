@@ -20,6 +20,3 @@ class SO_CKLNQD12PO4 extends Module {
   }
 }
 
-object SO_CKLNQD12PO4Driver extends App {
-  chisel3.Driver.execute(args, () => new SO_CKLNQD12PO4())
-}
