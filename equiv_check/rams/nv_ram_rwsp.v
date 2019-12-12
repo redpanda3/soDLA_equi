@@ -1,15 +1,14 @@
 module nv_ram_rwsp( // @[:@3.2]
-  input         clock, // @[:@4.4]
-  input         reset, // @[:@5.4]
-  input         io_clk, // @[:@6.4]
-  input         io_re, // @[:@6.4]
-  input         io_we, // @[:@6.4]
-  input         io_ore, // @[:@6.4]
-  input  [6:0]  io_ra, // @[:@6.4]
-  input  [6:0]  io_wa, // @[:@6.4]
-  input  [31:0] io_pwrbus_ram_pd, // @[:@6.4]
-  input  [10:0] io_di, // @[:@6.4]
-  output [10:0] io_dout // @[:@6.4]
+
+  input         clk, // @[:@6.4]
+  input         re, // @[:@6.4]
+  input         we, // @[:@6.4]
+  input         ore, // @[:@6.4]
+  input  [6:0]  ra, // @[:@6.4]
+  input  [6:0]  wa, // @[:@6.4]
+  input  [31:0] pwrbus_ram_pd, // @[:@6.4]
+  input  [10:0] di, // @[:@6.4]
+  output [10:0] dout // @[:@6.4]
 );
   reg [10:0] mem_0; // @[nv_ram_rwsp.scala 32:18:@8.4]
   reg [31:0] _RAND_0;
@@ -526,134 +525,134 @@ module nv_ram_rwsp( // @[:@3.2]
   wire [10:0] _GEN_382; // @[nv_ram_rwsp.scala 44:16:@18.6]
   wire [10:0] _GEN_383; // @[nv_ram_rwsp.scala 44:16:@18.6]
   wire [10:0] _GEN_384; // @[nv_ram_rwsp.scala 44:16:@18.6]
-  assign _GEN_0 = 7'h0 == io_wa ? io_di : mem_0; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_1 = 7'h1 == io_wa ? io_di : mem_1; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_2 = 7'h2 == io_wa ? io_di : mem_2; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_3 = 7'h3 == io_wa ? io_di : mem_3; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_4 = 7'h4 == io_wa ? io_di : mem_4; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_5 = 7'h5 == io_wa ? io_di : mem_5; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_6 = 7'h6 == io_wa ? io_di : mem_6; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_7 = 7'h7 == io_wa ? io_di : mem_7; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_8 = 7'h8 == io_wa ? io_di : mem_8; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_9 = 7'h9 == io_wa ? io_di : mem_9; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_10 = 7'ha == io_wa ? io_di : mem_10; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_11 = 7'hb == io_wa ? io_di : mem_11; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_12 = 7'hc == io_wa ? io_di : mem_12; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_13 = 7'hd == io_wa ? io_di : mem_13; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_14 = 7'he == io_wa ? io_di : mem_14; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_15 = 7'hf == io_wa ? io_di : mem_15; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_16 = 7'h10 == io_wa ? io_di : mem_16; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_17 = 7'h11 == io_wa ? io_di : mem_17; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_18 = 7'h12 == io_wa ? io_di : mem_18; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_19 = 7'h13 == io_wa ? io_di : mem_19; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_20 = 7'h14 == io_wa ? io_di : mem_20; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_21 = 7'h15 == io_wa ? io_di : mem_21; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_22 = 7'h16 == io_wa ? io_di : mem_22; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_23 = 7'h17 == io_wa ? io_di : mem_23; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_24 = 7'h18 == io_wa ? io_di : mem_24; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_25 = 7'h19 == io_wa ? io_di : mem_25; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_26 = 7'h1a == io_wa ? io_di : mem_26; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_27 = 7'h1b == io_wa ? io_di : mem_27; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_28 = 7'h1c == io_wa ? io_di : mem_28; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_29 = 7'h1d == io_wa ? io_di : mem_29; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_30 = 7'h1e == io_wa ? io_di : mem_30; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_31 = 7'h1f == io_wa ? io_di : mem_31; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_32 = 7'h20 == io_wa ? io_di : mem_32; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_33 = 7'h21 == io_wa ? io_di : mem_33; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_34 = 7'h22 == io_wa ? io_di : mem_34; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_35 = 7'h23 == io_wa ? io_di : mem_35; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_36 = 7'h24 == io_wa ? io_di : mem_36; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_37 = 7'h25 == io_wa ? io_di : mem_37; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_38 = 7'h26 == io_wa ? io_di : mem_38; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_39 = 7'h27 == io_wa ? io_di : mem_39; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_40 = 7'h28 == io_wa ? io_di : mem_40; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_41 = 7'h29 == io_wa ? io_di : mem_41; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_42 = 7'h2a == io_wa ? io_di : mem_42; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_43 = 7'h2b == io_wa ? io_di : mem_43; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_44 = 7'h2c == io_wa ? io_di : mem_44; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_45 = 7'h2d == io_wa ? io_di : mem_45; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_46 = 7'h2e == io_wa ? io_di : mem_46; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_47 = 7'h2f == io_wa ? io_di : mem_47; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_48 = 7'h30 == io_wa ? io_di : mem_48; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_49 = 7'h31 == io_wa ? io_di : mem_49; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_50 = 7'h32 == io_wa ? io_di : mem_50; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_51 = 7'h33 == io_wa ? io_di : mem_51; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_52 = 7'h34 == io_wa ? io_di : mem_52; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_53 = 7'h35 == io_wa ? io_di : mem_53; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_54 = 7'h36 == io_wa ? io_di : mem_54; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_55 = 7'h37 == io_wa ? io_di : mem_55; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_56 = 7'h38 == io_wa ? io_di : mem_56; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_57 = 7'h39 == io_wa ? io_di : mem_57; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_58 = 7'h3a == io_wa ? io_di : mem_58; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_59 = 7'h3b == io_wa ? io_di : mem_59; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_60 = 7'h3c == io_wa ? io_di : mem_60; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_61 = 7'h3d == io_wa ? io_di : mem_61; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_62 = 7'h3e == io_wa ? io_di : mem_62; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_63 = 7'h3f == io_wa ? io_di : mem_63; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_64 = 7'h40 == io_wa ? io_di : mem_64; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_65 = 7'h41 == io_wa ? io_di : mem_65; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_66 = 7'h42 == io_wa ? io_di : mem_66; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_67 = 7'h43 == io_wa ? io_di : mem_67; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_68 = 7'h44 == io_wa ? io_di : mem_68; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_69 = 7'h45 == io_wa ? io_di : mem_69; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_70 = 7'h46 == io_wa ? io_di : mem_70; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_71 = 7'h47 == io_wa ? io_di : mem_71; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_72 = 7'h48 == io_wa ? io_di : mem_72; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_73 = 7'h49 == io_wa ? io_di : mem_73; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_74 = 7'h4a == io_wa ? io_di : mem_74; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_75 = 7'h4b == io_wa ? io_di : mem_75; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_76 = 7'h4c == io_wa ? io_di : mem_76; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_77 = 7'h4d == io_wa ? io_di : mem_77; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_78 = 7'h4e == io_wa ? io_di : mem_78; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_79 = 7'h4f == io_wa ? io_di : mem_79; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_80 = 7'h50 == io_wa ? io_di : mem_80; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_81 = 7'h51 == io_wa ? io_di : mem_81; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_82 = 7'h52 == io_wa ? io_di : mem_82; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_83 = 7'h53 == io_wa ? io_di : mem_83; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_84 = 7'h54 == io_wa ? io_di : mem_84; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_85 = 7'h55 == io_wa ? io_di : mem_85; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_86 = 7'h56 == io_wa ? io_di : mem_86; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_87 = 7'h57 == io_wa ? io_di : mem_87; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_88 = 7'h58 == io_wa ? io_di : mem_88; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_89 = 7'h59 == io_wa ? io_di : mem_89; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_90 = 7'h5a == io_wa ? io_di : mem_90; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_91 = 7'h5b == io_wa ? io_di : mem_91; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_92 = 7'h5c == io_wa ? io_di : mem_92; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_93 = 7'h5d == io_wa ? io_di : mem_93; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_94 = 7'h5e == io_wa ? io_di : mem_94; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_95 = 7'h5f == io_wa ? io_di : mem_95; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_96 = 7'h60 == io_wa ? io_di : mem_96; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_97 = 7'h61 == io_wa ? io_di : mem_97; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_98 = 7'h62 == io_wa ? io_di : mem_98; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_99 = 7'h63 == io_wa ? io_di : mem_99; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_100 = 7'h64 == io_wa ? io_di : mem_100; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_101 = 7'h65 == io_wa ? io_di : mem_101; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_102 = 7'h66 == io_wa ? io_di : mem_102; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_103 = 7'h67 == io_wa ? io_di : mem_103; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_104 = 7'h68 == io_wa ? io_di : mem_104; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_105 = 7'h69 == io_wa ? io_di : mem_105; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_106 = 7'h6a == io_wa ? io_di : mem_106; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_107 = 7'h6b == io_wa ? io_di : mem_107; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_108 = 7'h6c == io_wa ? io_di : mem_108; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_109 = 7'h6d == io_wa ? io_di : mem_109; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_110 = 7'h6e == io_wa ? io_di : mem_110; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_111 = 7'h6f == io_wa ? io_di : mem_111; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_112 = 7'h70 == io_wa ? io_di : mem_112; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_113 = 7'h71 == io_wa ? io_di : mem_113; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_114 = 7'h72 == io_wa ? io_di : mem_114; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_115 = 7'h73 == io_wa ? io_di : mem_115; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_116 = 7'h74 == io_wa ? io_di : mem_116; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_117 = 7'h75 == io_wa ? io_di : mem_117; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_118 = 7'h76 == io_wa ? io_di : mem_118; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_119 = 7'h77 == io_wa ? io_di : mem_119; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_120 = 7'h78 == io_wa ? io_di : mem_120; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_121 = 7'h79 == io_wa ? io_di : mem_121; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_122 = 7'h7a == io_wa ? io_di : mem_122; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_123 = 7'h7b == io_wa ? io_di : mem_123; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_124 = 7'h7c == io_wa ? io_di : mem_124; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_125 = 7'h7d == io_wa ? io_di : mem_125; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_126 = 7'h7e == io_wa ? io_di : mem_126; // @[nv_ram_rwsp.scala 37:20:@12.6]
-  assign _GEN_127 = 7'h7f == io_wa ? io_di : mem_127; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_0 = 7'h0 == wa ? di : mem_0; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_1 = 7'h1 == wa ? di : mem_1; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_2 = 7'h2 == wa ? di : mem_2; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_3 = 7'h3 == wa ? di : mem_3; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_4 = 7'h4 == wa ? di : mem_4; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_5 = 7'h5 == wa ? di : mem_5; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_6 = 7'h6 == wa ? di : mem_6; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_7 = 7'h7 == wa ? di : mem_7; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_8 = 7'h8 == wa ? di : mem_8; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_9 = 7'h9 == wa ? di : mem_9; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_10 = 7'ha == wa ? di : mem_10; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_11 = 7'hb == wa ? di : mem_11; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_12 = 7'hc == wa ? di : mem_12; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_13 = 7'hd == wa ? di : mem_13; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_14 = 7'he == wa ? di : mem_14; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_15 = 7'hf == wa ? di : mem_15; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_16 = 7'h10 == wa ? di : mem_16; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_17 = 7'h11 == wa ? di : mem_17; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_18 = 7'h12 == wa ? di : mem_18; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_19 = 7'h13 == wa ? di : mem_19; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_20 = 7'h14 == wa ? di : mem_20; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_21 = 7'h15 == wa ? di : mem_21; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_22 = 7'h16 == wa ? di : mem_22; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_23 = 7'h17 == wa ? di : mem_23; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_24 = 7'h18 == wa ? di : mem_24; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_25 = 7'h19 == wa ? di : mem_25; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_26 = 7'h1a == wa ? di : mem_26; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_27 = 7'h1b == wa ? di : mem_27; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_28 = 7'h1c == wa ? di : mem_28; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_29 = 7'h1d == wa ? di : mem_29; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_30 = 7'h1e == wa ? di : mem_30; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_31 = 7'h1f == wa ? di : mem_31; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_32 = 7'h20 == wa ? di : mem_32; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_33 = 7'h21 == wa ? di : mem_33; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_34 = 7'h22 == wa ? di : mem_34; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_35 = 7'h23 == wa ? di : mem_35; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_36 = 7'h24 == wa ? di : mem_36; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_37 = 7'h25 == wa ? di : mem_37; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_38 = 7'h26 == wa ? di : mem_38; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_39 = 7'h27 == wa ? di : mem_39; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_40 = 7'h28 == wa ? di : mem_40; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_41 = 7'h29 == wa ? di : mem_41; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_42 = 7'h2a == wa ? di : mem_42; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_43 = 7'h2b == wa ? di : mem_43; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_44 = 7'h2c == wa ? di : mem_44; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_45 = 7'h2d == wa ? di : mem_45; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_46 = 7'h2e == wa ? di : mem_46; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_47 = 7'h2f == wa ? di : mem_47; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_48 = 7'h30 == wa ? di : mem_48; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_49 = 7'h31 == wa ? di : mem_49; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_50 = 7'h32 == wa ? di : mem_50; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_51 = 7'h33 == wa ? di : mem_51; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_52 = 7'h34 == wa ? di : mem_52; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_53 = 7'h35 == wa ? di : mem_53; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_54 = 7'h36 == wa ? di : mem_54; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_55 = 7'h37 == wa ? di : mem_55; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_56 = 7'h38 == wa ? di : mem_56; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_57 = 7'h39 == wa ? di : mem_57; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_58 = 7'h3a == wa ? di : mem_58; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_59 = 7'h3b == wa ? di : mem_59; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_60 = 7'h3c == wa ? di : mem_60; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_61 = 7'h3d == wa ? di : mem_61; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_62 = 7'h3e == wa ? di : mem_62; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_63 = 7'h3f == wa ? di : mem_63; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_64 = 7'h40 == wa ? di : mem_64; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_65 = 7'h41 == wa ? di : mem_65; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_66 = 7'h42 == wa ? di : mem_66; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_67 = 7'h43 == wa ? di : mem_67; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_68 = 7'h44 == wa ? di : mem_68; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_69 = 7'h45 == wa ? di : mem_69; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_70 = 7'h46 == wa ? di : mem_70; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_71 = 7'h47 == wa ? di : mem_71; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_72 = 7'h48 == wa ? di : mem_72; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_73 = 7'h49 == wa ? di : mem_73; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_74 = 7'h4a == wa ? di : mem_74; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_75 = 7'h4b == wa ? di : mem_75; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_76 = 7'h4c == wa ? di : mem_76; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_77 = 7'h4d == wa ? di : mem_77; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_78 = 7'h4e == wa ? di : mem_78; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_79 = 7'h4f == wa ? di : mem_79; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_80 = 7'h50 == wa ? di : mem_80; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_81 = 7'h51 == wa ? di : mem_81; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_82 = 7'h52 == wa ? di : mem_82; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_83 = 7'h53 == wa ? di : mem_83; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_84 = 7'h54 == wa ? di : mem_84; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_85 = 7'h55 == wa ? di : mem_85; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_86 = 7'h56 == wa ? di : mem_86; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_87 = 7'h57 == wa ? di : mem_87; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_88 = 7'h58 == wa ? di : mem_88; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_89 = 7'h59 == wa ? di : mem_89; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_90 = 7'h5a == wa ? di : mem_90; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_91 = 7'h5b == wa ? di : mem_91; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_92 = 7'h5c == wa ? di : mem_92; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_93 = 7'h5d == wa ? di : mem_93; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_94 = 7'h5e == wa ? di : mem_94; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_95 = 7'h5f == wa ? di : mem_95; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_96 = 7'h60 == wa ? di : mem_96; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_97 = 7'h61 == wa ? di : mem_97; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_98 = 7'h62 == wa ? di : mem_98; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_99 = 7'h63 == wa ? di : mem_99; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_100 = 7'h64 == wa ? di : mem_100; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_101 = 7'h65 == wa ? di : mem_101; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_102 = 7'h66 == wa ? di : mem_102; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_103 = 7'h67 == wa ? di : mem_103; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_104 = 7'h68 == wa ? di : mem_104; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_105 = 7'h69 == wa ? di : mem_105; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_106 = 7'h6a == wa ? di : mem_106; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_107 = 7'h6b == wa ? di : mem_107; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_108 = 7'h6c == wa ? di : mem_108; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_109 = 7'h6d == wa ? di : mem_109; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_110 = 7'h6e == wa ? di : mem_110; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_111 = 7'h6f == wa ? di : mem_111; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_112 = 7'h70 == wa ? di : mem_112; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_113 = 7'h71 == wa ? di : mem_113; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_114 = 7'h72 == wa ? di : mem_114; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_115 = 7'h73 == wa ? di : mem_115; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_116 = 7'h74 == wa ? di : mem_116; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_117 = 7'h75 == wa ? di : mem_117; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_118 = 7'h76 == wa ? di : mem_118; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_119 = 7'h77 == wa ? di : mem_119; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_120 = 7'h78 == wa ? di : mem_120; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_121 = 7'h79 == wa ? di : mem_121; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_122 = 7'h7a == wa ? di : mem_122; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_123 = 7'h7b == wa ? di : mem_123; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_124 = 7'h7c == wa ? di : mem_124; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_125 = 7'h7d == wa ? di : mem_125; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_126 = 7'h7e == wa ? di : mem_126; // @[nv_ram_rwsp.scala 37:20:@12.6]
+  assign _GEN_127 = 7'h7f == wa ? di : mem_127; // @[nv_ram_rwsp.scala 37:20:@12.6]
   assign _GEN_258 = 7'h1 == ra_d ? mem_1 : mem_0; // @[nv_ram_rwsp.scala 44:16:@18.6]
   assign _GEN_259 = 7'h2 == ra_d ? mem_2 : _GEN_258; // @[nv_ram_rwsp.scala 44:16:@18.6]
   assign _GEN_260 = 7'h3 == ra_d ? mem_3 : _GEN_259; // @[nv_ram_rwsp.scala 44:16:@18.6]
@@ -781,7 +780,7 @@ module nv_ram_rwsp( // @[:@3.2]
   assign _GEN_382 = 7'h7d == ra_d ? mem_125 : _GEN_381; // @[nv_ram_rwsp.scala 44:16:@18.6]
   assign _GEN_383 = 7'h7e == ra_d ? mem_126 : _GEN_382; // @[nv_ram_rwsp.scala 44:16:@18.6]
   assign _GEN_384 = 7'h7f == ra_d ? mem_127 : _GEN_383; // @[nv_ram_rwsp.scala 44:16:@18.6]
-  assign io_dout = dout_r; // @[nv_ram_rwsp.scala 46:13:@20.4]
+  assign dout = dout_r; // @[nv_ram_rwsp.scala 46:13:@20.4]
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
 `define RANDOMIZE
 `endif
@@ -1328,651 +1327,651 @@ module nv_ram_rwsp( // @[:@3.2]
   `endif // RANDOMIZE_REG_INIT
   end
 `endif // RANDOMIZE
-  always @(posedge io_clk) begin
-    if (io_we) begin
-      if (7'h0 == io_wa) begin
-        mem_0 <= io_di;
+  always @(posedge clk) begin
+    if (we) begin
+      if (7'h0 == wa) begin
+        mem_0 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h1 == io_wa) begin
-        mem_1 <= io_di;
+    if (we) begin
+      if (7'h1 == wa) begin
+        mem_1 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h2 == io_wa) begin
-        mem_2 <= io_di;
+    if (we) begin
+      if (7'h2 == wa) begin
+        mem_2 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h3 == io_wa) begin
-        mem_3 <= io_di;
+    if (we) begin
+      if (7'h3 == wa) begin
+        mem_3 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h4 == io_wa) begin
-        mem_4 <= io_di;
+    if (we) begin
+      if (7'h4 == wa) begin
+        mem_4 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h5 == io_wa) begin
-        mem_5 <= io_di;
+    if (we) begin
+      if (7'h5 == wa) begin
+        mem_5 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h6 == io_wa) begin
-        mem_6 <= io_di;
+    if (we) begin
+      if (7'h6 == wa) begin
+        mem_6 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h7 == io_wa) begin
-        mem_7 <= io_di;
+    if (we) begin
+      if (7'h7 == wa) begin
+        mem_7 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h8 == io_wa) begin
-        mem_8 <= io_di;
+    if (we) begin
+      if (7'h8 == wa) begin
+        mem_8 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h9 == io_wa) begin
-        mem_9 <= io_di;
+    if (we) begin
+      if (7'h9 == wa) begin
+        mem_9 <= di;
       end
     end
-    if (io_we) begin
-      if (7'ha == io_wa) begin
-        mem_10 <= io_di;
+    if (we) begin
+      if (7'ha == wa) begin
+        mem_10 <= di;
       end
     end
-    if (io_we) begin
-      if (7'hb == io_wa) begin
-        mem_11 <= io_di;
+    if (we) begin
+      if (7'hb == wa) begin
+        mem_11 <= di;
       end
     end
-    if (io_we) begin
-      if (7'hc == io_wa) begin
-        mem_12 <= io_di;
+    if (we) begin
+      if (7'hc == wa) begin
+        mem_12 <= di;
       end
     end
-    if (io_we) begin
-      if (7'hd == io_wa) begin
-        mem_13 <= io_di;
+    if (we) begin
+      if (7'hd == wa) begin
+        mem_13 <= di;
       end
     end
-    if (io_we) begin
-      if (7'he == io_wa) begin
-        mem_14 <= io_di;
+    if (we) begin
+      if (7'he == wa) begin
+        mem_14 <= di;
       end
     end
-    if (io_we) begin
-      if (7'hf == io_wa) begin
-        mem_15 <= io_di;
+    if (we) begin
+      if (7'hf == wa) begin
+        mem_15 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h10 == io_wa) begin
-        mem_16 <= io_di;
+    if (we) begin
+      if (7'h10 == wa) begin
+        mem_16 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h11 == io_wa) begin
-        mem_17 <= io_di;
+    if (we) begin
+      if (7'h11 == wa) begin
+        mem_17 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h12 == io_wa) begin
-        mem_18 <= io_di;
+    if (we) begin
+      if (7'h12 == wa) begin
+        mem_18 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h13 == io_wa) begin
-        mem_19 <= io_di;
+    if (we) begin
+      if (7'h13 == wa) begin
+        mem_19 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h14 == io_wa) begin
-        mem_20 <= io_di;
+    if (we) begin
+      if (7'h14 == wa) begin
+        mem_20 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h15 == io_wa) begin
-        mem_21 <= io_di;
+    if (we) begin
+      if (7'h15 == wa) begin
+        mem_21 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h16 == io_wa) begin
-        mem_22 <= io_di;
+    if (we) begin
+      if (7'h16 == wa) begin
+        mem_22 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h17 == io_wa) begin
-        mem_23 <= io_di;
+    if (we) begin
+      if (7'h17 == wa) begin
+        mem_23 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h18 == io_wa) begin
-        mem_24 <= io_di;
+    if (we) begin
+      if (7'h18 == wa) begin
+        mem_24 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h19 == io_wa) begin
-        mem_25 <= io_di;
+    if (we) begin
+      if (7'h19 == wa) begin
+        mem_25 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h1a == io_wa) begin
-        mem_26 <= io_di;
+    if (we) begin
+      if (7'h1a == wa) begin
+        mem_26 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h1b == io_wa) begin
-        mem_27 <= io_di;
+    if (we) begin
+      if (7'h1b == wa) begin
+        mem_27 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h1c == io_wa) begin
-        mem_28 <= io_di;
+    if (we) begin
+      if (7'h1c == wa) begin
+        mem_28 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h1d == io_wa) begin
-        mem_29 <= io_di;
+    if (we) begin
+      if (7'h1d == wa) begin
+        mem_29 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h1e == io_wa) begin
-        mem_30 <= io_di;
+    if (we) begin
+      if (7'h1e == wa) begin
+        mem_30 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h1f == io_wa) begin
-        mem_31 <= io_di;
+    if (we) begin
+      if (7'h1f == wa) begin
+        mem_31 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h20 == io_wa) begin
-        mem_32 <= io_di;
+    if (we) begin
+      if (7'h20 == wa) begin
+        mem_32 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h21 == io_wa) begin
-        mem_33 <= io_di;
+    if (we) begin
+      if (7'h21 == wa) begin
+        mem_33 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h22 == io_wa) begin
-        mem_34 <= io_di;
+    if (we) begin
+      if (7'h22 == wa) begin
+        mem_34 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h23 == io_wa) begin
-        mem_35 <= io_di;
+    if (we) begin
+      if (7'h23 == wa) begin
+        mem_35 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h24 == io_wa) begin
-        mem_36 <= io_di;
+    if (we) begin
+      if (7'h24 == wa) begin
+        mem_36 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h25 == io_wa) begin
-        mem_37 <= io_di;
+    if (we) begin
+      if (7'h25 == wa) begin
+        mem_37 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h26 == io_wa) begin
-        mem_38 <= io_di;
+    if (we) begin
+      if (7'h26 == wa) begin
+        mem_38 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h27 == io_wa) begin
-        mem_39 <= io_di;
+    if (we) begin
+      if (7'h27 == wa) begin
+        mem_39 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h28 == io_wa) begin
-        mem_40 <= io_di;
+    if (we) begin
+      if (7'h28 == wa) begin
+        mem_40 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h29 == io_wa) begin
-        mem_41 <= io_di;
+    if (we) begin
+      if (7'h29 == wa) begin
+        mem_41 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h2a == io_wa) begin
-        mem_42 <= io_di;
+    if (we) begin
+      if (7'h2a == wa) begin
+        mem_42 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h2b == io_wa) begin
-        mem_43 <= io_di;
+    if (we) begin
+      if (7'h2b == wa) begin
+        mem_43 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h2c == io_wa) begin
-        mem_44 <= io_di;
+    if (we) begin
+      if (7'h2c == wa) begin
+        mem_44 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h2d == io_wa) begin
-        mem_45 <= io_di;
+    if (we) begin
+      if (7'h2d == wa) begin
+        mem_45 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h2e == io_wa) begin
-        mem_46 <= io_di;
+    if (we) begin
+      if (7'h2e == wa) begin
+        mem_46 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h2f == io_wa) begin
-        mem_47 <= io_di;
+    if (we) begin
+      if (7'h2f == wa) begin
+        mem_47 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h30 == io_wa) begin
-        mem_48 <= io_di;
+    if (we) begin
+      if (7'h30 == wa) begin
+        mem_48 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h31 == io_wa) begin
-        mem_49 <= io_di;
+    if (we) begin
+      if (7'h31 == wa) begin
+        mem_49 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h32 == io_wa) begin
-        mem_50 <= io_di;
+    if (we) begin
+      if (7'h32 == wa) begin
+        mem_50 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h33 == io_wa) begin
-        mem_51 <= io_di;
+    if (we) begin
+      if (7'h33 == wa) begin
+        mem_51 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h34 == io_wa) begin
-        mem_52 <= io_di;
+    if (we) begin
+      if (7'h34 == wa) begin
+        mem_52 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h35 == io_wa) begin
-        mem_53 <= io_di;
+    if (we) begin
+      if (7'h35 == wa) begin
+        mem_53 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h36 == io_wa) begin
-        mem_54 <= io_di;
+    if (we) begin
+      if (7'h36 == wa) begin
+        mem_54 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h37 == io_wa) begin
-        mem_55 <= io_di;
+    if (we) begin
+      if (7'h37 == wa) begin
+        mem_55 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h38 == io_wa) begin
-        mem_56 <= io_di;
+    if (we) begin
+      if (7'h38 == wa) begin
+        mem_56 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h39 == io_wa) begin
-        mem_57 <= io_di;
+    if (we) begin
+      if (7'h39 == wa) begin
+        mem_57 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h3a == io_wa) begin
-        mem_58 <= io_di;
+    if (we) begin
+      if (7'h3a == wa) begin
+        mem_58 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h3b == io_wa) begin
-        mem_59 <= io_di;
+    if (we) begin
+      if (7'h3b == wa) begin
+        mem_59 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h3c == io_wa) begin
-        mem_60 <= io_di;
+    if (we) begin
+      if (7'h3c == wa) begin
+        mem_60 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h3d == io_wa) begin
-        mem_61 <= io_di;
+    if (we) begin
+      if (7'h3d == wa) begin
+        mem_61 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h3e == io_wa) begin
-        mem_62 <= io_di;
+    if (we) begin
+      if (7'h3e == wa) begin
+        mem_62 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h3f == io_wa) begin
-        mem_63 <= io_di;
+    if (we) begin
+      if (7'h3f == wa) begin
+        mem_63 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h40 == io_wa) begin
-        mem_64 <= io_di;
+    if (we) begin
+      if (7'h40 == wa) begin
+        mem_64 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h41 == io_wa) begin
-        mem_65 <= io_di;
+    if (we) begin
+      if (7'h41 == wa) begin
+        mem_65 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h42 == io_wa) begin
-        mem_66 <= io_di;
+    if (we) begin
+      if (7'h42 == wa) begin
+        mem_66 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h43 == io_wa) begin
-        mem_67 <= io_di;
+    if (we) begin
+      if (7'h43 == wa) begin
+        mem_67 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h44 == io_wa) begin
-        mem_68 <= io_di;
+    if (we) begin
+      if (7'h44 == wa) begin
+        mem_68 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h45 == io_wa) begin
-        mem_69 <= io_di;
+    if (we) begin
+      if (7'h45 == wa) begin
+        mem_69 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h46 == io_wa) begin
-        mem_70 <= io_di;
+    if (we) begin
+      if (7'h46 == wa) begin
+        mem_70 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h47 == io_wa) begin
-        mem_71 <= io_di;
+    if (we) begin
+      if (7'h47 == wa) begin
+        mem_71 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h48 == io_wa) begin
-        mem_72 <= io_di;
+    if (we) begin
+      if (7'h48 == wa) begin
+        mem_72 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h49 == io_wa) begin
-        mem_73 <= io_di;
+    if (we) begin
+      if (7'h49 == wa) begin
+        mem_73 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h4a == io_wa) begin
-        mem_74 <= io_di;
+    if (we) begin
+      if (7'h4a == wa) begin
+        mem_74 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h4b == io_wa) begin
-        mem_75 <= io_di;
+    if (we) begin
+      if (7'h4b == wa) begin
+        mem_75 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h4c == io_wa) begin
-        mem_76 <= io_di;
+    if (we) begin
+      if (7'h4c == wa) begin
+        mem_76 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h4d == io_wa) begin
-        mem_77 <= io_di;
+    if (we) begin
+      if (7'h4d == wa) begin
+        mem_77 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h4e == io_wa) begin
-        mem_78 <= io_di;
+    if (we) begin
+      if (7'h4e == wa) begin
+        mem_78 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h4f == io_wa) begin
-        mem_79 <= io_di;
+    if (we) begin
+      if (7'h4f == wa) begin
+        mem_79 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h50 == io_wa) begin
-        mem_80 <= io_di;
+    if (we) begin
+      if (7'h50 == wa) begin
+        mem_80 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h51 == io_wa) begin
-        mem_81 <= io_di;
+    if (we) begin
+      if (7'h51 == wa) begin
+        mem_81 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h52 == io_wa) begin
-        mem_82 <= io_di;
+    if (we) begin
+      if (7'h52 == wa) begin
+        mem_82 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h53 == io_wa) begin
-        mem_83 <= io_di;
+    if (we) begin
+      if (7'h53 == wa) begin
+        mem_83 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h54 == io_wa) begin
-        mem_84 <= io_di;
+    if (we) begin
+      if (7'h54 == wa) begin
+        mem_84 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h55 == io_wa) begin
-        mem_85 <= io_di;
+    if (we) begin
+      if (7'h55 == wa) begin
+        mem_85 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h56 == io_wa) begin
-        mem_86 <= io_di;
+    if (we) begin
+      if (7'h56 == wa) begin
+        mem_86 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h57 == io_wa) begin
-        mem_87 <= io_di;
+    if (we) begin
+      if (7'h57 == wa) begin
+        mem_87 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h58 == io_wa) begin
-        mem_88 <= io_di;
+    if (we) begin
+      if (7'h58 == wa) begin
+        mem_88 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h59 == io_wa) begin
-        mem_89 <= io_di;
+    if (we) begin
+      if (7'h59 == wa) begin
+        mem_89 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h5a == io_wa) begin
-        mem_90 <= io_di;
+    if (we) begin
+      if (7'h5a == wa) begin
+        mem_90 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h5b == io_wa) begin
-        mem_91 <= io_di;
+    if (we) begin
+      if (7'h5b == wa) begin
+        mem_91 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h5c == io_wa) begin
-        mem_92 <= io_di;
+    if (we) begin
+      if (7'h5c == wa) begin
+        mem_92 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h5d == io_wa) begin
-        mem_93 <= io_di;
+    if (we) begin
+      if (7'h5d == wa) begin
+        mem_93 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h5e == io_wa) begin
-        mem_94 <= io_di;
+    if (we) begin
+      if (7'h5e == wa) begin
+        mem_94 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h5f == io_wa) begin
-        mem_95 <= io_di;
+    if (we) begin
+      if (7'h5f == wa) begin
+        mem_95 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h60 == io_wa) begin
-        mem_96 <= io_di;
+    if (we) begin
+      if (7'h60 == wa) begin
+        mem_96 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h61 == io_wa) begin
-        mem_97 <= io_di;
+    if (we) begin
+      if (7'h61 == wa) begin
+        mem_97 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h62 == io_wa) begin
-        mem_98 <= io_di;
+    if (we) begin
+      if (7'h62 == wa) begin
+        mem_98 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h63 == io_wa) begin
-        mem_99 <= io_di;
+    if (we) begin
+      if (7'h63 == wa) begin
+        mem_99 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h64 == io_wa) begin
-        mem_100 <= io_di;
+    if (we) begin
+      if (7'h64 == wa) begin
+        mem_100 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h65 == io_wa) begin
-        mem_101 <= io_di;
+    if (we) begin
+      if (7'h65 == wa) begin
+        mem_101 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h66 == io_wa) begin
-        mem_102 <= io_di;
+    if (we) begin
+      if (7'h66 == wa) begin
+        mem_102 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h67 == io_wa) begin
-        mem_103 <= io_di;
+    if (we) begin
+      if (7'h67 == wa) begin
+        mem_103 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h68 == io_wa) begin
-        mem_104 <= io_di;
+    if (we) begin
+      if (7'h68 == wa) begin
+        mem_104 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h69 == io_wa) begin
-        mem_105 <= io_di;
+    if (we) begin
+      if (7'h69 == wa) begin
+        mem_105 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h6a == io_wa) begin
-        mem_106 <= io_di;
+    if (we) begin
+      if (7'h6a == wa) begin
+        mem_106 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h6b == io_wa) begin
-        mem_107 <= io_di;
+    if (we) begin
+      if (7'h6b == wa) begin
+        mem_107 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h6c == io_wa) begin
-        mem_108 <= io_di;
+    if (we) begin
+      if (7'h6c == wa) begin
+        mem_108 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h6d == io_wa) begin
-        mem_109 <= io_di;
+    if (we) begin
+      if (7'h6d == wa) begin
+        mem_109 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h6e == io_wa) begin
-        mem_110 <= io_di;
+    if (we) begin
+      if (7'h6e == wa) begin
+        mem_110 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h6f == io_wa) begin
-        mem_111 <= io_di;
+    if (we) begin
+      if (7'h6f == wa) begin
+        mem_111 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h70 == io_wa) begin
-        mem_112 <= io_di;
+    if (we) begin
+      if (7'h70 == wa) begin
+        mem_112 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h71 == io_wa) begin
-        mem_113 <= io_di;
+    if (we) begin
+      if (7'h71 == wa) begin
+        mem_113 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h72 == io_wa) begin
-        mem_114 <= io_di;
+    if (we) begin
+      if (7'h72 == wa) begin
+        mem_114 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h73 == io_wa) begin
-        mem_115 <= io_di;
+    if (we) begin
+      if (7'h73 == wa) begin
+        mem_115 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h74 == io_wa) begin
-        mem_116 <= io_di;
+    if (we) begin
+      if (7'h74 == wa) begin
+        mem_116 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h75 == io_wa) begin
-        mem_117 <= io_di;
+    if (we) begin
+      if (7'h75 == wa) begin
+        mem_117 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h76 == io_wa) begin
-        mem_118 <= io_di;
+    if (we) begin
+      if (7'h76 == wa) begin
+        mem_118 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h77 == io_wa) begin
-        mem_119 <= io_di;
+    if (we) begin
+      if (7'h77 == wa) begin
+        mem_119 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h78 == io_wa) begin
-        mem_120 <= io_di;
+    if (we) begin
+      if (7'h78 == wa) begin
+        mem_120 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h79 == io_wa) begin
-        mem_121 <= io_di;
+    if (we) begin
+      if (7'h79 == wa) begin
+        mem_121 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h7a == io_wa) begin
-        mem_122 <= io_di;
+    if (we) begin
+      if (7'h7a == wa) begin
+        mem_122 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h7b == io_wa) begin
-        mem_123 <= io_di;
+    if (we) begin
+      if (7'h7b == wa) begin
+        mem_123 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h7c == io_wa) begin
-        mem_124 <= io_di;
+    if (we) begin
+      if (7'h7c == wa) begin
+        mem_124 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h7d == io_wa) begin
-        mem_125 <= io_di;
+    if (we) begin
+      if (7'h7d == wa) begin
+        mem_125 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h7e == io_wa) begin
-        mem_126 <= io_di;
+    if (we) begin
+      if (7'h7e == wa) begin
+        mem_126 <= di;
       end
     end
-    if (io_we) begin
-      if (7'h7f == io_wa) begin
-        mem_127 <= io_di;
+    if (we) begin
+      if (7'h7f == wa) begin
+        mem_127 <= di;
       end
     end
-    if (io_re) begin
-      ra_d <= io_ra;
+    if (re) begin
+      ra_d <= ra;
     end
-    if (io_ore) begin
+    if (ore) begin
       if (7'h7f == ra_d) begin
         dout_r <= mem_127;
       end else begin
@@ -2484,4 +2483,58 @@ module nv_ram_rwsp( // @[:@3.2]
       end
     end
   end
+endmodule
+
+
+module nv_ram_rwsp_128x11 ( 
+		clk,
+		ra,
+		re,
+		ore,
+		dout,
+		wa,
+		we,
+		di,
+		pwrbus_ram_pd
+);
+
+parameter FORCE_CONTENTION_ASSERTION_RESET_ACTIVE=1'b0;
+
+// port list
+input			clk;
+input	[6:0]	ra;
+input			re;
+input			ore;
+output	[10:0]	dout;
+input	[6:0]	wa;
+input			we;
+input	[10:0]	di;
+input	[31:0]	pwrbus_ram_pd;
+
+//reg and wire list
+reg		[6:0]	ra_d;
+wire	[10:0]	dout;
+reg		[10:0]	M	[127:0];
+
+always @( posedge clk ) begin
+    if (we)
+       M[wa] <= di;
+end
+ 
+always @( posedge clk ) begin
+    if (re) 
+       ra_d <= ra;
+end
+
+wire	[10:0]	dout_ram = M[ra_d];
+
+reg		[10:0]	dout_r;
+always @( posedge clk ) begin
+   if (ore)
+       dout_r <= dout_ram;
+end
+
+assign dout = dout_r;
+
+
 endmodule
