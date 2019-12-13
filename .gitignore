@@ -21,3 +21,4 @@ test_run_dir/
 *.jar
 *.zip
 *.class
+equiv_check/.~lock.equiv_result.ods#

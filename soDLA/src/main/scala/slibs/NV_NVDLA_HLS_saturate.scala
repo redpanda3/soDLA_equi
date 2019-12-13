@@ -27,4 +27,9 @@ class NV_soDLA_HLS_saturate(IN_WIDTH:Int, OUT_WIDTH:Int) extends Module {
 }
 
 
+object NV_soDLA_HLS_saturateDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_soDLA_HLS_saturate(49, 32))
+}
+
+
 

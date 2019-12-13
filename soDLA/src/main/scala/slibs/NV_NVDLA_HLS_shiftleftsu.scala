@@ -37,4 +37,9 @@ class NV_soDLA_HLS_shiftleftsu(IN_WIDTH:Int, OUT_WIDTH:Int, SHIFT_WIDTH:Int) ext
 }
 
 
+object NV_NVDLA_HLS_shiftleftsuDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_NVDLA_HLS_shiftleftsu(16, 32, 6))
+}
+
+
 

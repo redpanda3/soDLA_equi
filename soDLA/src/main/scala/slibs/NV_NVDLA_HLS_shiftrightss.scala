@@ -75,5 +75,11 @@ class NV_soDLA_HLS_shiftrightss(IN_WIDTH:Int = 49, OUT_WIDTH:Int = 32, SHIFT_WID
 }
 
 
+object NV_NVDLA_HLS_shiftrightssDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_NVDLA_HLS_shiftrightss(49, 32, 6))
+}
+
+
+
 
 

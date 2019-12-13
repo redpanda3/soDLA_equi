@@ -55,6 +55,11 @@ class NV_soDLA_HLS_shiftrightusz(IN_WIDTH:Int, OUT_WIDTH:Int, FRAC_WIDTH:Int, SH
   
 }
 
+object NV_NVDLA_HLS_shiftrightuszDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_NVDLA_HLS_shiftrightusz(49, 32, 35, 6))
+}
+
+
 
 
 
