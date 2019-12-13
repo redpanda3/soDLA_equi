@@ -111,7 +111,7 @@ wire                     shift_sign;
 // not all bits used nets
 
 // todo nets
-
+    
     
 //shift left
 assign  shift_sign = shift_num[SHIFT_WIDTH-1];

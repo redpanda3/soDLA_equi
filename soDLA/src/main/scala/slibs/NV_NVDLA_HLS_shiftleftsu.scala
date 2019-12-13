@@ -23,7 +23,7 @@ class NV_soDLA_HLS_shiftleftsu(IN_WIDTH:Int, OUT_WIDTH:Int, SHIFT_WIDTH:Int) ext
     val left_shift_sat = Wire(Bool())
     
     data_sign := io.data_in(IN_WIDTH-1)
-    
+
     data_high := (Cat(Fill(SHIFT_MAX, data_sign), io.data_in) << io.shift_num)(HIGH_WIDTH + OUT_WIDTH - 1, OUT_WIDTH)
     
     data_shift := (Cat(Fill(SHIFT_MAX, data_sign), io.data_in) << io.shift_num)(OUT_WIDTH - 1, 0)
