@@ -22,3 +22,5 @@ test_run_dir/
 *.zip
 *.class
 equiv_check/.~lock.equiv_result.ods#
+equiv_check/slibs/.vs/slibs/v15/.suo
+equiv_check/slibs/.vs/slnx.sqlite
