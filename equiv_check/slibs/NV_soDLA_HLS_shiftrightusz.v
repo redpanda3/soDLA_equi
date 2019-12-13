@@ -13,20 +13,21 @@ module NV_soDLA_HLS_shiftrightusz( // @[:@3.2]
   wire [143:0] _T_33; // @[NV_NVDLA_HLS_shiftrightusz.scala 37:61:@25.4]
   wire [48:0] data_high; // @[NV_NVDLA_HLS_shiftrightusz.scala 37:78:@26.4]
   wire [31:0] data_shift_l; // @[NV_NVDLA_HLS_shiftrightusz.scala 39:81:@31.4]
-  wire [80:0] _T_43; // @[Cat.scala 30:58:@33.4]
-  wire  _T_49; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:66:@35.4]
-  wire  left_shift_sat; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:34:@36.4]
-  wire [83:0] _T_56; // @[Cat.scala 30:58:@39.4]
-  wire [83:0] _T_57; // @[NV_NVDLA_HLS_shiftrightusz.scala 44:65:@40.4]
-  wire [48:0] data_shift_r; // @[NV_NVDLA_HLS_shiftrightusz.scala 44:81:@41.4]
-  wire [34:0] frac_shift; // @[NV_NVDLA_HLS_shiftrightusz.scala 46:79:@46.4]
-  wire  _T_68; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:24:@48.4]
-  wire [16:0] _T_69; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:50:@49.4]
-  wire  _T_71; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:74:@50.4]
-  wire  right_shift_sat; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:36:@51.4]
-  wire  _T_78; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:39:@55.4]
-  wire [31:0] _T_79; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:110:@56.4]
-  wire [31:0] _T_80; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:71:@57.4]
+  wire  _T_43; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:64:@33.4]
+  wire [49:0] _T_44; // @[Cat.scala 30:58:@34.4]
+  wire  _T_50; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:81:@36.4]
+  wire  left_shift_sat; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:34:@37.4]
+  wire [83:0] _T_57; // @[Cat.scala 30:58:@40.4]
+  wire [83:0] _T_58; // @[NV_NVDLA_HLS_shiftrightusz.scala 44:65:@41.4]
+  wire [48:0] data_shift_r; // @[NV_NVDLA_HLS_shiftrightusz.scala 44:81:@42.4]
+  wire [34:0] frac_shift; // @[NV_NVDLA_HLS_shiftrightusz.scala 46:79:@47.4]
+  wire  _T_69; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:24:@49.4]
+  wire [16:0] _T_70; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:50:@50.4]
+  wire  _T_72; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:74:@51.4]
+  wire  right_shift_sat; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:36:@52.4]
+  wire  _T_79; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:39:@56.4]
+  wire [31:0] _T_80; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:110:@57.4]
+  wire [31:0] _T_81; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:71:@58.4]
   assign shift_sign = shift_num[5]; // @[NV_NVDLA_HLS_shiftrightusz.scala 33:31:@17.4]
   assign _T_23 = ~ shift_num; // @[NV_NVDLA_HLS_shiftrightusz.scala 35:22:@19.4]
   assign _T_25 = _T_23 + 6'h1; // @[NV_NVDLA_HLS_shiftrightusz.scala 35:36:@20.4]
@@ -36,22 +37,23 @@ module NV_soDLA_HLS_shiftrightusz( // @[:@3.2]
   assign _T_33 = _GEN_0 << shift_num_abs; // @[NV_NVDLA_HLS_shiftrightusz.scala 37:61:@25.4]
   assign data_high = _T_33[80:32]; // @[NV_NVDLA_HLS_shiftrightusz.scala 37:78:@26.4]
   assign data_shift_l = _T_33[31:0]; // @[NV_NVDLA_HLS_shiftrightusz.scala 39:81:@31.4]
-  assign _T_43 = {data_high,data_shift_l}; // @[Cat.scala 30:58:@33.4]
-  assign _T_49 = _T_43 != 81'h0; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:66:@35.4]
-  assign left_shift_sat = shift_sign & _T_49; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:34:@36.4]
-  assign _T_56 = {data_in,35'h0}; // @[Cat.scala 30:58:@39.4]
-  assign _T_57 = _T_56 >> shift_num; // @[NV_NVDLA_HLS_shiftrightusz.scala 44:65:@40.4]
-  assign data_shift_r = _T_57[83:35]; // @[NV_NVDLA_HLS_shiftrightusz.scala 44:81:@41.4]
-  assign frac_shift = _T_57[34:0]; // @[NV_NVDLA_HLS_shiftrightusz.scala 46:79:@46.4]
-  assign _T_68 = shift_sign == 1'h0; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:24:@48.4]
-  assign _T_69 = data_shift_r[48:32]; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:50:@49.4]
-  assign _T_71 = _T_69 != 17'h0; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:74:@50.4]
-  assign right_shift_sat = _T_68 & _T_71; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:36:@51.4]
-  assign _T_78 = left_shift_sat | right_shift_sat; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:39:@55.4]
-  assign _T_79 = data_shift_r[31:0]; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:110:@56.4]
-  assign _T_80 = shift_sign ? data_shift_l : _T_79; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:71:@57.4]
-  assign data_out = _T_78 ? 32'hffffffff : _T_80; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:17:@59.4]
-  assign frac_out = shift_sign ? 35'h0 : frac_shift; // @[NV_NVDLA_HLS_shiftrightusz.scala 54:17:@62.4]
+  assign _T_43 = data_shift_l[31]; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:64:@33.4]
+  assign _T_44 = {data_high,_T_43}; // @[Cat.scala 30:58:@34.4]
+  assign _T_50 = _T_44 != 50'h0; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:81:@36.4]
+  assign left_shift_sat = shift_sign & _T_50; // @[NV_NVDLA_HLS_shiftrightusz.scala 41:34:@37.4]
+  assign _T_57 = {data_in,35'h0}; // @[Cat.scala 30:58:@40.4]
+  assign _T_58 = _T_57 >> shift_num; // @[NV_NVDLA_HLS_shiftrightusz.scala 44:65:@41.4]
+  assign data_shift_r = _T_58[83:35]; // @[NV_NVDLA_HLS_shiftrightusz.scala 44:81:@42.4]
+  assign frac_shift = _T_58[34:0]; // @[NV_NVDLA_HLS_shiftrightusz.scala 46:79:@47.4]
+  assign _T_69 = shift_sign == 1'h0; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:24:@49.4]
+  assign _T_70 = data_shift_r[48:32]; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:50:@50.4]
+  assign _T_72 = _T_70 != 17'h0; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:74:@51.4]
+  assign right_shift_sat = _T_69 & _T_72; // @[NV_NVDLA_HLS_shiftrightusz.scala 48:36:@52.4]
+  assign _T_79 = left_shift_sat | right_shift_sat; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:39:@56.4]
+  assign _T_80 = data_shift_r[31:0]; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:110:@57.4]
+  assign _T_81 = shift_sign ? data_shift_l : _T_80; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:71:@58.4]
+  assign data_out = _T_79 ? 32'hffffffff : _T_81; // @[NV_NVDLA_HLS_shiftrightusz.scala 53:17:@60.4]
+  assign frac_out = shift_sign ? 35'h0 : frac_shift; // @[NV_NVDLA_HLS_shiftrightusz.scala 54:17:@63.4]
 endmodule
 
 
@@ -111,7 +113,7 @@ wire                     shift_sign;
 // not all bits used nets
 
 // todo nets
-    
+
     
 //shift left
 assign  shift_sign = shift_num[SHIFT_WIDTH-1];
@@ -134,4 +136,5 @@ assign data_out[((OUT_WIDTH) - 1):0]  = (left_shift_sat | right_shift_sat) ? dat
 assign frac_out[((FRAC_WIDTH) - 1):0] = shift_sign ? {FRAC_WIDTH{1'b0}} : frac_shift[((FRAC_WIDTH) - 1):0];
 
 endmodule // NV_NVDLA_HLS_shiftrightusz
+
 
