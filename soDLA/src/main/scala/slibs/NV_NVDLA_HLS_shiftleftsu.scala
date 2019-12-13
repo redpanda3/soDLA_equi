@@ -28,7 +28,7 @@ class NV_soDLA_HLS_shiftleftsu(IN_WIDTH:Int, OUT_WIDTH:Int, SHIFT_WIDTH:Int) ext
     
     data_shift := (Cat(Fill(SHIFT_MAX, data_sign), io.data_in) << io.shift_num)(OUT_WIDTH - 1, 0)
     
-    left_shift_sat := Cat(data_high, data_shift) =/= Fill(HIGH_WIDTH+1, data_sign)
+    left_shift_sat := Cat(data_high, data_shift(OUT_WIDTH - 1)) =/= Fill(HIGH_WIDTH+1, data_sign)
     
     data_max := Mux(data_sign, Cat(true.B, Fill(OUT_WIDTH-1, false.B)), ~Cat(true.B, Fill(OUT_WIDTH-1, false.B)))
     

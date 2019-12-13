@@ -44,7 +44,7 @@ class NV_soDLA_HLS_shiftrightss(IN_WIDTH:Int = 49, OUT_WIDTH:Int = 32, SHIFT_WID
     
     data_shift_l := (Cat(Fill(SHIFT_MAX, data_sign), io.data_in) << shift_num_abs)(OUT_WIDTH - 1, 0)
 
-    left_shift_sat := shift_sign & Cat(data_high, data_shift_l) =/= Fill(HIGH_WIDTH+1, data_sign)
+    left_shift_sat := shift_sign & Cat(data_high, data_shift_l(OUT_WIDTH-1)) =/= Fill(HIGH_WIDTH+1, data_sign)
 
     //shift right
 
@@ -63,9 +63,9 @@ class NV_soDLA_HLS_shiftrightss(IN_WIDTH:Int = 49, OUT_WIDTH:Int = 32, SHIFT_WID
     data_round := (data_shift_r(OUT_WIDTH-1, 0) + point5)(OUT_WIDTH-1, 0)
 
     right_shift_sat := !shift_sign & 
-                      ( data_sign & ~(data_shift_r(IN_WIDTH-2, OUT_WIDTH-1).andR)) |
+                      (( data_sign & ~(data_shift_r(IN_WIDTH-2, OUT_WIDTH-1).andR)) |
                       (~data_sign &  (data_shift_r(IN_WIDTH-2, OUT_WIDTH-1).orR)) |
-                      (~data_sign & (Cat(data_shift_r(((OUT_WIDTH-1) - 1), 0), point5).andR))
+                      (~data_sign & (Cat(data_shift_r(((OUT_WIDTH-1) - 1), 0), point5).andR)))
     
     data_max := Mux(data_sign, Cat(true.B, Fill(OUT_WIDTH-1, false.B)), ~Cat(true.B, Fill(OUT_WIDTH-1, false.B))) 
     
