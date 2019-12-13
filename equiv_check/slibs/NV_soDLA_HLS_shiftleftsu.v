@@ -10,11 +10,11 @@ module NV_soDLA_HLS_shiftleftsu( // @[:@3.2]
   wire [141:0] _T_22; // @[NV_NVDLA_HLS_shiftleftsu.scala 27:63:@18.4]
   wire [46:0] data_high; // @[NV_NVDLA_HLS_shiftleftsu.scala 27:79:@19.4]
   wire [31:0] data_shift; // @[NV_NVDLA_HLS_shiftleftsu.scala 29:80:@25.4]
-  wire [78:0] _T_31; // @[Cat.scala 30:58:@27.4]
-  wire [47:0] _T_35; // @[Bitwise.scala 72:12:@29.4]
-  wire [78:0] _GEN_2; // @[NV_NVDLA_HLS_shiftleftsu.scala 31:50:@30.4]
-  wire  left_shift_sat; // @[NV_NVDLA_HLS_shiftleftsu.scala 31:50:@30.4]
-  wire [31:0] data_max; // @[NV_NVDLA_HLS_shiftleftsu.scala 33:20:@37.4]
+  wire  _T_31; // @[NV_NVDLA_HLS_shiftleftsu.scala 31:48:@27.4]
+  wire [47:0] _T_32; // @[Cat.scala 30:58:@28.4]
+  wire [47:0] _T_36; // @[Bitwise.scala 72:12:@30.4]
+  wire  left_shift_sat; // @[NV_NVDLA_HLS_shiftleftsu.scala 31:65:@31.4]
+  wire [31:0] data_max; // @[NV_NVDLA_HLS_shiftleftsu.scala 33:20:@38.4]
   assign data_sign = data_in[15]; // @[NV_NVDLA_HLS_shiftleftsu.scala 25:28:@13.4]
   assign _T_20 = data_sign ? 63'h7fffffffffffffff : 63'h0; // @[Bitwise.scala 72:12:@16.4]
   assign _T_21 = {_T_20,data_in}; // @[Cat.scala 30:58:@17.4]
@@ -22,13 +22,24 @@ module NV_soDLA_HLS_shiftleftsu( // @[:@3.2]
   assign _T_22 = _GEN_0 << shift_num; // @[NV_NVDLA_HLS_shiftleftsu.scala 27:63:@18.4]
   assign data_high = _T_22[78:32]; // @[NV_NVDLA_HLS_shiftleftsu.scala 27:79:@19.4]
   assign data_shift = _T_22[31:0]; // @[NV_NVDLA_HLS_shiftleftsu.scala 29:80:@25.4]
-  assign _T_31 = {data_high,data_shift}; // @[Cat.scala 30:58:@27.4]
-  assign _T_35 = data_sign ? 48'hffffffffffff : 48'h0; // @[Bitwise.scala 72:12:@29.4]
-  assign _GEN_2 = {{31'd0}, _T_35}; // @[NV_NVDLA_HLS_shiftleftsu.scala 31:50:@30.4]
-  assign left_shift_sat = _T_31 != _GEN_2; // @[NV_NVDLA_HLS_shiftleftsu.scala 31:50:@30.4]
-  assign data_max = data_sign ? 32'h80000000 : 32'h7fffffff; // @[NV_NVDLA_HLS_shiftleftsu.scala 33:20:@37.4]
-  assign data_out = left_shift_sat ? data_max : data_shift; // @[NV_NVDLA_HLS_shiftleftsu.scala 35:17:@40.4]
+  assign _T_31 = data_shift[31]; // @[NV_NVDLA_HLS_shiftleftsu.scala 31:48:@27.4]
+  assign _T_32 = {data_high,_T_31}; // @[Cat.scala 30:58:@28.4]
+  assign _T_36 = data_sign ? 48'hffffffffffff : 48'h0; // @[Bitwise.scala 72:12:@30.4]
+  assign left_shift_sat = _T_32 != _T_36; // @[NV_NVDLA_HLS_shiftleftsu.scala 31:65:@31.4]
+  assign data_max = data_sign ? 32'h80000000 : 32'h7fffffff; // @[NV_NVDLA_HLS_shiftleftsu.scala 33:20:@38.4]
+  assign data_out = left_shift_sat ? data_max : data_shift; // @[NV_NVDLA_HLS_shiftleftsu.scala 35:17:@41.4]
 endmodule
+
+
+// ================================================================
+// NVDLA Open Source Project
+// 
+// Copyright(c) 2016 - 2017 NVIDIA Corporation.  Licensed under the
+// NVDLA Open Hardware License; Check "LICENSE" which comes with 
+// this distribution for more information.
+// ================================================================
+
+// File Name: NV_NVDLA_HLS_shiftleftsu.v
 
 module NV_NVDLA_HLS_shiftleftsu (
    data_in
