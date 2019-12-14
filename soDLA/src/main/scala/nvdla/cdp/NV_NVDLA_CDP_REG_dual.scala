@@ -217,3 +217,7 @@ class NV_soDLA_CDP_REG_dual extends Module{
 
 }}
 
+object NV_soDLA_CDP_REG_dualDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_soDLA_CDP_REG_dual)
+}
+

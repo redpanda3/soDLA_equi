@@ -370,3 +370,7 @@ class NV_soDLA_CDMA_dual_reg extends Module{
 
 
 }}
+
+object NV_soDLA_CDMA_dual_regDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_soDLA_CDMA_dual_reg)
+}

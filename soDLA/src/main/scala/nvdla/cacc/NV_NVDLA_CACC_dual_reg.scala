@@ -120,3 +120,7 @@ class NV_soDLA_CACC_dual_reg extends Module{
    io.field.surf_stride := RegEnable(io.reg.wr_data(23, 0), "b0".asUInt(24.W), nvdla_cacc_d_surf_stride_0_wren)
 
 }}
+
+object NV_soDLA_CACC_dual_regDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_soDLA_CACC_dual_reg)
+}

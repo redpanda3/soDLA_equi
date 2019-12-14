@@ -205,3 +205,7 @@ class NV_soDLA_CSC_dual_reg extends Module{
     io.field.pad_value := RegEnable(io.reg.wr_data(15,0), "b0".asUInt(16.W), nvdla_csc_d_zero_padding_value_0_wren)                                                                   
 
 }}
+
+object NV_soDLA_CSC_dual_regDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_soDLA_CSC_dual_reg)
+}
