@@ -226,3 +226,7 @@ withClock(io.nvdla_core_clk){
     ))
     
   }}
+
+object NV_soDLA_CFGROM_romDriver extends App {
+  chisel3.Driver.execute(args, () => new NV_soDLA_CFGROM_rom())
+}
