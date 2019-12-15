@@ -1621,7 +1621,6 @@ endmodule
 
 // File Name: NV_NVDLA_SDP_REG_dual.v
 
-#include "NV_NVDLA_SDP_define.h"
 module NV_NVDLA_SDP_REG_dual (
    reg_rd_data
   ,reg_offset
