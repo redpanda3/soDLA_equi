@@ -934,7 +934,7 @@ end
 //spyglass enable_block W338, W263
 // spyglass disable_block STARC-2.10.1.6, NoConstWithXZ, W443
 // Register flop declarations
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
   if (!nvdla_core_rstn) begin
     cya[31:0] <= 32'b00000000000000000000000000000000;
     input_data_type[1:0] <= 2'b01;

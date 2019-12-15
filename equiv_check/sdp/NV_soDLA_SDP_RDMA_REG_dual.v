@@ -1588,7 +1588,7 @@ end
 //spyglass enable_block W338, W263
 // spyglass disable_block STARC-2.10.1.6, NoConstWithXZ, W443
 // Register flop declarations
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
   if (!nvdla_core_rstn) begin
     bn_base_addr_high[31:0] <= 32'h0;
     bn_base_addr_low[31:0] <= {(32){1'b0}};

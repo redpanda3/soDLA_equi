@@ -652,14 +652,14 @@ NV_NVDLA_CFGROM_rom u_NV_NVDLA_CFGROM_rom (
 //                                                                    //
 ////////////////////////////////////////////////////////////////////////
 
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
   if (!nvdla_core_rstn) begin
     req_pvld <= 1'b0;
   end else begin
   req_pvld <= csb2cfgrom_req_pvld;
   end
 end
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
   if (!nvdla_core_rstn) begin
     req_pd <= {63{1'b0}};
   end else begin
@@ -704,7 +704,7 @@ assign csb_rresp_error = 1'b0;
 assign csb_wresp_rdat = {32{1'b0}};
 assign csb_wresp_error = 1'b0;
 
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
   if (!nvdla_core_rstn) begin
     cfgrom2csb_resp_pd <= {34{1'b0}};
   end else begin
@@ -719,7 +719,7 @@ always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
   end
 end
 
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
   if (!nvdla_core_rstn) begin
     cfgrom2csb_resp_valid <= 1'b0;
   end else begin

@@ -2404,7 +2404,7 @@ end
 //spyglass enable_block W338, W263
 // spyglass disable_block STARC-2.10.1.6, NoConstWithXZ, W443
 // Register flop declarations
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
   if (!nvdla_core_rstn) begin
     data_bank[4:0] <= 5'b00000;
     weight_bank[4:0] <= 5'b00000;
