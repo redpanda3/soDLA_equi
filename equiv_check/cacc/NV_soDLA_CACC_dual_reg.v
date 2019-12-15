@@ -289,7 +289,7 @@ module NV_soDLA_CACC_dual_reg( // @[:@3.2]
   `endif // RANDOMIZE_REG_INIT
   end
 `endif // RANDOMIZE
-  always @(posedge nvdla_core_clk) begin
+  always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
     if (!nvdla_core_rstn) begin
       _T_138 <= 5'h0;
     end else begin
@@ -653,7 +653,7 @@ initial begin
   $timeformat(-9, 2, "ns", 15);
 `endif
 end
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
   if (reg_wr_en) begin
     case(reg_offset)
       (32'h901c & 32'h00000fff): if (arreggen_dump) $display("%t:%m: reg wr: NVDLA_CACC_D_BATCH_NUMBER_0 = 0x%h (old value: 0x%h, 0x%b))", $time, reg_wr_data, nvdla_cacc_d_batch_number_0_out, nvdla_cacc_d_batch_number_0_out);
