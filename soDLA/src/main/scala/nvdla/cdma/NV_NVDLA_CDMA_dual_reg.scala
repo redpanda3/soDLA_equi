@@ -288,7 +288,7 @@ class NV_soDLA_CDMA_dual_reg extends Module{
     // Register: NVDLA_CDMA_D_FETCH_GRAIN_0    Field: grains
     io.field.grains := RegEnable(io.reg.wr_data(11, 0), "b0".asUInt(12.W), nvdla_cdma_d_fetch_grain_0_wren)
     // Register: NVDLA_CDMA_D_LINE_STRIDE_0    Field: line_stride
-    io.field.line_stride := RegEnable(io.reg.wr_data(31, 0), "b0".asUInt(32.W), nvdla_cdma_d_perf_enable_0_wren)
+    io.field.line_stride := RegEnable(io.reg.wr_data(31, 0), "b0".asUInt(32.W), nvdla_cdma_d_line_stride_0_wren)
     // Register: NVDLA_CDMA_D_LINE_UV_STRIDE_0    Field: uv_line_stride
     io.field.uv_line_stride := RegEnable(io.reg.wr_data(31, 0), "b0".asUInt(32.W), nvdla_cdma_d_line_uv_stride_0_wren)
     // Register: NVDLA_CDMA_D_MEAN_FORMAT_0    Field: mean_format

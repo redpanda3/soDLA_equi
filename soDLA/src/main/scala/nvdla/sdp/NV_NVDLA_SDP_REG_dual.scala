@@ -245,7 +245,7 @@ class NV_soDLA_SDP_REG_dual extends Module{
   // Register: NVDLA_SDP_D_DP_BN_CFG_0    Field: bn_mul_bypass
     io.field.bn_mul_bypass := RegEnable(io.reg.wr_data(4), true.B, nvdla_sdp_d_dp_bn_cfg_0_wren)
   // Register: NVDLA_SDP_D_DP_BN_CFG_0    Field: bn_mul_prelu
-    io.field.bn_mul_prelu := RegEnable(io.reg.wr_data(5), true.B, nvdla_sdp_d_dp_bn_cfg_0_wren)
+    io.field.bn_mul_prelu := RegEnable(io.reg.wr_data(5), false.B, nvdla_sdp_d_dp_bn_cfg_0_wren)
   // Register: NVDLA_SDP_D_DP_BN_CFG_0    Field: bn_relu_bypass
     io.field.bn_relu_bypass := RegEnable(io.reg.wr_data(6), true.B, nvdla_sdp_d_dp_bn_cfg_0_wren)
   // Register: NVDLA_SDP_D_DP_BN_MUL_CFG_0    Field: bn_mul_shift_value
