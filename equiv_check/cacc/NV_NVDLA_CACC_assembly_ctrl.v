@@ -9,6 +9,9 @@ module NV_soDLA_CACC_assembly_ctrl( // @[:@3.2]
   output [12:0] accu_ctrl_pd, // @[:@6.4]
   output        accu_ctrl_ram_valid, // @[:@6.4]
   output [4:0]  cfg_truncate, // @[:@6.4]
+  input         reg2dp_conv_mode, 
+  input  [1:0]  reg2dp_proc_precision,
+  
   input         reg2dp_op_en, // @[:@6.4]
   input  [4:0]  reg2dp_clip_truncate, // @[:@6.4]
   input         dp2reg_done, // @[:@6.4]
@@ -361,8 +364,6 @@ module NV_NVDLA_CACC_assembly_ctrl (
   ,dp2reg_done
   ,mac_a2accu_pd
   ,mac_a2accu_pvld
-  ,mac_b2accu_pd
-  ,mac_b2accu_pvld
   ,reg2dp_clip_truncate
   ,reg2dp_conv_mode
   ,reg2dp_op_en
@@ -389,8 +390,6 @@ input reset;
 input dp2reg_done;
 input [8:0] mac_a2accu_pd;
 input mac_a2accu_pvld;
-input [8:0] mac_b2accu_pd; //always equal mac_a2accu_pd
-input mac_b2accu_pvld;
 output [12:0] accu_ctrl_pd;
 output accu_ctrl_ram_valid;
 output accu_ctrl_valid;
@@ -406,7 +405,7 @@ output wait_for_op_en;
 //: &eperl::flop("-wid 9 -q  accu_pd  -en \"mac_a2accu_pvld\" -d  \"mac_a2accu_pd\" -clk nvdla_core_clk -rst reset -rval 0");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  accu_valid;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_valid <= 'b0;
    end else begin
@@ -414,7 +413,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg [8:0] accu_pd;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_pd <= 'b0;
    end else begin
@@ -446,7 +445,7 @@ wire slcg_cell_en_w = reg2dp_op_en;
 //: &eperl::flop(" -q  slcg_cell_en_d3  -d \"slcg_cell_en_d2\" -clk nvdla_core_clk -rst reset -rval 0");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  slcg_cell_en_d1;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        slcg_cell_en_d1 <= 'b0;
    end else begin
@@ -454,7 +453,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  slcg_cell_en_d2;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        slcg_cell_en_d2 <= 'b0;
    end else begin
@@ -462,7 +461,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  slcg_cell_en_d3;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        slcg_cell_en_d3 <= 'b0;
    end else begin
@@ -477,7 +476,7 @@ wire wait_for_op_en_w = dp2reg_done ? 1'b1 : reg2dp_op_en ? 1'b0 : wait_for_op_e
 //: &eperl::flop(" -q  wait_for_op_en  -d \"wait_for_op_en_w\" -clk nvdla_core_clk -rst reset -rval 1");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  wait_for_op_en;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        wait_for_op_en <= 1;
    end else begin
@@ -505,14 +504,14 @@ wire cfg_in_en_mask_w = 1'b1;
 //: &eperl::flop("-nodeclare -q  accu_channel_st  -en \"layer_st | accu_valid\" -d  \"accu_channel_st_w\" -clk nvdla_core_clk -rst reset -rval 1");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  accu_ram_valid;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_ram_valid <= 'b0;
    end else begin
        accu_ram_valid <= accu_rd_en;
    end
 end
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_cnt <= 'b0;
    end else begin
@@ -526,7 +525,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
        end
    end
 end
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_channel_st <= 1;
    end else begin
@@ -553,7 +552,7 @@ wire accu_layer_end_d0 = accu_layer_end;
 //: &eperl::flop(" -q  cfg_is_wg  -en \"layer_st\" -d  \"is_winograd\" -clk nvdla_core_clk -rst reset -rval 0");
 //: &eperl::flop(" -q  cfg_in_en_mask  -en \"layer_st\" -d  \"cfg_in_en_mask_w\" -clk nvdla_core_clk -rst reset -rval 0");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        cfg_winograd <= 'b0;
    end else begin
@@ -568,7 +567,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg [4:0] cfg_truncate;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        cfg_truncate <= 'b0;
    end else begin
@@ -583,7 +582,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  cfg_is_wg;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        cfg_is_wg <= 'b0;
    end else begin
@@ -598,7 +597,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  cfg_in_en_mask;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        cfg_in_en_mask <= 'b0;
    end else begin
@@ -634,7 +633,7 @@ wire [5 +1 -1:0] abuf_rd_addr = accu_addr;
 //: }
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  accu_ctrl_valid;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_ctrl_valid <= 'b0;
    end else begin
@@ -642,7 +641,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  accu_ctrl_ram_valid;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_ctrl_ram_valid <= 'b0;
    end else begin
@@ -650,7 +649,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg [5:0] accu_ctrl_addr;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_ctrl_addr <= 'b0;
    end else begin
@@ -665,7 +664,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  accu_ctrl_stripe_end;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_ctrl_stripe_end <= 'b0;
    end else begin
@@ -680,7 +679,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  accu_ctrl_channel_end;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_ctrl_channel_end <= 'b0;
    end else begin
@@ -695,7 +694,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  accu_ctrl_layer_end;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_ctrl_layer_end <= 'b0;
    end else begin
@@ -710,7 +709,7 @@ always @(posedge nvdla_core_clk or negedge reset) begin
    end
 end
 reg  accu_ctrl_dlv_elem_mask;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        accu_ctrl_dlv_elem_mask <= 'b0;
    end else begin
