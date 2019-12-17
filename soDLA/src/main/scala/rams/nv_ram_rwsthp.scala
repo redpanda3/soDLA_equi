@@ -28,26 +28,46 @@ class nv_ram_rwsthp(dep: Int, wid: Int) extends Module{
         val dout = Output(UInt(wid.W))
     })
  withClock(io.clk){
-// assign data...
+// // assign data...
+
+// // Create a synchronous-read, synchronous-write memory (like in FPGAs).
+// val mem = SyncReadMem(dep, UInt(wid.W))
+// // Create one write port and one read port.
+// when (io.we) { 
+//     mem.write(io.wa, io.di) 
+//     io.dout := DontCare
+// }
+// .otherwise{ 
+//     val dout_ram = mem.read(io.ra, io.re)
+//     val fbypass_dout_ram = Mux(io.byp_sel, io.dbyp, dout_ram)
+//     when (io.ore){
+//         io.dout := RegNext(fbypass_dout_ram)
+//     }
+//     .otherwise{
+//         io.dout := DontCare       
+//     }
+
+// }
 
 // Create a synchronous-read, synchronous-write memory (like in FPGAs).
-val mem = SyncReadMem(dep, UInt(wid.W))
+val mem = Reg(Vec(dep, UInt(wid.W)))
 // Create one write port and one read port.
 when (io.we) { 
-    mem.write(io.wa, io.di) 
-    io.dout := DontCare
+    mem(io.wa) := io.di
 }
-.otherwise{ 
-    val dout_ram = mem.read(io.ra, io.re)
-    val fbypass_dout_ram = Mux(io.byp_sel, io.dbyp, dout_ram)
-    when (io.ore){
-        io.dout := RegNext(fbypass_dout_ram)
-    }
-    .otherwise{
-        io.dout := DontCare       
-    }
+when(io.re){
+    ra_d := io.ra
+}
 
+val dout_ram = mem(ra_d)
+val fbypass_dout_ram = Mux(io.byp_sel, io.dbyp, dout_ram)
+val dout_r = Reg(UInt(wid.W))
+when (io.ore){
+    dout_r := fbypass_dout_ram
 }
+
+io.dout := dout_r
+
 }}
 
 
