@@ -1003,7 +1003,6 @@ module nv_ram_rws( // @[:@3.2]
   end
 endmodule
 module NV_soDLA_CACC_assembly_buffer( // @[:@18.2]
-  input           clock, // @[:@19.4]
   input           reset, // @[:@20.4]
   input           nvdla_core_clk, // @[:@21.4]
   input           abuf_wr_en, // @[:@21.4]
