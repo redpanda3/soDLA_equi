@@ -47,3 +47,7 @@ class nv_ram_rwsp(dep: Int, wid: Int) extends Module{
 
 }}
 
+
+object nv_ram_rwspDriver extends App {
+  chisel3.Driver.execute(args, () => new nv_ram_rwsp(128, 11))
+}

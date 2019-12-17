@@ -51,4 +51,7 @@ class nv_ram_rws(dep: Int, wid: Int) extends Module{
 }}
 
 
+object nv_ram_rwsDriver extends App {
+  chisel3.Driver.execute(args, () => new nv_ram_rws(128, 128))
+}
 
