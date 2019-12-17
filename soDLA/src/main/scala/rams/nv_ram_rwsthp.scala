@@ -51,6 +51,7 @@ class nv_ram_rwsthp(dep: Int, wid: Int) extends Module{
 
 // Create a synchronous-read, synchronous-write memory (like in FPGAs).
 val mem = Reg(Vec(dep, UInt(wid.W)))
+val ra_d = Reg(UInt(log2Ceil(dep).W))
 // Create one write port and one read port.
 when (io.we) { 
     mem(io.wa) := io.di
