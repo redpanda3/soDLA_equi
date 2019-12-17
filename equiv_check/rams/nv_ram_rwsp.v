@@ -1,5 +1,4 @@
 module nv_ram_rwsp( // @[:@3.2]
-
   input         clk, // @[:@6.4]
   input         re, // @[:@6.4]
   input         we, // @[:@6.4]

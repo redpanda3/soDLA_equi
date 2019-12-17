@@ -5,31 +5,776 @@ module nv_ram_rws( // @[:@3.2]
   input  [6:0]   ra, // @[:@6.4]
   input  [6:0]   wa, // @[:@6.4]
   input  [127:0] di, // @[:@6.4]
-  output [127:0] dout // @[:@6.4]
+  output [127:0] dout, // @[:@6.4]
+  input	[31:0]	pwrbus_ram_pd
 );
-
-
-  reg [127:0] mem [0:127]; // @[nv_ram_rws.scala 28:26:@8.4]
+  reg [127:0] mem_0; // @[nv_ram_rws.scala 39:18:@8.4]
   reg [127:0] _RAND_0;
-  wire [127:0] mem__T_27_data; // @[nv_ram_rws.scala 28:26:@8.4]
-  wire [6:0] mem__T_27_addr; // @[nv_ram_rws.scala 28:26:@8.4]
-  wire [127:0] mem__T_21_data; // @[nv_ram_rws.scala 28:26:@8.4]
-  wire [6:0] mem__T_21_addr; // @[nv_ram_rws.scala 28:26:@8.4]
-  wire  mem__T_21_mask; // @[nv_ram_rws.scala 28:26:@8.4]
-  wire  mem__T_21_en; // @[nv_ram_rws.scala 28:26:@8.4]
-  wire  _GEN_10; // @[nv_ram_rws.scala 30:18:@9.4]
-  reg [6:0] mem__T_27_addr_pipe_0;
-  reg [31:0] _RAND_1;
-  wire  _GEN_13;
-  assign mem__T_27_addr = mem__T_27_addr_pipe_0;
-  assign mem__T_27_data = mem[mem__T_27_addr]; // @[nv_ram_rws.scala 28:26:@8.4]
-  assign mem__T_21_data = di;
-  assign mem__T_21_addr = wa;
-  assign mem__T_21_mask = 1'h1;
-  assign mem__T_21_en = we;
-  assign _GEN_10 = we ? 1'h0 : re; // @[nv_ram_rws.scala 30:18:@9.4]
-  assign dout = mem__T_27_data; // @[nv_ram_rws.scala 35:17:@23.6]
-  assign _GEN_13 = _GEN_10;
+  reg [127:0] mem_1; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_1;
+  reg [127:0] mem_2; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_2;
+  reg [127:0] mem_3; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_3;
+  reg [127:0] mem_4; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_4;
+  reg [127:0] mem_5; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_5;
+  reg [127:0] mem_6; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_6;
+  reg [127:0] mem_7; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_7;
+  reg [127:0] mem_8; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_8;
+  reg [127:0] mem_9; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_9;
+  reg [127:0] mem_10; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_10;
+  reg [127:0] mem_11; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_11;
+  reg [127:0] mem_12; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_12;
+  reg [127:0] mem_13; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_13;
+  reg [127:0] mem_14; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_14;
+  reg [127:0] mem_15; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_15;
+  reg [127:0] mem_16; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_16;
+  reg [127:0] mem_17; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_17;
+  reg [127:0] mem_18; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_18;
+  reg [127:0] mem_19; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_19;
+  reg [127:0] mem_20; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_20;
+  reg [127:0] mem_21; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_21;
+  reg [127:0] mem_22; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_22;
+  reg [127:0] mem_23; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_23;
+  reg [127:0] mem_24; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_24;
+  reg [127:0] mem_25; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_25;
+  reg [127:0] mem_26; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_26;
+  reg [127:0] mem_27; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_27;
+  reg [127:0] mem_28; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_28;
+  reg [127:0] mem_29; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_29;
+  reg [127:0] mem_30; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_30;
+  reg [127:0] mem_31; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_31;
+  reg [127:0] mem_32; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_32;
+  reg [127:0] mem_33; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_33;
+  reg [127:0] mem_34; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_34;
+  reg [127:0] mem_35; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_35;
+  reg [127:0] mem_36; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_36;
+  reg [127:0] mem_37; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_37;
+  reg [127:0] mem_38; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_38;
+  reg [127:0] mem_39; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_39;
+  reg [127:0] mem_40; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_40;
+  reg [127:0] mem_41; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_41;
+  reg [127:0] mem_42; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_42;
+  reg [127:0] mem_43; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_43;
+  reg [127:0] mem_44; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_44;
+  reg [127:0] mem_45; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_45;
+  reg [127:0] mem_46; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_46;
+  reg [127:0] mem_47; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_47;
+  reg [127:0] mem_48; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_48;
+  reg [127:0] mem_49; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_49;
+  reg [127:0] mem_50; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_50;
+  reg [127:0] mem_51; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_51;
+  reg [127:0] mem_52; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_52;
+  reg [127:0] mem_53; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_53;
+  reg [127:0] mem_54; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_54;
+  reg [127:0] mem_55; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_55;
+  reg [127:0] mem_56; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_56;
+  reg [127:0] mem_57; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_57;
+  reg [127:0] mem_58; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_58;
+  reg [127:0] mem_59; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_59;
+  reg [127:0] mem_60; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_60;
+  reg [127:0] mem_61; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_61;
+  reg [127:0] mem_62; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_62;
+  reg [127:0] mem_63; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_63;
+  reg [127:0] mem_64; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_64;
+  reg [127:0] mem_65; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_65;
+  reg [127:0] mem_66; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_66;
+  reg [127:0] mem_67; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_67;
+  reg [127:0] mem_68; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_68;
+  reg [127:0] mem_69; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_69;
+  reg [127:0] mem_70; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_70;
+  reg [127:0] mem_71; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_71;
+  reg [127:0] mem_72; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_72;
+  reg [127:0] mem_73; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_73;
+  reg [127:0] mem_74; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_74;
+  reg [127:0] mem_75; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_75;
+  reg [127:0] mem_76; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_76;
+  reg [127:0] mem_77; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_77;
+  reg [127:0] mem_78; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_78;
+  reg [127:0] mem_79; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_79;
+  reg [127:0] mem_80; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_80;
+  reg [127:0] mem_81; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_81;
+  reg [127:0] mem_82; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_82;
+  reg [127:0] mem_83; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_83;
+  reg [127:0] mem_84; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_84;
+  reg [127:0] mem_85; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_85;
+  reg [127:0] mem_86; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_86;
+  reg [127:0] mem_87; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_87;
+  reg [127:0] mem_88; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_88;
+  reg [127:0] mem_89; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_89;
+  reg [127:0] mem_90; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_90;
+  reg [127:0] mem_91; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_91;
+  reg [127:0] mem_92; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_92;
+  reg [127:0] mem_93; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_93;
+  reg [127:0] mem_94; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_94;
+  reg [127:0] mem_95; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_95;
+  reg [127:0] mem_96; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_96;
+  reg [127:0] mem_97; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_97;
+  reg [127:0] mem_98; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_98;
+  reg [127:0] mem_99; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_99;
+  reg [127:0] mem_100; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_100;
+  reg [127:0] mem_101; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_101;
+  reg [127:0] mem_102; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_102;
+  reg [127:0] mem_103; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_103;
+  reg [127:0] mem_104; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_104;
+  reg [127:0] mem_105; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_105;
+  reg [127:0] mem_106; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_106;
+  reg [127:0] mem_107; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_107;
+  reg [127:0] mem_108; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_108;
+  reg [127:0] mem_109; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_109;
+  reg [127:0] mem_110; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_110;
+  reg [127:0] mem_111; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_111;
+  reg [127:0] mem_112; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_112;
+  reg [127:0] mem_113; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_113;
+  reg [127:0] mem_114; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_114;
+  reg [127:0] mem_115; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_115;
+  reg [127:0] mem_116; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_116;
+  reg [127:0] mem_117; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_117;
+  reg [127:0] mem_118; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_118;
+  reg [127:0] mem_119; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_119;
+  reg [127:0] mem_120; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_120;
+  reg [127:0] mem_121; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_121;
+  reg [127:0] mem_122; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_122;
+  reg [127:0] mem_123; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_123;
+  reg [127:0] mem_124; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_124;
+  reg [127:0] mem_125; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_125;
+  reg [127:0] mem_126; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_126;
+  reg [127:0] mem_127; // @[nv_ram_rws.scala 39:18:@8.4]
+  reg [127:0] _RAND_127;
+  reg [6:0] ra_d; // @[nv_ram_rws.scala 40:19:@9.4]
+  reg [31:0] _RAND_128;
+  wire [127:0] _GEN_0; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_1; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_2; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_3; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_4; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_5; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_6; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_7; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_8; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_9; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_10; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_11; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_12; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_13; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_14; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_15; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_16; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_17; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_18; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_19; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_20; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_21; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_22; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_23; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_24; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_25; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_26; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_27; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_28; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_29; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_30; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_31; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_32; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_33; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_34; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_35; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_36; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_37; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_38; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_39; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_40; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_41; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_42; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_43; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_44; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_45; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_46; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_47; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_48; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_49; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_50; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_51; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_52; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_53; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_54; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_55; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_56; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_57; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_58; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_59; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_60; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_61; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_62; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_63; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_64; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_65; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_66; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_67; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_68; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_69; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_70; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_71; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_72; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_73; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_74; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_75; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_76; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_77; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_78; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_79; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_80; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_81; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_82; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_83; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_84; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_85; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_86; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_87; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_88; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_89; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_90; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_91; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_92; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_93; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_94; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_95; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_96; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_97; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_98; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_99; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_100; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_101; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_102; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_103; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_104; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_105; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_106; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_107; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_108; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_109; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_110; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_111; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_112; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_113; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_114; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_115; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_116; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_117; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_118; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_119; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_120; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_121; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_122; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_123; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_124; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_125; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_126; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_127; // @[nv_ram_rws.scala 43:20:@11.6]
+  wire [127:0] _GEN_258; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_259; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_260; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_261; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_262; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_263; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_264; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_265; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_266; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_267; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_268; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_269; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_270; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_271; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_272; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_273; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_274; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_275; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_276; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_277; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_278; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_279; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_280; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_281; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_282; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_283; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_284; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_285; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_286; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_287; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_288; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_289; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_290; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_291; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_292; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_293; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_294; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_295; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_296; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_297; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_298; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_299; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_300; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_301; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_302; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_303; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_304; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_305; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_306; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_307; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_308; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_309; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_310; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_311; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_312; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_313; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_314; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_315; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_316; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_317; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_318; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_319; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_320; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_321; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_322; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_323; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_324; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_325; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_326; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_327; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_328; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_329; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_330; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_331; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_332; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_333; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_334; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_335; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_336; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_337; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_338; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_339; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_340; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_341; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_342; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_343; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_344; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_345; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_346; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_347; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_348; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_349; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_350; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_351; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_352; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_353; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_354; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_355; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_356; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_357; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_358; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_359; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_360; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_361; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_362; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_363; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_364; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_365; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_366; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_367; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_368; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_369; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_370; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_371; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_372; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_373; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_374; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_375; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_376; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_377; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_378; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_379; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_380; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_381; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_382; // @[nv_ram_rws.scala 48:13:@16.4]
+  wire [127:0] _GEN_383; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_0 = 7'h0 == wa ? di : mem_0; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_1 = 7'h1 == wa ? di : mem_1; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_2 = 7'h2 == wa ? di : mem_2; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_3 = 7'h3 == wa ? di : mem_3; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_4 = 7'h4 == wa ? di : mem_4; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_5 = 7'h5 == wa ? di : mem_5; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_6 = 7'h6 == wa ? di : mem_6; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_7 = 7'h7 == wa ? di : mem_7; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_8 = 7'h8 == wa ? di : mem_8; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_9 = 7'h9 == wa ? di : mem_9; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_10 = 7'ha == wa ? di : mem_10; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_11 = 7'hb == wa ? di : mem_11; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_12 = 7'hc == wa ? di : mem_12; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_13 = 7'hd == wa ? di : mem_13; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_14 = 7'he == wa ? di : mem_14; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_15 = 7'hf == wa ? di : mem_15; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_16 = 7'h10 == wa ? di : mem_16; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_17 = 7'h11 == wa ? di : mem_17; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_18 = 7'h12 == wa ? di : mem_18; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_19 = 7'h13 == wa ? di : mem_19; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_20 = 7'h14 == wa ? di : mem_20; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_21 = 7'h15 == wa ? di : mem_21; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_22 = 7'h16 == wa ? di : mem_22; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_23 = 7'h17 == wa ? di : mem_23; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_24 = 7'h18 == wa ? di : mem_24; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_25 = 7'h19 == wa ? di : mem_25; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_26 = 7'h1a == wa ? di : mem_26; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_27 = 7'h1b == wa ? di : mem_27; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_28 = 7'h1c == wa ? di : mem_28; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_29 = 7'h1d == wa ? di : mem_29; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_30 = 7'h1e == wa ? di : mem_30; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_31 = 7'h1f == wa ? di : mem_31; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_32 = 7'h20 == wa ? di : mem_32; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_33 = 7'h21 == wa ? di : mem_33; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_34 = 7'h22 == wa ? di : mem_34; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_35 = 7'h23 == wa ? di : mem_35; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_36 = 7'h24 == wa ? di : mem_36; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_37 = 7'h25 == wa ? di : mem_37; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_38 = 7'h26 == wa ? di : mem_38; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_39 = 7'h27 == wa ? di : mem_39; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_40 = 7'h28 == wa ? di : mem_40; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_41 = 7'h29 == wa ? di : mem_41; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_42 = 7'h2a == wa ? di : mem_42; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_43 = 7'h2b == wa ? di : mem_43; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_44 = 7'h2c == wa ? di : mem_44; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_45 = 7'h2d == wa ? di : mem_45; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_46 = 7'h2e == wa ? di : mem_46; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_47 = 7'h2f == wa ? di : mem_47; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_48 = 7'h30 == wa ? di : mem_48; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_49 = 7'h31 == wa ? di : mem_49; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_50 = 7'h32 == wa ? di : mem_50; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_51 = 7'h33 == wa ? di : mem_51; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_52 = 7'h34 == wa ? di : mem_52; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_53 = 7'h35 == wa ? di : mem_53; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_54 = 7'h36 == wa ? di : mem_54; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_55 = 7'h37 == wa ? di : mem_55; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_56 = 7'h38 == wa ? di : mem_56; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_57 = 7'h39 == wa ? di : mem_57; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_58 = 7'h3a == wa ? di : mem_58; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_59 = 7'h3b == wa ? di : mem_59; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_60 = 7'h3c == wa ? di : mem_60; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_61 = 7'h3d == wa ? di : mem_61; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_62 = 7'h3e == wa ? di : mem_62; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_63 = 7'h3f == wa ? di : mem_63; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_64 = 7'h40 == wa ? di : mem_64; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_65 = 7'h41 == wa ? di : mem_65; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_66 = 7'h42 == wa ? di : mem_66; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_67 = 7'h43 == wa ? di : mem_67; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_68 = 7'h44 == wa ? di : mem_68; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_69 = 7'h45 == wa ? di : mem_69; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_70 = 7'h46 == wa ? di : mem_70; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_71 = 7'h47 == wa ? di : mem_71; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_72 = 7'h48 == wa ? di : mem_72; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_73 = 7'h49 == wa ? di : mem_73; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_74 = 7'h4a == wa ? di : mem_74; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_75 = 7'h4b == wa ? di : mem_75; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_76 = 7'h4c == wa ? di : mem_76; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_77 = 7'h4d == wa ? di : mem_77; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_78 = 7'h4e == wa ? di : mem_78; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_79 = 7'h4f == wa ? di : mem_79; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_80 = 7'h50 == wa ? di : mem_80; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_81 = 7'h51 == wa ? di : mem_81; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_82 = 7'h52 == wa ? di : mem_82; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_83 = 7'h53 == wa ? di : mem_83; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_84 = 7'h54 == wa ? di : mem_84; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_85 = 7'h55 == wa ? di : mem_85; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_86 = 7'h56 == wa ? di : mem_86; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_87 = 7'h57 == wa ? di : mem_87; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_88 = 7'h58 == wa ? di : mem_88; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_89 = 7'h59 == wa ? di : mem_89; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_90 = 7'h5a == wa ? di : mem_90; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_91 = 7'h5b == wa ? di : mem_91; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_92 = 7'h5c == wa ? di : mem_92; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_93 = 7'h5d == wa ? di : mem_93; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_94 = 7'h5e == wa ? di : mem_94; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_95 = 7'h5f == wa ? di : mem_95; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_96 = 7'h60 == wa ? di : mem_96; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_97 = 7'h61 == wa ? di : mem_97; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_98 = 7'h62 == wa ? di : mem_98; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_99 = 7'h63 == wa ? di : mem_99; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_100 = 7'h64 == wa ? di : mem_100; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_101 = 7'h65 == wa ? di : mem_101; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_102 = 7'h66 == wa ? di : mem_102; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_103 = 7'h67 == wa ? di : mem_103; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_104 = 7'h68 == wa ? di : mem_104; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_105 = 7'h69 == wa ? di : mem_105; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_106 = 7'h6a == wa ? di : mem_106; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_107 = 7'h6b == wa ? di : mem_107; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_108 = 7'h6c == wa ? di : mem_108; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_109 = 7'h6d == wa ? di : mem_109; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_110 = 7'h6e == wa ? di : mem_110; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_111 = 7'h6f == wa ? di : mem_111; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_112 = 7'h70 == wa ? di : mem_112; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_113 = 7'h71 == wa ? di : mem_113; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_114 = 7'h72 == wa ? di : mem_114; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_115 = 7'h73 == wa ? di : mem_115; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_116 = 7'h74 == wa ? di : mem_116; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_117 = 7'h75 == wa ? di : mem_117; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_118 = 7'h76 == wa ? di : mem_118; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_119 = 7'h77 == wa ? di : mem_119; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_120 = 7'h78 == wa ? di : mem_120; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_121 = 7'h79 == wa ? di : mem_121; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_122 = 7'h7a == wa ? di : mem_122; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_123 = 7'h7b == wa ? di : mem_123; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_124 = 7'h7c == wa ? di : mem_124; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_125 = 7'h7d == wa ? di : mem_125; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_126 = 7'h7e == wa ? di : mem_126; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_127 = 7'h7f == wa ? di : mem_127; // @[nv_ram_rws.scala 43:20:@11.6]
+  assign _GEN_258 = 7'h1 == ra_d ? mem_1 : mem_0; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_259 = 7'h2 == ra_d ? mem_2 : _GEN_258; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_260 = 7'h3 == ra_d ? mem_3 : _GEN_259; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_261 = 7'h4 == ra_d ? mem_4 : _GEN_260; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_262 = 7'h5 == ra_d ? mem_5 : _GEN_261; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_263 = 7'h6 == ra_d ? mem_6 : _GEN_262; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_264 = 7'h7 == ra_d ? mem_7 : _GEN_263; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_265 = 7'h8 == ra_d ? mem_8 : _GEN_264; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_266 = 7'h9 == ra_d ? mem_9 : _GEN_265; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_267 = 7'ha == ra_d ? mem_10 : _GEN_266; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_268 = 7'hb == ra_d ? mem_11 : _GEN_267; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_269 = 7'hc == ra_d ? mem_12 : _GEN_268; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_270 = 7'hd == ra_d ? mem_13 : _GEN_269; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_271 = 7'he == ra_d ? mem_14 : _GEN_270; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_272 = 7'hf == ra_d ? mem_15 : _GEN_271; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_273 = 7'h10 == ra_d ? mem_16 : _GEN_272; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_274 = 7'h11 == ra_d ? mem_17 : _GEN_273; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_275 = 7'h12 == ra_d ? mem_18 : _GEN_274; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_276 = 7'h13 == ra_d ? mem_19 : _GEN_275; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_277 = 7'h14 == ra_d ? mem_20 : _GEN_276; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_278 = 7'h15 == ra_d ? mem_21 : _GEN_277; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_279 = 7'h16 == ra_d ? mem_22 : _GEN_278; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_280 = 7'h17 == ra_d ? mem_23 : _GEN_279; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_281 = 7'h18 == ra_d ? mem_24 : _GEN_280; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_282 = 7'h19 == ra_d ? mem_25 : _GEN_281; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_283 = 7'h1a == ra_d ? mem_26 : _GEN_282; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_284 = 7'h1b == ra_d ? mem_27 : _GEN_283; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_285 = 7'h1c == ra_d ? mem_28 : _GEN_284; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_286 = 7'h1d == ra_d ? mem_29 : _GEN_285; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_287 = 7'h1e == ra_d ? mem_30 : _GEN_286; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_288 = 7'h1f == ra_d ? mem_31 : _GEN_287; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_289 = 7'h20 == ra_d ? mem_32 : _GEN_288; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_290 = 7'h21 == ra_d ? mem_33 : _GEN_289; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_291 = 7'h22 == ra_d ? mem_34 : _GEN_290; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_292 = 7'h23 == ra_d ? mem_35 : _GEN_291; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_293 = 7'h24 == ra_d ? mem_36 : _GEN_292; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_294 = 7'h25 == ra_d ? mem_37 : _GEN_293; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_295 = 7'h26 == ra_d ? mem_38 : _GEN_294; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_296 = 7'h27 == ra_d ? mem_39 : _GEN_295; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_297 = 7'h28 == ra_d ? mem_40 : _GEN_296; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_298 = 7'h29 == ra_d ? mem_41 : _GEN_297; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_299 = 7'h2a == ra_d ? mem_42 : _GEN_298; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_300 = 7'h2b == ra_d ? mem_43 : _GEN_299; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_301 = 7'h2c == ra_d ? mem_44 : _GEN_300; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_302 = 7'h2d == ra_d ? mem_45 : _GEN_301; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_303 = 7'h2e == ra_d ? mem_46 : _GEN_302; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_304 = 7'h2f == ra_d ? mem_47 : _GEN_303; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_305 = 7'h30 == ra_d ? mem_48 : _GEN_304; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_306 = 7'h31 == ra_d ? mem_49 : _GEN_305; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_307 = 7'h32 == ra_d ? mem_50 : _GEN_306; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_308 = 7'h33 == ra_d ? mem_51 : _GEN_307; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_309 = 7'h34 == ra_d ? mem_52 : _GEN_308; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_310 = 7'h35 == ra_d ? mem_53 : _GEN_309; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_311 = 7'h36 == ra_d ? mem_54 : _GEN_310; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_312 = 7'h37 == ra_d ? mem_55 : _GEN_311; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_313 = 7'h38 == ra_d ? mem_56 : _GEN_312; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_314 = 7'h39 == ra_d ? mem_57 : _GEN_313; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_315 = 7'h3a == ra_d ? mem_58 : _GEN_314; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_316 = 7'h3b == ra_d ? mem_59 : _GEN_315; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_317 = 7'h3c == ra_d ? mem_60 : _GEN_316; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_318 = 7'h3d == ra_d ? mem_61 : _GEN_317; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_319 = 7'h3e == ra_d ? mem_62 : _GEN_318; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_320 = 7'h3f == ra_d ? mem_63 : _GEN_319; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_321 = 7'h40 == ra_d ? mem_64 : _GEN_320; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_322 = 7'h41 == ra_d ? mem_65 : _GEN_321; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_323 = 7'h42 == ra_d ? mem_66 : _GEN_322; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_324 = 7'h43 == ra_d ? mem_67 : _GEN_323; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_325 = 7'h44 == ra_d ? mem_68 : _GEN_324; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_326 = 7'h45 == ra_d ? mem_69 : _GEN_325; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_327 = 7'h46 == ra_d ? mem_70 : _GEN_326; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_328 = 7'h47 == ra_d ? mem_71 : _GEN_327; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_329 = 7'h48 == ra_d ? mem_72 : _GEN_328; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_330 = 7'h49 == ra_d ? mem_73 : _GEN_329; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_331 = 7'h4a == ra_d ? mem_74 : _GEN_330; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_332 = 7'h4b == ra_d ? mem_75 : _GEN_331; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_333 = 7'h4c == ra_d ? mem_76 : _GEN_332; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_334 = 7'h4d == ra_d ? mem_77 : _GEN_333; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_335 = 7'h4e == ra_d ? mem_78 : _GEN_334; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_336 = 7'h4f == ra_d ? mem_79 : _GEN_335; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_337 = 7'h50 == ra_d ? mem_80 : _GEN_336; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_338 = 7'h51 == ra_d ? mem_81 : _GEN_337; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_339 = 7'h52 == ra_d ? mem_82 : _GEN_338; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_340 = 7'h53 == ra_d ? mem_83 : _GEN_339; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_341 = 7'h54 == ra_d ? mem_84 : _GEN_340; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_342 = 7'h55 == ra_d ? mem_85 : _GEN_341; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_343 = 7'h56 == ra_d ? mem_86 : _GEN_342; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_344 = 7'h57 == ra_d ? mem_87 : _GEN_343; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_345 = 7'h58 == ra_d ? mem_88 : _GEN_344; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_346 = 7'h59 == ra_d ? mem_89 : _GEN_345; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_347 = 7'h5a == ra_d ? mem_90 : _GEN_346; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_348 = 7'h5b == ra_d ? mem_91 : _GEN_347; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_349 = 7'h5c == ra_d ? mem_92 : _GEN_348; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_350 = 7'h5d == ra_d ? mem_93 : _GEN_349; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_351 = 7'h5e == ra_d ? mem_94 : _GEN_350; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_352 = 7'h5f == ra_d ? mem_95 : _GEN_351; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_353 = 7'h60 == ra_d ? mem_96 : _GEN_352; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_354 = 7'h61 == ra_d ? mem_97 : _GEN_353; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_355 = 7'h62 == ra_d ? mem_98 : _GEN_354; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_356 = 7'h63 == ra_d ? mem_99 : _GEN_355; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_357 = 7'h64 == ra_d ? mem_100 : _GEN_356; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_358 = 7'h65 == ra_d ? mem_101 : _GEN_357; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_359 = 7'h66 == ra_d ? mem_102 : _GEN_358; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_360 = 7'h67 == ra_d ? mem_103 : _GEN_359; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_361 = 7'h68 == ra_d ? mem_104 : _GEN_360; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_362 = 7'h69 == ra_d ? mem_105 : _GEN_361; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_363 = 7'h6a == ra_d ? mem_106 : _GEN_362; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_364 = 7'h6b == ra_d ? mem_107 : _GEN_363; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_365 = 7'h6c == ra_d ? mem_108 : _GEN_364; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_366 = 7'h6d == ra_d ? mem_109 : _GEN_365; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_367 = 7'h6e == ra_d ? mem_110 : _GEN_366; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_368 = 7'h6f == ra_d ? mem_111 : _GEN_367; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_369 = 7'h70 == ra_d ? mem_112 : _GEN_368; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_370 = 7'h71 == ra_d ? mem_113 : _GEN_369; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_371 = 7'h72 == ra_d ? mem_114 : _GEN_370; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_372 = 7'h73 == ra_d ? mem_115 : _GEN_371; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_373 = 7'h74 == ra_d ? mem_116 : _GEN_372; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_374 = 7'h75 == ra_d ? mem_117 : _GEN_373; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_375 = 7'h76 == ra_d ? mem_118 : _GEN_374; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_376 = 7'h77 == ra_d ? mem_119 : _GEN_375; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_377 = 7'h78 == ra_d ? mem_120 : _GEN_376; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_378 = 7'h79 == ra_d ? mem_121 : _GEN_377; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_379 = 7'h7a == ra_d ? mem_122 : _GEN_378; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_380 = 7'h7b == ra_d ? mem_123 : _GEN_379; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_381 = 7'h7c == ra_d ? mem_124 : _GEN_380; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_382 = 7'h7d == ra_d ? mem_125 : _GEN_381; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign _GEN_383 = 7'h7e == ra_d ? mem_126 : _GEN_382; // @[nv_ram_rws.scala 48:13:@16.4]
+  assign dout = 7'h7f == ra_d ? mem_127 : _GEN_383; // @[nv_ram_rws.scala 48:13:@16.4]
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
 `define RANDOMIZE
 `endif
@@ -54,23 +799,1167 @@ module nv_ram_rws( // @[:@3.2]
     `ifndef VERILATOR
       #0.002 begin end
     `endif
-  _RAND_0 = {4{`RANDOM}};
-  `ifdef RANDOMIZE_MEM_INIT
-  for (initvar = 0; initvar < 128; initvar = initvar+1)
-    mem[initvar] = _RAND_0[127:0];
-  `endif // RANDOMIZE_MEM_INIT
   `ifdef RANDOMIZE_REG_INIT
-  _RAND_1 = {1{`RANDOM}};
-  mem__T_27_addr_pipe_0 = _RAND_1[6:0];
+  _RAND_0 = {4{`RANDOM}};
+  mem_0 = _RAND_0[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_1 = {4{`RANDOM}};
+  mem_1 = _RAND_1[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_2 = {4{`RANDOM}};
+  mem_2 = _RAND_2[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_3 = {4{`RANDOM}};
+  mem_3 = _RAND_3[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_4 = {4{`RANDOM}};
+  mem_4 = _RAND_4[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_5 = {4{`RANDOM}};
+  mem_5 = _RAND_5[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_6 = {4{`RANDOM}};
+  mem_6 = _RAND_6[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_7 = {4{`RANDOM}};
+  mem_7 = _RAND_7[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_8 = {4{`RANDOM}};
+  mem_8 = _RAND_8[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_9 = {4{`RANDOM}};
+  mem_9 = _RAND_9[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_10 = {4{`RANDOM}};
+  mem_10 = _RAND_10[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_11 = {4{`RANDOM}};
+  mem_11 = _RAND_11[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_12 = {4{`RANDOM}};
+  mem_12 = _RAND_12[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_13 = {4{`RANDOM}};
+  mem_13 = _RAND_13[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_14 = {4{`RANDOM}};
+  mem_14 = _RAND_14[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_15 = {4{`RANDOM}};
+  mem_15 = _RAND_15[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_16 = {4{`RANDOM}};
+  mem_16 = _RAND_16[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_17 = {4{`RANDOM}};
+  mem_17 = _RAND_17[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_18 = {4{`RANDOM}};
+  mem_18 = _RAND_18[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_19 = {4{`RANDOM}};
+  mem_19 = _RAND_19[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_20 = {4{`RANDOM}};
+  mem_20 = _RAND_20[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_21 = {4{`RANDOM}};
+  mem_21 = _RAND_21[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_22 = {4{`RANDOM}};
+  mem_22 = _RAND_22[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_23 = {4{`RANDOM}};
+  mem_23 = _RAND_23[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_24 = {4{`RANDOM}};
+  mem_24 = _RAND_24[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_25 = {4{`RANDOM}};
+  mem_25 = _RAND_25[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_26 = {4{`RANDOM}};
+  mem_26 = _RAND_26[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_27 = {4{`RANDOM}};
+  mem_27 = _RAND_27[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_28 = {4{`RANDOM}};
+  mem_28 = _RAND_28[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_29 = {4{`RANDOM}};
+  mem_29 = _RAND_29[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_30 = {4{`RANDOM}};
+  mem_30 = _RAND_30[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_31 = {4{`RANDOM}};
+  mem_31 = _RAND_31[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_32 = {4{`RANDOM}};
+  mem_32 = _RAND_32[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_33 = {4{`RANDOM}};
+  mem_33 = _RAND_33[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_34 = {4{`RANDOM}};
+  mem_34 = _RAND_34[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_35 = {4{`RANDOM}};
+  mem_35 = _RAND_35[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_36 = {4{`RANDOM}};
+  mem_36 = _RAND_36[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_37 = {4{`RANDOM}};
+  mem_37 = _RAND_37[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_38 = {4{`RANDOM}};
+  mem_38 = _RAND_38[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_39 = {4{`RANDOM}};
+  mem_39 = _RAND_39[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_40 = {4{`RANDOM}};
+  mem_40 = _RAND_40[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_41 = {4{`RANDOM}};
+  mem_41 = _RAND_41[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_42 = {4{`RANDOM}};
+  mem_42 = _RAND_42[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_43 = {4{`RANDOM}};
+  mem_43 = _RAND_43[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_44 = {4{`RANDOM}};
+  mem_44 = _RAND_44[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_45 = {4{`RANDOM}};
+  mem_45 = _RAND_45[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_46 = {4{`RANDOM}};
+  mem_46 = _RAND_46[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_47 = {4{`RANDOM}};
+  mem_47 = _RAND_47[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_48 = {4{`RANDOM}};
+  mem_48 = _RAND_48[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_49 = {4{`RANDOM}};
+  mem_49 = _RAND_49[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_50 = {4{`RANDOM}};
+  mem_50 = _RAND_50[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_51 = {4{`RANDOM}};
+  mem_51 = _RAND_51[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_52 = {4{`RANDOM}};
+  mem_52 = _RAND_52[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_53 = {4{`RANDOM}};
+  mem_53 = _RAND_53[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_54 = {4{`RANDOM}};
+  mem_54 = _RAND_54[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_55 = {4{`RANDOM}};
+  mem_55 = _RAND_55[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_56 = {4{`RANDOM}};
+  mem_56 = _RAND_56[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_57 = {4{`RANDOM}};
+  mem_57 = _RAND_57[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_58 = {4{`RANDOM}};
+  mem_58 = _RAND_58[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_59 = {4{`RANDOM}};
+  mem_59 = _RAND_59[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_60 = {4{`RANDOM}};
+  mem_60 = _RAND_60[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_61 = {4{`RANDOM}};
+  mem_61 = _RAND_61[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_62 = {4{`RANDOM}};
+  mem_62 = _RAND_62[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_63 = {4{`RANDOM}};
+  mem_63 = _RAND_63[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_64 = {4{`RANDOM}};
+  mem_64 = _RAND_64[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_65 = {4{`RANDOM}};
+  mem_65 = _RAND_65[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_66 = {4{`RANDOM}};
+  mem_66 = _RAND_66[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_67 = {4{`RANDOM}};
+  mem_67 = _RAND_67[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_68 = {4{`RANDOM}};
+  mem_68 = _RAND_68[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_69 = {4{`RANDOM}};
+  mem_69 = _RAND_69[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_70 = {4{`RANDOM}};
+  mem_70 = _RAND_70[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_71 = {4{`RANDOM}};
+  mem_71 = _RAND_71[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_72 = {4{`RANDOM}};
+  mem_72 = _RAND_72[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_73 = {4{`RANDOM}};
+  mem_73 = _RAND_73[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_74 = {4{`RANDOM}};
+  mem_74 = _RAND_74[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_75 = {4{`RANDOM}};
+  mem_75 = _RAND_75[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_76 = {4{`RANDOM}};
+  mem_76 = _RAND_76[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_77 = {4{`RANDOM}};
+  mem_77 = _RAND_77[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_78 = {4{`RANDOM}};
+  mem_78 = _RAND_78[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_79 = {4{`RANDOM}};
+  mem_79 = _RAND_79[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_80 = {4{`RANDOM}};
+  mem_80 = _RAND_80[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_81 = {4{`RANDOM}};
+  mem_81 = _RAND_81[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_82 = {4{`RANDOM}};
+  mem_82 = _RAND_82[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_83 = {4{`RANDOM}};
+  mem_83 = _RAND_83[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_84 = {4{`RANDOM}};
+  mem_84 = _RAND_84[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_85 = {4{`RANDOM}};
+  mem_85 = _RAND_85[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_86 = {4{`RANDOM}};
+  mem_86 = _RAND_86[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_87 = {4{`RANDOM}};
+  mem_87 = _RAND_87[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_88 = {4{`RANDOM}};
+  mem_88 = _RAND_88[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_89 = {4{`RANDOM}};
+  mem_89 = _RAND_89[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_90 = {4{`RANDOM}};
+  mem_90 = _RAND_90[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_91 = {4{`RANDOM}};
+  mem_91 = _RAND_91[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_92 = {4{`RANDOM}};
+  mem_92 = _RAND_92[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_93 = {4{`RANDOM}};
+  mem_93 = _RAND_93[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_94 = {4{`RANDOM}};
+  mem_94 = _RAND_94[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_95 = {4{`RANDOM}};
+  mem_95 = _RAND_95[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_96 = {4{`RANDOM}};
+  mem_96 = _RAND_96[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_97 = {4{`RANDOM}};
+  mem_97 = _RAND_97[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_98 = {4{`RANDOM}};
+  mem_98 = _RAND_98[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_99 = {4{`RANDOM}};
+  mem_99 = _RAND_99[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_100 = {4{`RANDOM}};
+  mem_100 = _RAND_100[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_101 = {4{`RANDOM}};
+  mem_101 = _RAND_101[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_102 = {4{`RANDOM}};
+  mem_102 = _RAND_102[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_103 = {4{`RANDOM}};
+  mem_103 = _RAND_103[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_104 = {4{`RANDOM}};
+  mem_104 = _RAND_104[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_105 = {4{`RANDOM}};
+  mem_105 = _RAND_105[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_106 = {4{`RANDOM}};
+  mem_106 = _RAND_106[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_107 = {4{`RANDOM}};
+  mem_107 = _RAND_107[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_108 = {4{`RANDOM}};
+  mem_108 = _RAND_108[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_109 = {4{`RANDOM}};
+  mem_109 = _RAND_109[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_110 = {4{`RANDOM}};
+  mem_110 = _RAND_110[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_111 = {4{`RANDOM}};
+  mem_111 = _RAND_111[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_112 = {4{`RANDOM}};
+  mem_112 = _RAND_112[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_113 = {4{`RANDOM}};
+  mem_113 = _RAND_113[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_114 = {4{`RANDOM}};
+  mem_114 = _RAND_114[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_115 = {4{`RANDOM}};
+  mem_115 = _RAND_115[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_116 = {4{`RANDOM}};
+  mem_116 = _RAND_116[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_117 = {4{`RANDOM}};
+  mem_117 = _RAND_117[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_118 = {4{`RANDOM}};
+  mem_118 = _RAND_118[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_119 = {4{`RANDOM}};
+  mem_119 = _RAND_119[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_120 = {4{`RANDOM}};
+  mem_120 = _RAND_120[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_121 = {4{`RANDOM}};
+  mem_121 = _RAND_121[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_122 = {4{`RANDOM}};
+  mem_122 = _RAND_122[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_123 = {4{`RANDOM}};
+  mem_123 = _RAND_123[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_124 = {4{`RANDOM}};
+  mem_124 = _RAND_124[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_125 = {4{`RANDOM}};
+  mem_125 = _RAND_125[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_126 = {4{`RANDOM}};
+  mem_126 = _RAND_126[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_127 = {4{`RANDOM}};
+  mem_127 = _RAND_127[127:0];
+  `endif // RANDOMIZE_REG_INIT
+  `ifdef RANDOMIZE_REG_INIT
+  _RAND_128 = {1{`RANDOM}};
+  ra_d = _RAND_128[6:0];
   `endif // RANDOMIZE_REG_INIT
   end
 `endif // RANDOMIZE
   always @(posedge clk) begin
-    if(mem__T_21_en & mem__T_21_mask) begin
-      mem[mem__T_21_addr] <= mem__T_21_data; // @[nv_ram_rws.scala 28:26:@8.4]
+    if (we) begin
+      if (7'h0 == wa) begin
+        mem_0 <= di;
+      end
     end
-    if (_GEN_13) begin
-      mem__T_27_addr_pipe_0 <= ra;
+    if (we) begin
+      if (7'h1 == wa) begin
+        mem_1 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h2 == wa) begin
+        mem_2 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h3 == wa) begin
+        mem_3 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h4 == wa) begin
+        mem_4 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h5 == wa) begin
+        mem_5 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h6 == wa) begin
+        mem_6 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h7 == wa) begin
+        mem_7 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h8 == wa) begin
+        mem_8 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h9 == wa) begin
+        mem_9 <= di;
+      end
+    end
+    if (we) begin
+      if (7'ha == wa) begin
+        mem_10 <= di;
+      end
+    end
+    if (we) begin
+      if (7'hb == wa) begin
+        mem_11 <= di;
+      end
+    end
+    if (we) begin
+      if (7'hc == wa) begin
+        mem_12 <= di;
+      end
+    end
+    if (we) begin
+      if (7'hd == wa) begin
+        mem_13 <= di;
+      end
+    end
+    if (we) begin
+      if (7'he == wa) begin
+        mem_14 <= di;
+      end
+    end
+    if (we) begin
+      if (7'hf == wa) begin
+        mem_15 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h10 == wa) begin
+        mem_16 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h11 == wa) begin
+        mem_17 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h12 == wa) begin
+        mem_18 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h13 == wa) begin
+        mem_19 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h14 == wa) begin
+        mem_20 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h15 == wa) begin
+        mem_21 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h16 == wa) begin
+        mem_22 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h17 == wa) begin
+        mem_23 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h18 == wa) begin
+        mem_24 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h19 == wa) begin
+        mem_25 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h1a == wa) begin
+        mem_26 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h1b == wa) begin
+        mem_27 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h1c == wa) begin
+        mem_28 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h1d == wa) begin
+        mem_29 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h1e == wa) begin
+        mem_30 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h1f == wa) begin
+        mem_31 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h20 == wa) begin
+        mem_32 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h21 == wa) begin
+        mem_33 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h22 == wa) begin
+        mem_34 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h23 == wa) begin
+        mem_35 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h24 == wa) begin
+        mem_36 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h25 == wa) begin
+        mem_37 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h26 == wa) begin
+        mem_38 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h27 == wa) begin
+        mem_39 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h28 == wa) begin
+        mem_40 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h29 == wa) begin
+        mem_41 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h2a == wa) begin
+        mem_42 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h2b == wa) begin
+        mem_43 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h2c == wa) begin
+        mem_44 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h2d == wa) begin
+        mem_45 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h2e == wa) begin
+        mem_46 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h2f == wa) begin
+        mem_47 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h30 == wa) begin
+        mem_48 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h31 == wa) begin
+        mem_49 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h32 == wa) begin
+        mem_50 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h33 == wa) begin
+        mem_51 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h34 == wa) begin
+        mem_52 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h35 == wa) begin
+        mem_53 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h36 == wa) begin
+        mem_54 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h37 == wa) begin
+        mem_55 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h38 == wa) begin
+        mem_56 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h39 == wa) begin
+        mem_57 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h3a == wa) begin
+        mem_58 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h3b == wa) begin
+        mem_59 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h3c == wa) begin
+        mem_60 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h3d == wa) begin
+        mem_61 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h3e == wa) begin
+        mem_62 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h3f == wa) begin
+        mem_63 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h40 == wa) begin
+        mem_64 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h41 == wa) begin
+        mem_65 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h42 == wa) begin
+        mem_66 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h43 == wa) begin
+        mem_67 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h44 == wa) begin
+        mem_68 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h45 == wa) begin
+        mem_69 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h46 == wa) begin
+        mem_70 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h47 == wa) begin
+        mem_71 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h48 == wa) begin
+        mem_72 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h49 == wa) begin
+        mem_73 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h4a == wa) begin
+        mem_74 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h4b == wa) begin
+        mem_75 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h4c == wa) begin
+        mem_76 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h4d == wa) begin
+        mem_77 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h4e == wa) begin
+        mem_78 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h4f == wa) begin
+        mem_79 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h50 == wa) begin
+        mem_80 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h51 == wa) begin
+        mem_81 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h52 == wa) begin
+        mem_82 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h53 == wa) begin
+        mem_83 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h54 == wa) begin
+        mem_84 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h55 == wa) begin
+        mem_85 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h56 == wa) begin
+        mem_86 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h57 == wa) begin
+        mem_87 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h58 == wa) begin
+        mem_88 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h59 == wa) begin
+        mem_89 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h5a == wa) begin
+        mem_90 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h5b == wa) begin
+        mem_91 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h5c == wa) begin
+        mem_92 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h5d == wa) begin
+        mem_93 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h5e == wa) begin
+        mem_94 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h5f == wa) begin
+        mem_95 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h60 == wa) begin
+        mem_96 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h61 == wa) begin
+        mem_97 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h62 == wa) begin
+        mem_98 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h63 == wa) begin
+        mem_99 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h64 == wa) begin
+        mem_100 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h65 == wa) begin
+        mem_101 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h66 == wa) begin
+        mem_102 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h67 == wa) begin
+        mem_103 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h68 == wa) begin
+        mem_104 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h69 == wa) begin
+        mem_105 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h6a == wa) begin
+        mem_106 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h6b == wa) begin
+        mem_107 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h6c == wa) begin
+        mem_108 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h6d == wa) begin
+        mem_109 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h6e == wa) begin
+        mem_110 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h6f == wa) begin
+        mem_111 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h70 == wa) begin
+        mem_112 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h71 == wa) begin
+        mem_113 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h72 == wa) begin
+        mem_114 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h73 == wa) begin
+        mem_115 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h74 == wa) begin
+        mem_116 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h75 == wa) begin
+        mem_117 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h76 == wa) begin
+        mem_118 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h77 == wa) begin
+        mem_119 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h78 == wa) begin
+        mem_120 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h79 == wa) begin
+        mem_121 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h7a == wa) begin
+        mem_122 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h7b == wa) begin
+        mem_123 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h7c == wa) begin
+        mem_124 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h7d == wa) begin
+        mem_125 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h7e == wa) begin
+        mem_126 <= di;
+      end
+    end
+    if (we) begin
+      if (7'h7f == wa) begin
+        mem_127 <= di;
+      end
+    end
+    if (re) begin
+      ra_d <= ra;
     end
   end
 endmodule
@@ -83,7 +1972,8 @@ module nv_ram_rws_128x128 (
 		dout,
 		wa,
 		we,
-		di
+		di,
+		pwrbus_ram_pd
 );
 
 parameter FORCE_CONTENTION_ASSERTION_RESET_ACTIVE=1'b0;
@@ -96,6 +1986,7 @@ output	[127:0]	dout;
 input	[6:0]	wa;
 input			we;
 input	[127:0]	di;
+input	[31:0]	pwrbus_ram_pd;
 
 //reg and wire list
 reg		[6:0]	ra_d;
