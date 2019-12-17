@@ -1157,7 +1157,7 @@ nv_ram_rws u_accu_abuf_0 (
 //: &eperl::flop("-q abuf_rd_en_d1 -d \"abuf_rd_en\" -clk nvdla_core_clk -rst reset");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  abuf_rd_en_d1;
-always @(posedge nvdla_core_clk or negedge reset) begin
+always @(posedge nvdla_core_clk) begin
    if (!reset) begin
        abuf_rd_en_d1 <= 'b0;
    end else begin
