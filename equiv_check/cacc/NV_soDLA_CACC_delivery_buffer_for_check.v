@@ -1002,79 +1002,79 @@ module nv_ram_rws( // @[:@3.2]
     end
   end
 endmodule
-module NV_soDLA_CACC_delivery_buffer( // @[:@18.2]
-  input           clock, // @[:@19.4]
-  input           reset, // @[:@20.4]
+module NV_soDLA_CACC_delivery_buffer_for_check( // @[:@18.2]
   input           nvdla_core_clk, // @[:@21.4]
+  input           nvdla_core_rstn, // @[:@21.4]
   input           cacc2sdp_ready, // @[:@21.4]
   output          cacc2sdp_valid, // @[:@21.4]
   output [513:0]  cacc2sdp_pd, // @[:@21.4]
   output [1:0]    cacc2glb_done_intr_pd, // @[:@21.4]
-  output          accu2sc_credit_size_valid, // @[:@21.4]
-  output [2:0]    accu2sc_credit_size_bits, // @[:@21.4]
-  input           dbuf_wr_addr_valid, // @[:@21.4]
-  input  [5:0]    dbuf_wr_addr_bits, // @[:@21.4]
+  output          accu2sc_credit_vld, // @[:@21.4]
+  output [2:0]    accu2sc_credit_size, // @[:@21.4]
+  input           dbuf_wr_en, // @[:@21.4]
+  input  [5:0]    dbuf_wr_addr, // @[:@21.4]
   input  [1023:0] dbuf_wr_data, // @[:@21.4]
   input           dbuf_rd_layer_end, // @[:@21.4]
-  input           dbuf_rd_addr_valid, // @[:@21.4]
-  input  [5:0]    dbuf_rd_addr_bits, // @[:@21.4]
+  input           dbuf_rd_en, // @[:@21.4]
+  input  [5:0]    dbuf_rd_addr, // @[:@21.4]
   output          dbuf_rd_ready, // @[:@21.4]
   input  [31:0]   pwrbus_ram_pd // @[:@21.4]
 );
-  wire  u_accu_dbuf_clk; // @[NV_NVDLA_CACC_delivery_buffer.scala 62:25:@27.4]
-  wire  u_accu_dbuf_re; // @[NV_NVDLA_CACC_delivery_buffer.scala 62:25:@27.4]
-  wire  u_accu_dbuf_we; // @[NV_NVDLA_CACC_delivery_buffer.scala 62:25:@27.4]
-  wire [5:0] u_accu_dbuf_ra; // @[NV_NVDLA_CACC_delivery_buffer.scala 62:25:@27.4]
-  wire [5:0] u_accu_dbuf_wa; // @[NV_NVDLA_CACC_delivery_buffer.scala 62:25:@27.4]
-  wire [1023:0] u_accu_dbuf_di; // @[NV_NVDLA_CACC_delivery_buffer.scala 62:25:@27.4]
-  wire [1023:0] u_accu_dbuf_dout; // @[NV_NVDLA_CACC_delivery_buffer.scala 62:25:@27.4]
-  reg [1:0] data_left_mask; // @[NV_NVDLA_CACC_delivery_buffer.scala 59:29:@23.4]
+  wire  u_accu_dbuf_clk; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
+  wire  u_accu_dbuf_re; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
+  wire  u_accu_dbuf_we; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
+  wire [5:0] u_accu_dbuf_ra; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
+  wire [5:0] u_accu_dbuf_wa; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
+  wire [1023:0] u_accu_dbuf_di; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
+  wire [1023:0] u_accu_dbuf_dout; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
+  wire  _T_50; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 57:38:@23.4]
+  reg [1:0] data_left_mask; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 60:29:@24.4]
   reg [31:0] _RAND_0;
-  wire  _T_50; // @[NV_NVDLA_CACC_delivery_buffer.scala 60:39:@24.4]
-  wire  _T_51; // @[NV_NVDLA_CACC_delivery_buffer.scala 60:22:@25.4]
-  wire  dbuf_rd_en_new; // @[NV_NVDLA_CACC_delivery_buffer.scala 60:44:@26.4]
-  reg [1:0] rd_data_mask; // @[NV_NVDLA_CACC_delivery_buffer.scala 76:27:@37.4]
+  wire  _T_54; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 61:39:@25.4]
+  wire  _T_55; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 61:22:@26.4]
+  wire  dbuf_rd_en_new; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 61:44:@27.4]
+  reg [1:0] rd_data_mask; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 77:27:@38.4]
   reg [31:0] _RAND_1;
-  wire  _T_56; // @[NV_NVDLA_CACC_delivery_buffer.scala 78:49:@38.4]
-  wire  _T_57; // @[NV_NVDLA_CACC_delivery_buffer.scala 78:89:@39.4]
-  wire  _T_58; // @[NV_NVDLA_CACC_delivery_buffer.scala 79:41:@40.4]
-  wire [1:0] _T_59; // @[Cat.scala 30:58:@41.4]
-  wire [1:0] rd_data_mask_pre; // @[NV_NVDLA_CACC_delivery_buffer.scala 78:27:@42.4]
-  wire [2:0] _GEN_0; // @[NV_NVDLA_CACC_delivery_buffer.scala 84:89:@46.4]
-  wire [2:0] _T_67; // @[NV_NVDLA_CACC_delivery_buffer.scala 84:89:@46.4]
-  wire [2:0] _T_68; // @[NV_NVDLA_CACC_delivery_buffer.scala 84:29:@47.4]
-  wire [2:0] _T_69; // @[NV_NVDLA_CACC_delivery_buffer.scala 83:29:@48.4]
-  wire [1:0] data_left_mask_pre; // @[NV_NVDLA_CACC_delivery_buffer.scala 84:112:@49.4]
-  wire [511:0] _T_75; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:42:@56.4]
-  wire [511:0] _T_80; // @[Bitwise.scala 72:12:@59.4]
-  wire [511:0] _T_81; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:104:@60.4]
-  wire [511:0] _T_82; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:42:@61.4]
-  wire [511:0] _T_87; // @[Bitwise.scala 72:12:@64.4]
-  wire [511:0] _T_88; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:104:@65.4]
-  wire [511:0] cacc2sdp_pd_data; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:163:@69.4]
-  reg  dbuf_rd_layer_end_latch; // @[NV_NVDLA_CACC_delivery_buffer.scala 93:38:@70.4]
+  wire  _T_60; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 79:49:@39.4]
+  wire  _T_61; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 79:89:@40.4]
+  wire  _T_62; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 80:41:@41.4]
+  wire [1:0] _T_63; // @[Cat.scala 30:58:@42.4]
+  wire [1:0] rd_data_mask_pre; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 79:27:@43.4]
+  wire [2:0] _GEN_0; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:89:@47.4]
+  wire [2:0] _T_71; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:89:@47.4]
+  wire [2:0] _T_72; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:29:@48.4]
+  wire [2:0] _T_73; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 84:29:@49.4]
+  wire [1:0] data_left_mask_pre; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:112:@50.4]
+  wire [511:0] _T_79; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:42:@57.4]
+  wire [511:0] _T_84; // @[Bitwise.scala 72:12:@60.4]
+  wire [511:0] _T_85; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:104:@61.4]
+  wire [511:0] _T_86; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:42:@62.4]
+  wire [511:0] _T_91; // @[Bitwise.scala 72:12:@65.4]
+  wire [511:0] _T_92; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:104:@66.4]
+  wire [511:0] cacc2sdp_pd_data; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:163:@70.4]
+  reg  dbuf_rd_layer_end_latch; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 94:38:@71.4]
   reg [31:0] _RAND_2;
-  wire  _T_104; // @[NV_NVDLA_CACC_delivery_buffer.scala 95:36:@73.4]
-  wire  dbuf_rd_layer_end_latch_w; // @[NV_NVDLA_CACC_delivery_buffer.scala 94:36:@74.4]
-  wire  last_data; // @[NV_NVDLA_CACC_delivery_buffer.scala 117:30:@98.4]
-  wire  _T_106; // @[NV_NVDLA_CACC_delivery_buffer.scala 102:50:@77.4]
-  wire  _T_107; // @[NV_NVDLA_CACC_delivery_buffer.scala 102:62:@78.4]
-  wire  cacc2sdp_layer_end; // @[NV_NVDLA_CACC_delivery_buffer.scala 102:85:@79.4]
-  wire [1:0] _T_108; // @[Cat.scala 30:58:@80.4]
-  reg  intr_sel; // @[NV_NVDLA_CACC_delivery_buffer.scala 106:23:@83.4]
+  wire  _T_108; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 96:36:@74.4]
+  wire  dbuf_rd_layer_end_latch_w; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 95:36:@75.4]
+  wire  last_data; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 118:30:@99.4]
+  wire  _T_110; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 103:50:@78.4]
+  wire  _T_111; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 103:62:@79.4]
+  wire  cacc2sdp_layer_end; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 103:85:@80.4]
+  wire [1:0] _T_112; // @[Cat.scala 30:58:@81.4]
+  reg  intr_sel; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 107:23:@84.4]
   reg [31:0] _RAND_3;
-  reg [1:0] cacc_done_intr; // @[NV_NVDLA_CACC_delivery_buffer.scala 107:30:@84.4]
+  reg [1:0] cacc_done_intr; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 108:30:@85.4]
   reg [31:0] _RAND_4;
-  wire  cacc_done; // @[NV_NVDLA_CACC_delivery_buffer.scala 108:61:@86.4]
-  wire  _T_115; // @[NV_NVDLA_CACC_delivery_buffer.scala 109:38:@87.4]
-  wire  _T_116; // @[NV_NVDLA_CACC_delivery_buffer.scala 109:62:@88.4]
-  wire  _T_117; // @[NV_NVDLA_CACC_delivery_buffer.scala 109:60:@89.4]
-  wire [1:0] cacc_done_intr_w; // @[Cat.scala 30:58:@90.4]
-  wire  intr_sel_w; // @[NV_NVDLA_CACC_delivery_buffer.scala 110:21:@92.4]
-  wire  _T_125; // @[NV_NVDLA_CACC_delivery_buffer.scala 118:85:@101.4]
-  reg  _T_128; // @[NV_NVDLA_CACC_delivery_buffer.scala 118:40:@102.4]
+  wire  cacc_done; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 109:61:@87.4]
+  wire  _T_119; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 110:38:@88.4]
+  wire  _T_120; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 110:62:@89.4]
+  wire  _T_121; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 110:60:@90.4]
+  wire [1:0] cacc_done_intr_w; // @[Cat.scala 30:58:@91.4]
+  wire  intr_sel_w; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 111:21:@93.4]
+  wire  _T_129; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 119:85:@102.4]
+  reg  _T_132; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 119:40:@103.4]
   reg [31:0] _RAND_5;
-  nv_ram_rws u_accu_dbuf ( // @[NV_NVDLA_CACC_delivery_buffer.scala 62:25:@27.4]
+  nv_ram_rws u_accu_dbuf ( // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
     .clk(u_accu_dbuf_clk),
     .re(u_accu_dbuf_re),
     .we(u_accu_dbuf_we),
@@ -1083,52 +1083,53 @@ module NV_soDLA_CACC_delivery_buffer( // @[:@18.2]
     .di(u_accu_dbuf_di),
     .dout(u_accu_dbuf_dout)
   );
-  assign _T_50 = data_left_mask != 2'h0; // @[NV_NVDLA_CACC_delivery_buffer.scala 60:39:@24.4]
-  assign _T_51 = ~ _T_50; // @[NV_NVDLA_CACC_delivery_buffer.scala 60:22:@25.4]
-  assign dbuf_rd_en_new = _T_51 & dbuf_rd_addr_valid; // @[NV_NVDLA_CACC_delivery_buffer.scala 60:44:@26.4]
-  assign _T_56 = cacc2sdp_pd_valid & cacc2sdp_pd_ready; // @[NV_NVDLA_CACC_delivery_buffer.scala 78:49:@38.4]
-  assign _T_57 = rd_data_mask[0]; // @[NV_NVDLA_CACC_delivery_buffer.scala 78:89:@39.4]
-  assign _T_58 = rd_data_mask[1]; // @[NV_NVDLA_CACC_delivery_buffer.scala 79:41:@40.4]
-  assign _T_59 = {_T_57,_T_58}; // @[Cat.scala 30:58:@41.4]
-  assign rd_data_mask_pre = _T_56 ? _T_59 : rd_data_mask; // @[NV_NVDLA_CACC_delivery_buffer.scala 78:27:@42.4]
-  assign _GEN_0 = {{1'd0}, data_left_mask}; // @[NV_NVDLA_CACC_delivery_buffer.scala 84:89:@46.4]
-  assign _T_67 = _GEN_0 << 1'h1; // @[NV_NVDLA_CACC_delivery_buffer.scala 84:89:@46.4]
-  assign _T_68 = _T_56 ? _T_67 : {{1'd0}, data_left_mask}; // @[NV_NVDLA_CACC_delivery_buffer.scala 84:29:@47.4]
-  assign _T_69 = dbuf_rd_en_new ? 3'h3 : _T_68; // @[NV_NVDLA_CACC_delivery_buffer.scala 83:29:@48.4]
-  assign data_left_mask_pre = _T_69[1:0]; // @[NV_NVDLA_CACC_delivery_buffer.scala 84:112:@49.4]
-  assign _T_75 = u_accu_dbuf_dout[511:0]; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:42:@56.4]
-  assign _T_80 = _T_57 ? 512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff : 512'h0; // @[Bitwise.scala 72:12:@59.4]
-  assign _T_81 = _T_75 & _T_80; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:104:@60.4]
-  assign _T_82 = u_accu_dbuf_dout[1023:512]; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:42:@61.4]
-  assign _T_87 = _T_58 ? 512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff : 512'h0; // @[Bitwise.scala 72:12:@64.4]
-  assign _T_88 = _T_82 & _T_87; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:104:@65.4]
-  assign cacc2sdp_pd_data = _T_81 | _T_88; // @[NV_NVDLA_CACC_delivery_buffer.scala 90:163:@69.4]
-  assign _T_104 = _T_51 ? 1'h0 : dbuf_rd_layer_end_latch; // @[NV_NVDLA_CACC_delivery_buffer.scala 95:36:@73.4]
-  assign dbuf_rd_layer_end_latch_w = dbuf_rd_layer_end ? 1'h1 : _T_104; // @[NV_NVDLA_CACC_delivery_buffer.scala 94:36:@74.4]
-  assign last_data = data_left_mask == 2'h2; // @[NV_NVDLA_CACC_delivery_buffer.scala 117:30:@98.4]
-  assign _T_106 = dbuf_rd_layer_end_latch & last_data; // @[NV_NVDLA_CACC_delivery_buffer.scala 102:50:@77.4]
-  assign _T_107 = _T_106 & cacc2sdp_pd_valid; // @[NV_NVDLA_CACC_delivery_buffer.scala 102:62:@78.4]
-  assign cacc2sdp_layer_end = _T_107 & cacc2sdp_pd_ready; // @[NV_NVDLA_CACC_delivery_buffer.scala 102:85:@79.4]
-  assign _T_108 = {cacc2sdp_layer_end,1'h0}; // @[Cat.scala 30:58:@80.4]
-  assign cacc_done = _T_56 & cacc2sdp_layer_end; // @[NV_NVDLA_CACC_delivery_buffer.scala 108:61:@86.4]
-  assign _T_115 = cacc_done & intr_sel; // @[NV_NVDLA_CACC_delivery_buffer.scala 109:38:@87.4]
-  assign _T_116 = ~ intr_sel; // @[NV_NVDLA_CACC_delivery_buffer.scala 109:62:@88.4]
-  assign _T_117 = cacc_done & _T_116; // @[NV_NVDLA_CACC_delivery_buffer.scala 109:60:@89.4]
-  assign cacc_done_intr_w = {_T_115,_T_117}; // @[Cat.scala 30:58:@90.4]
-  assign intr_sel_w = cacc_done ? _T_116 : intr_sel; // @[NV_NVDLA_CACC_delivery_buffer.scala 110:21:@92.4]
-  assign _T_125 = _T_56 & last_data; // @[NV_NVDLA_CACC_delivery_buffer.scala 118:85:@101.4]
-  assign cacc2sdp_pd_valid = data_left_mask != 2'h0; // @[NV_NVDLA_CACC_delivery_buffer.scala 86:22:@52.4]
-  assign cacc2sdp_pd_bits = {_T_108,cacc2sdp_pd_data}; // @[NV_NVDLA_CACC_delivery_buffer.scala 103:21:@82.4]
-  assign cacc2glb_done_intr_pd = cacc_done_intr; // @[NV_NVDLA_CACC_delivery_buffer.scala 113:26:@95.4]
-  assign accu2sc_credit_size_valid = _T_128; // @[NV_NVDLA_CACC_delivery_buffer.scala 118:30:@104.4]
-  assign accu2sc_credit_size_bits = 3'h1; // @[NV_NVDLA_CACC_delivery_buffer.scala 116:29:@96.4]
-  assign dbuf_rd_ready = ~ _T_50; // @[NV_NVDLA_CACC_delivery_buffer.scala 87:18:@55.4]
-  assign u_accu_dbuf_clk = nvdla_core_clk; // @[NV_NVDLA_CACC_delivery_buffer.scala 64:20:@30.4]
-  assign u_accu_dbuf_re = _T_51 & dbuf_rd_addr_valid; // @[NV_NVDLA_CACC_delivery_buffer.scala 66:19:@32.4]
-  assign u_accu_dbuf_we = dbuf_wr_addr_valid; // @[NV_NVDLA_CACC_delivery_buffer.scala 67:19:@33.4]
-  assign u_accu_dbuf_ra = dbuf_rd_addr_bits; // @[NV_NVDLA_CACC_delivery_buffer.scala 65:19:@31.4]
-  assign u_accu_dbuf_wa = dbuf_wr_addr_bits; // @[NV_NVDLA_CACC_delivery_buffer.scala 68:19:@34.4]
-  assign u_accu_dbuf_di = dbuf_wr_data; // @[NV_NVDLA_CACC_delivery_buffer.scala 69:19:@35.4]
+  assign _T_50 = nvdla_core_rstn == 1'h0; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 57:38:@23.4]
+  assign _T_54 = data_left_mask != 2'h0; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 61:39:@25.4]
+  assign _T_55 = ~ _T_54; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 61:22:@26.4]
+  assign dbuf_rd_en_new = _T_55 & dbuf_rd_en; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 61:44:@27.4]
+  assign _T_60 = cacc2sdp_valid & cacc2sdp_ready; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 79:49:@39.4]
+  assign _T_61 = rd_data_mask[0]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 79:89:@40.4]
+  assign _T_62 = rd_data_mask[1]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 80:41:@41.4]
+  assign _T_63 = {_T_61,_T_62}; // @[Cat.scala 30:58:@42.4]
+  assign rd_data_mask_pre = _T_60 ? _T_63 : rd_data_mask; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 79:27:@43.4]
+  assign _GEN_0 = {{1'd0}, data_left_mask}; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:89:@47.4]
+  assign _T_71 = _GEN_0 << 1'h1; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:89:@47.4]
+  assign _T_72 = _T_60 ? _T_71 : {{1'd0}, data_left_mask}; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:29:@48.4]
+  assign _T_73 = dbuf_rd_en_new ? 3'h3 : _T_72; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 84:29:@49.4]
+  assign data_left_mask_pre = _T_73[1:0]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:112:@50.4]
+  assign _T_79 = u_accu_dbuf_dout[511:0]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:42:@57.4]
+  assign _T_84 = _T_61 ? 512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff : 512'h0; // @[Bitwise.scala 72:12:@60.4]
+  assign _T_85 = _T_79 & _T_84; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:104:@61.4]
+  assign _T_86 = u_accu_dbuf_dout[1023:512]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:42:@62.4]
+  assign _T_91 = _T_62 ? 512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff : 512'h0; // @[Bitwise.scala 72:12:@65.4]
+  assign _T_92 = _T_86 & _T_91; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:104:@66.4]
+  assign cacc2sdp_pd_data = _T_85 | _T_92; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:163:@70.4]
+  assign _T_108 = _T_55 ? 1'h0 : dbuf_rd_layer_end_latch; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 96:36:@74.4]
+  assign dbuf_rd_layer_end_latch_w = dbuf_rd_layer_end ? 1'h1 : _T_108; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 95:36:@75.4]
+  assign last_data = data_left_mask == 2'h2; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 118:30:@99.4]
+  assign _T_110 = dbuf_rd_layer_end_latch & last_data; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 103:50:@78.4]
+  assign _T_111 = _T_110 & cacc2sdp_valid; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 103:62:@79.4]
+  assign cacc2sdp_layer_end = _T_111 & cacc2sdp_ready; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 103:85:@80.4]
+  assign _T_112 = {cacc2sdp_layer_end,1'h0}; // @[Cat.scala 30:58:@81.4]
+  assign cacc_done = _T_60 & cacc2sdp_layer_end; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 109:61:@87.4]
+  assign _T_119 = cacc_done & intr_sel; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 110:38:@88.4]
+  assign _T_120 = ~ intr_sel; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 110:62:@89.4]
+  assign _T_121 = cacc_done & _T_120; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 110:60:@90.4]
+  assign cacc_done_intr_w = {_T_119,_T_121}; // @[Cat.scala 30:58:@91.4]
+  assign intr_sel_w = cacc_done ? _T_120 : intr_sel; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 111:21:@93.4]
+  assign _T_129 = _T_60 & last_data; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 119:85:@102.4]
+  assign cacc2sdp_valid = data_left_mask != 2'h0; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 87:22:@53.4]
+  assign cacc2sdp_pd = {_T_112,cacc2sdp_pd_data}; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 104:21:@83.4]
+  assign cacc2glb_done_intr_pd = cacc_done_intr; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 114:26:@96.4]
+  assign accu2sc_credit_vld = _T_132; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 119:30:@105.4]
+  assign accu2sc_credit_size = 3'h1; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 117:29:@97.4]
+  assign dbuf_rd_ready = ~ _T_54; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 88:18:@56.4]
+  assign u_accu_dbuf_clk = nvdla_core_clk; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 65:20:@31.4]
+  assign u_accu_dbuf_re = _T_55 & dbuf_rd_en; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 67:19:@33.4]
+  assign u_accu_dbuf_we = dbuf_wr_en; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 68:19:@34.4]
+  assign u_accu_dbuf_ra = dbuf_rd_addr; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 66:19:@32.4]
+  assign u_accu_dbuf_wa = dbuf_wr_addr; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 69:19:@35.4]
+  assign u_accu_dbuf_di = dbuf_wr_data; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 70:19:@36.4]
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
 `define RANDOMIZE
 `endif
@@ -1175,50 +1176,50 @@ module NV_soDLA_CACC_delivery_buffer( // @[:@18.2]
   `endif // RANDOMIZE_REG_INIT
   `ifdef RANDOMIZE_REG_INIT
   _RAND_5 = {1{`RANDOM}};
-  _T_128 = _RAND_5[0:0];
+  _T_132 = _RAND_5[0:0];
   `endif // RANDOMIZE_REG_INIT
   end
 `endif // RANDOMIZE
   always @(posedge nvdla_core_clk) begin
-    if (reset) begin
+    if (_T_50) begin
       data_left_mask <= 2'h0;
     end else begin
       data_left_mask <= data_left_mask_pre;
     end
-    if (reset) begin
+    if (_T_50) begin
       rd_data_mask <= 2'h1;
     end else begin
-      if (_T_56) begin
-        rd_data_mask <= _T_59;
+      if (_T_60) begin
+        rd_data_mask <= _T_63;
       end
     end
-    if (reset) begin
+    if (_T_50) begin
       dbuf_rd_layer_end_latch <= 1'h0;
     end else begin
       if (dbuf_rd_layer_end) begin
         dbuf_rd_layer_end_latch <= 1'h1;
       end else begin
-        if (_T_51) begin
+        if (_T_55) begin
           dbuf_rd_layer_end_latch <= 1'h0;
         end
       end
     end
-    if (reset) begin
+    if (_T_50) begin
       intr_sel <= 1'h0;
     end else begin
       if (cacc_done) begin
-        intr_sel <= _T_116;
+        intr_sel <= _T_120;
       end
     end
-    if (reset) begin
+    if (_T_50) begin
       cacc_done_intr <= 2'h0;
     end else begin
       cacc_done_intr <= cacc_done_intr_w;
     end
-    if (reset) begin
-      _T_128 <= 1'h0;
+    if (_T_50) begin
+      _T_132 <= 1'h0;
     end else begin
-      _T_128 <= _T_125;
+      _T_132 <= _T_129;
     end
   end
 endmodule
@@ -1295,7 +1296,7 @@ wire dbuf_rd_en_new = ~(|data_left_mask) & dbuf_rd_en;
 //: );
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 
-nv_ram_rws_64x1024 u_accu_dbuf (
+nv_ram_rws u_accu_dbuf (
 .clk (nvdla_core_clk) //|< i
 ,.ra (dbuf_rd_addr) //|< r
 ,.re (dbuf_rd_en_new) //|< r
@@ -1325,7 +1326,7 @@ nv_ram_rws_64x1024 u_accu_dbuf (
 //: &eperl::flop("-nodeclare -q data_left_mask   -d data_left_mask_pre ");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  dbuf_rd_valid;
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
    if (!nvdla_core_rstn) begin
        dbuf_rd_valid <= 'b0;
    end else begin
@@ -1335,7 +1336,7 @@ end
 
 reg [2-1:0] rd_data_mask; //which data to be fetched by sdp.
 wire [2-1:0] rd_data_mask_pre; assign rd_data_mask_pre = cacc2sdp_valid & cacc2sdp_ready ? {rd_data_mask[2-2:0],rd_data_mask[2-1]} : rd_data_mask; 
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
    if (!nvdla_core_rstn) begin
        rd_data_mask <=  'b1;
    end else begin
@@ -1344,7 +1345,7 @@ always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
 end
 
 wire [2-1:0] data_left_mask_pre = dbuf_rd_en_new ? {2{1'b1}} : (cacc2sdp_valid & cacc2sdp_ready) ? (data_left_mask<<1'b1) : data_left_mask;
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
    if (!nvdla_core_rstn) begin
        data_left_mask <= 'b0;
    end else begin
@@ -1372,7 +1373,7 @@ reg dbuf_rd_layer_end_latch;
 wire dbuf_rd_layer_end_latch_w = dbuf_rd_layer_end? 1'b1 : ~(|data_left_mask) ? 1'b0 : dbuf_rd_layer_end_latch;
 //: &eperl::flop("-q dbuf_rd_layer_end_latch -d dbuf_rd_layer_end_latch_w -nodeclare");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
    if (!nvdla_core_rstn) begin
        dbuf_rd_layer_end_latch <= 'b0;
    end else begin
@@ -1401,7 +1402,7 @@ wire intr_sel_w = cacc_done ? ~intr_sel : intr_sel;
 //: &eperl::flop("-nodeclare -q  intr_sel  -d \"intr_sel_w \" -clk nvdla_core_clk -rst nvdla_core_rstn ");
 //: &eperl::flop(" -q  cacc_done_intr  -d \"cacc_done_intr_w \" -wid 2  -clk nvdla_core_clk -rst nvdla_core_rstn ");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
    if (!nvdla_core_rstn) begin
        intr_sel <= 'b0;
    end else begin
@@ -1409,7 +1410,7 @@ always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    end
 end
 reg [1:0] cacc_done_intr;
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
    if (!nvdla_core_rstn) begin
        cacc_done_intr <= 'b0;
    end else begin
@@ -1425,7 +1426,7 @@ assign last_data = (data_left_mask=={1'b1,{(32*32)/(32*16)-1{1'b0}}});
 //: &eperl::flop(" -q  accu2sc_credit_vld  -d \"cacc2sdp_valid & cacc2sdp_ready & last_data\" -clk nvdla_core_clk -rst nvdla_core_rstn -rval 0");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  accu2sc_credit_vld;
-always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_clk) begin
    if (!nvdla_core_rstn) begin
        accu2sc_credit_vld <= 'b0;
    end else begin
