@@ -3089,7 +3089,6 @@ input [34*32 -1:0] abuf_rd_data;
 input [12:0] accu_ctrl_pd;
 input accu_ctrl_ram_valid;
 input accu_ctrl_valid;
-input cfg_in_en_mask;
 input [4:0] cfg_truncate;
 //: for(my $i=0; $i<32/2 ; $i++){
 //: print qq(
