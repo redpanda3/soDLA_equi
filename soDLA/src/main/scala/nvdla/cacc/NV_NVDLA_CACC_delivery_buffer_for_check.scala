@@ -88,7 +88,7 @@ io.cacc2sdp_pd.valid := data_left_mask.orR
 io.dbuf_rd_ready := ~(data_left_mask.orR)
 
 val cacc2sdp_pd_data = VecInit((0 to conf.CACC_DWIDTH_DIV_SWIDTH-1) map 
-                      { i => dbuf_rd_data(conf.CACC_SDP_DATA_WIDTH*(i+1)-1, conf.CACC_SDP_DATA_WIDTH*i)&Fill(conf.CACC_SDP_DATA_WIDTH, rd_data_mask(i))}).reduce(_|_)
+  { i => dbuf_rd_data(conf.CACC_SDP_DATA_WIDTH*(i+1)-1, conf.CACC_SDP_DATA_WIDTH*i)&Fill(conf.CACC_SDP_DATA_WIDTH, rd_data_mask(i))}).reduce(_|_)
 
 //layer_end handle
 val dbuf_rd_layer_end_latch = RegInit(false.B)

@@ -1365,7 +1365,7 @@ wire dbuf_rd_ready = ~(|data_left_mask);
 //: my $t2= "{${kk}{1'b0}}";
 //: print "$t1"."$t2".";\n";
 //| eperl: generated_beg (DO NOT EDIT BELOW)
-wire [512-1:0] cacc2sdp_pd_data= dbuf_rd_data[(0+1)*512-1:0*512]&{512{rd_data_mask[0]}} |dbuf_rd_data[(1+1)*512-1:1*512]&{512{rd_data_mask[1]}} |{512{1'b0}};
+wire [512-1:0] cacc2sdp_pd_data= dbuf_rd_data[(0+1)*512-1:0*512]&{512{rd_data_mask[0]}} |dbuf_rd_data[(1+1)*512-1:1*512]&{512{rd_data_mask[1]}};
 
 //| eperl: generated_end (DO NOT EDIT ABOVE)
 //layer_end handle
