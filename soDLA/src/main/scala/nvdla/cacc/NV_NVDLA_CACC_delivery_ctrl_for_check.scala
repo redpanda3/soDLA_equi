@@ -24,14 +24,13 @@ class NV_soDLA_CACC_delivery_ctrl_for_check(implicit conf: caccConfiguration) ex
         val dp2reg_done = Output(Bool())
 
         //dlv
-        val dlv_data = Input(Vec(conf.CACC_ATOMK, UInt(conf.CACC_FINAL_WIDTH.W)))
+        val dlv_data = Input(UInt((conf.CACC_ATOMK*conf.CACC_FINAL_WIDTH).W))
         val dlv_mask = Input(Bool())
         val dlv_pd = Input(UInt(2.W))
         val dlv_valid = Input(Bool())
 
         //wait for op
         val wait_for_op_en = Input(Bool())
-
 
         val reg2dp_op_en = Input(Bool())
         val reg2dp_conv_mode = Input(Bool())
