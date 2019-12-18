@@ -1099,7 +1099,7 @@ module NV_soDLA_CACC_delivery_buffer_for_check( // @[:@18.2]
   assign data_left_mask_pre = _T_73[1:0]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:112:@50.4]
 
 
-  assign cacc2sdp_pd_data = u_accu_dbuf_dout[(0+1)*512-1:0*512]&{512{rd_data_mask[0]}} |u_accu_dbuf_dout[(1+1)*512-1:1*512]&{512{rd_data_mask[1]}}
+  assign cacc2sdp_pd_data = u_accu_dbuf_dout[(0+1)*512-1:0*512]&{512{rd_data_mask[0]}} |u_accu_dbuf_dout[(1+1)*512-1:1*512]&{512{rd_data_mask[1]}};
 
   assign _T_108 = _T_55 ? 1'h0 : dbuf_rd_layer_end_latch; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 96:36:@74.4]
   assign dbuf_rd_layer_end_latch_w = dbuf_rd_layer_end ? 1'h1 : _T_108; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 95:36:@75.4]
