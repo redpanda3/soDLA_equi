@@ -1,17 +1,17 @@
 module NV_soDLA_CACC_CALC_int8( // @[:@3.2]
   input         reset, // @[:@5.4]
-  input         nvdla_core_clk, // @[:@6.4]
-  input  [4:0]  cfg_truncate, // @[:@6.4]
-  input  [21:0] in_data, // @[:@6.4]
-  input  [33:0] in_op, // @[:@6.4]
-  input         in_op_valid, // @[:@6.4]
-  input         in_sel, // @[:@6.4]
-  input         in_valid, // @[:@6.4]
-  output [31:0] out_final_data, // @[:@6.4]
-  output        out_final_sat, // @[:@6.4]
-  output        out_final_valid, // @[:@6.4]
-  output [33:0] out_partial_data, // @[:@6.4]
-  output        out_partial_valid // @[:@6.4]
+  input         io_nvdla_core_clk, // @[:@6.4]
+  input  [4:0]  io_cfg_truncate, // @[:@6.4]
+  input  [21:0] io_in_data, // @[:@6.4]
+  input  [33:0] io_in_op, // @[:@6.4]
+  input         io_in_op_valid, // @[:@6.4]
+  input         io_in_sel, // @[:@6.4]
+  input         io_in_valid, // @[:@6.4]
+  output [31:0] io_out_final_data, // @[:@6.4]
+  output        io_out_final_sat, // @[:@6.4]
+  output        io_out_final_valid, // @[:@6.4]
+  output [33:0] io_out_partial_data, // @[:@6.4]
+  output        io_out_partial_valid // @[:@6.4]
 );
   reg  i_sat_vld; // @[NV_NVDLA_CACC_CALC_int8.scala 56:28:@8.4]
   reg [31:0] _RAND_0;
@@ -80,13 +80,13 @@ module NV_soDLA_CACC_CALC_int8( // @[:@3.2]
   reg [31:0] _RAND_6;
   reg [31:0] _T_110; // @[Reg.scala 11:16:@99.4]
   reg [31:0] _RAND_7;
-  assign _T_34 = $signed(in_data); // @[NV_NVDLA_CACC_CALC_int8.scala 63:33:@14.6]
-  assign _T_36 = in_op_valid ? in_op : 34'h0; // @[NV_NVDLA_CACC_CALC_int8.scala 63:46:@15.6]
+  assign _T_34 = $signed(io_in_data); // @[NV_NVDLA_CACC_CALC_int8.scala 63:33:@14.6]
+  assign _T_36 = io_in_op_valid ? io_in_op : 34'h0; // @[NV_NVDLA_CACC_CALC_int8.scala 63:46:@15.6]
   assign _T_37 = $signed(_T_36); // @[NV_NVDLA_CACC_CALC_int8.scala 63:89:@16.6]
   assign _GEN_5 = {{12{_T_34[21]}},_T_34}; // @[NV_NVDLA_CACC_CALC_int8.scala 63:40:@17.6]
   assign _T_38 = $signed(_GEN_5) + $signed(_T_37); // @[NV_NVDLA_CACC_CALC_int8.scala 63:40:@17.6]
   assign _T_39 = $unsigned(_T_38); // @[NV_NVDLA_CACC_CALC_int8.scala 63:97:@18.6]
-  assign _GEN_0 = in_valid ? in_sel : i_sat_sel; // @[NV_NVDLA_CACC_CALC_int8.scala 61:22:@12.4]
+  assign _GEN_0 = io_in_valid ? io_in_sel : i_sat_sel; // @[NV_NVDLA_CACC_CALC_int8.scala 61:22:@12.4]
   assign i_sum_sign = i_sum_pd[34]; // @[NV_NVDLA_CACC_CALC_int8.scala 69:30:@21.4]
   assign i_sum_msb = i_sum_pd[33]; // @[NV_NVDLA_CACC_CALC_int8.scala 70:29:@22.4]
   assign _T_42 = i_sum_sign ^ i_sum_msb; // @[NV_NVDLA_CACC_CALC_int8.scala 74:20:@25.4]
@@ -98,7 +98,7 @@ module NV_soDLA_CACC_CALC_int8( // @[:@3.2]
   assign i_pre_sft_pd = i_sat_sel ? i_sat_pd : 34'h0; // @[NV_NVDLA_CACC_CALC_int8.scala 88:27:@40.4]
   assign _T_57 = {i_pre_sft_pd,16'h0}; // @[Cat.scala 30:58:@41.4]
   assign _T_58 = $signed(_T_57); // @[NV_NVDLA_CACC_CALC_int8.scala 89:66:@42.4]
-  assign i_pre_sft_pd_pack = $signed(_T_58) >>> cfg_truncate; // @[NV_NVDLA_CACC_CALC_int8.scala 89:73:@43.4]
+  assign i_pre_sft_pd_pack = $signed(_T_58) >>> io_cfg_truncate; // @[NV_NVDLA_CACC_CALC_int8.scala 89:73:@43.4]
   assign _T_59 = $unsigned(i_pre_sft_pd_pack); // @[Cat.scala 30:58:@44.4]
   assign i_sft_pd = _T_59[49:16]; // @[NV_NVDLA_CACC_CALC_int8.scala 90:42:@45.4]
   assign i_guide = _T_59[15]; // @[NV_NVDLA_CACC_CALC_int8.scala 91:41:@47.4]
@@ -131,11 +131,11 @@ module NV_soDLA_CACC_CALC_int8( // @[:@3.2]
   assign i_partial_vld = i_sat_vld & _T_96; // @[NV_NVDLA_CACC_CALC_int8.scala 105:35:@82.4]
   assign i_final_vld = i_sat_vld & i_sat_sel; // @[NV_NVDLA_CACC_CALC_int8.scala 106:32:@83.4]
   assign _T_105 = i_final_vld & i_sft_need_sat; // @[NV_NVDLA_CACC_CALC_int8.scala 111:45:@95.4]
-  assign out_final_data = _T_110; // @[NV_NVDLA_CACC_CALC_int8.scala 112:23:@103.4]
-  assign out_final_sat = _T_108; // @[NV_NVDLA_CACC_CALC_int8.scala 111:22:@98.4]
-  assign out_final_valid = _T_104; // @[NV_NVDLA_CACC_CALC_int8.scala 110:24:@94.4]
-  assign out_partial_data = _T_101; // @[NV_NVDLA_CACC_CALC_int8.scala 109:25:@91.4]
-  assign out_partial_valid = _T_99; // @[NV_NVDLA_CACC_CALC_int8.scala 108:26:@86.4]
+  assign io_out_final_data = _T_110; // @[NV_NVDLA_CACC_CALC_int8.scala 112:23:@103.4]
+  assign io_out_final_sat = _T_108; // @[NV_NVDLA_CACC_CALC_int8.scala 111:22:@98.4]
+  assign io_out_final_valid = _T_104; // @[NV_NVDLA_CACC_CALC_int8.scala 110:24:@94.4]
+  assign io_out_partial_data = _T_101; // @[NV_NVDLA_CACC_CALC_int8.scala 109:25:@91.4]
+  assign io_out_partial_valid = _T_99; // @[NV_NVDLA_CACC_CALC_int8.scala 108:26:@86.4]
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
 `define RANDOMIZE
 `endif
@@ -194,20 +194,20 @@ module NV_soDLA_CACC_CALC_int8( // @[:@3.2]
   `endif // RANDOMIZE_REG_INIT
   end
 `endif // RANDOMIZE
-  always @(posedge nvdla_core_clk) begin
+  always @(posedge io_nvdla_core_clk) begin
     if (reset) begin
       i_sat_vld <= 1'h0;
     end else begin
-      i_sat_vld <= in_valid;
+      i_sat_vld <= io_in_valid;
     end
     if (reset) begin
       i_sat_sel <= 1'h0;
     end else begin
-      if (in_valid) begin
-        i_sat_sel <= in_sel;
+      if (io_in_valid) begin
+        i_sat_sel <= io_in_sel;
       end
     end
-    if (in_valid) begin
+    if (io_in_valid) begin
       i_sum_pd <= _T_39;
     end
     if (reset) begin
@@ -244,474 +244,474 @@ endmodule
 module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   input           clock, // @[:@3268.4]
   input           reset, // @[:@3269.4]
-  input           nvdla_core_clk, // @[:@3270.4]
-  input           nvdla_cell_clk, // @[:@3270.4]
-  input  [1087:0] abuf_rd_data, // @[:@3270.4]
-  output          abuf_wr_addr_valid, // @[:@3270.4]
-  output [5:0]    abuf_wr_addr_bits, // @[:@3270.4]
-  output [1087:0] abuf_wr_data, // @[:@3270.4]
-  output          dlv_valid, // @[:@3270.4]
-  output          dlv_mask, // @[:@3270.4]
-  output [1023:0] dlv_data, // @[:@3270.4]
-  output [1:0]    dlv_pd, // @[:@3270.4]
-  input           accu_ctrl_pd_valid, // @[:@3270.4]
-  input  [12:0]   accu_ctrl_pd_bits, // @[:@3270.4]
-  input           accu_ctrl_ram_valid, // @[:@3270.4]
-  input  [4:0]    cfg_truncate, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_0, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_1, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_2, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_3, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_4, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_5, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_6, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_7, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_8, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_9, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_10, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_11, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_12, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_13, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_14, // @[:@3270.4]
-  input  [21:0]   mac_a2accu_data_15, // @[:@3270.4]
-  input  [15:0]   mac_a2accu_mask, // @[:@3270.4]
-  input           mac_a2accu_pvld, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_0, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_1, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_2, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_3, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_4, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_5, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_6, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_7, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_8, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_9, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_10, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_11, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_12, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_13, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_14, // @[:@3270.4]
-  input  [21:0]   mac_b2accu_data_15, // @[:@3270.4]
-  input  [15:0]   mac_b2accu_mask, // @[:@3270.4]
-  input           mac_b2accu_pvld, // @[:@3270.4]
-  output [31:0]   dp2reg_sat_count // @[:@3270.4]
+  input           io_nvdla_core_clk, // @[:@3270.4]
+  input           io_nvdla_cell_clk, // @[:@3270.4]
+  input  [1087:0] io_abuf_rd_data, // @[:@3270.4]
+  output          io_abuf_wr_addr_valid, // @[:@3270.4]
+  output [5:0]    io_abuf_wr_addr_bits, // @[:@3270.4]
+  output [1087:0] io_abuf_wr_data, // @[:@3270.4]
+  output          io_dlv_valid, // @[:@3270.4]
+  output          io_dlv_mask, // @[:@3270.4]
+  output [1023:0] io_dlv_data, // @[:@3270.4]
+  output [1:0]    io_dlv_pd, // @[:@3270.4]
+  input           io_accu_ctrl_pd_valid, // @[:@3270.4]
+  input  [12:0]   io_accu_ctrl_pd_bits, // @[:@3270.4]
+  input           io_accu_ctrl_ram_valid, // @[:@3270.4]
+  input  [4:0]    io_cfg_truncate, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_0, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_1, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_2, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_3, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_4, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_5, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_6, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_7, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_8, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_9, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_10, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_11, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_12, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_13, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_14, // @[:@3270.4]
+  input  [21:0]   io_mac_a2accu_data_15, // @[:@3270.4]
+  input  [15:0]   io_mac_a2accu_mask, // @[:@3270.4]
+  input           io_mac_a2accu_pvld, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_0, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_1, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_2, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_3, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_4, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_5, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_6, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_7, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_8, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_9, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_10, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_11, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_12, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_13, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_14, // @[:@3270.4]
+  input  [21:0]   io_mac_b2accu_data_15, // @[:@3270.4]
+  input  [15:0]   io_mac_b2accu_mask, // @[:@3270.4]
+  input           io_mac_b2accu_pvld, // @[:@3270.4]
+  output [31:0]   io_dp2reg_sat_count // @[:@3270.4]
 );
   wire  NV_soDLA_CACC_CALC_int8_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire  NV_soDLA_CACC_CALC_int8_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire  NV_soDLA_CACC_CALC_int8_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire  NV_soDLA_CACC_CALC_int8_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire  NV_soDLA_CACC_CALC_int8_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire  NV_soDLA_CACC_CALC_int8_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire  NV_soDLA_CACC_CALC_int8_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
-  wire  NV_soDLA_CACC_CALC_int8_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire  NV_soDLA_CACC_CALC_int8_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire  NV_soDLA_CACC_CALC_int8_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire  NV_soDLA_CACC_CALC_int8_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire  NV_soDLA_CACC_CALC_int8_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire  NV_soDLA_CACC_CALC_int8_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire  NV_soDLA_CACC_CALC_int8_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
+  wire  NV_soDLA_CACC_CALC_int8_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
   wire  NV_soDLA_CACC_CALC_int8_1_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire  NV_soDLA_CACC_CALC_int8_1_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_1_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_1_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_1_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire  NV_soDLA_CACC_CALC_int8_1_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire  NV_soDLA_CACC_CALC_int8_1_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire  NV_soDLA_CACC_CALC_int8_1_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_1_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire  NV_soDLA_CACC_CALC_int8_1_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire  NV_soDLA_CACC_CALC_int8_1_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_1_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
-  wire  NV_soDLA_CACC_CALC_int8_1_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire  NV_soDLA_CACC_CALC_int8_1_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_1_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_1_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_1_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire  NV_soDLA_CACC_CALC_int8_1_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire  NV_soDLA_CACC_CALC_int8_1_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire  NV_soDLA_CACC_CALC_int8_1_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_1_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire  NV_soDLA_CACC_CALC_int8_1_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire  NV_soDLA_CACC_CALC_int8_1_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_1_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
+  wire  NV_soDLA_CACC_CALC_int8_1_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
   wire  NV_soDLA_CACC_CALC_int8_2_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire  NV_soDLA_CACC_CALC_int8_2_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_2_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_2_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_2_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire  NV_soDLA_CACC_CALC_int8_2_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire  NV_soDLA_CACC_CALC_int8_2_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire  NV_soDLA_CACC_CALC_int8_2_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_2_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire  NV_soDLA_CACC_CALC_int8_2_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire  NV_soDLA_CACC_CALC_int8_2_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_2_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
-  wire  NV_soDLA_CACC_CALC_int8_2_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire  NV_soDLA_CACC_CALC_int8_2_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_2_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_2_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_2_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire  NV_soDLA_CACC_CALC_int8_2_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire  NV_soDLA_CACC_CALC_int8_2_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire  NV_soDLA_CACC_CALC_int8_2_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_2_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire  NV_soDLA_CACC_CALC_int8_2_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire  NV_soDLA_CACC_CALC_int8_2_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_2_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
+  wire  NV_soDLA_CACC_CALC_int8_2_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
   wire  NV_soDLA_CACC_CALC_int8_3_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire  NV_soDLA_CACC_CALC_int8_3_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_3_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_3_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_3_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire  NV_soDLA_CACC_CALC_int8_3_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire  NV_soDLA_CACC_CALC_int8_3_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire  NV_soDLA_CACC_CALC_int8_3_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_3_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire  NV_soDLA_CACC_CALC_int8_3_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire  NV_soDLA_CACC_CALC_int8_3_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_3_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
-  wire  NV_soDLA_CACC_CALC_int8_3_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire  NV_soDLA_CACC_CALC_int8_3_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_3_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_3_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_3_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire  NV_soDLA_CACC_CALC_int8_3_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire  NV_soDLA_CACC_CALC_int8_3_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire  NV_soDLA_CACC_CALC_int8_3_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_3_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire  NV_soDLA_CACC_CALC_int8_3_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire  NV_soDLA_CACC_CALC_int8_3_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_3_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
+  wire  NV_soDLA_CACC_CALC_int8_3_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
   wire  NV_soDLA_CACC_CALC_int8_4_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire  NV_soDLA_CACC_CALC_int8_4_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_4_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_4_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_4_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire  NV_soDLA_CACC_CALC_int8_4_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire  NV_soDLA_CACC_CALC_int8_4_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire  NV_soDLA_CACC_CALC_int8_4_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_4_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire  NV_soDLA_CACC_CALC_int8_4_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire  NV_soDLA_CACC_CALC_int8_4_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_4_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
-  wire  NV_soDLA_CACC_CALC_int8_4_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire  NV_soDLA_CACC_CALC_int8_4_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_4_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_4_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_4_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire  NV_soDLA_CACC_CALC_int8_4_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire  NV_soDLA_CACC_CALC_int8_4_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire  NV_soDLA_CACC_CALC_int8_4_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_4_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire  NV_soDLA_CACC_CALC_int8_4_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire  NV_soDLA_CACC_CALC_int8_4_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_4_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
+  wire  NV_soDLA_CACC_CALC_int8_4_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
   wire  NV_soDLA_CACC_CALC_int8_5_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire  NV_soDLA_CACC_CALC_int8_5_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_5_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_5_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_5_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire  NV_soDLA_CACC_CALC_int8_5_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire  NV_soDLA_CACC_CALC_int8_5_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire  NV_soDLA_CACC_CALC_int8_5_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_5_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire  NV_soDLA_CACC_CALC_int8_5_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire  NV_soDLA_CACC_CALC_int8_5_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_5_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
-  wire  NV_soDLA_CACC_CALC_int8_5_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire  NV_soDLA_CACC_CALC_int8_5_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_5_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_5_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_5_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire  NV_soDLA_CACC_CALC_int8_5_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire  NV_soDLA_CACC_CALC_int8_5_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire  NV_soDLA_CACC_CALC_int8_5_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_5_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire  NV_soDLA_CACC_CALC_int8_5_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire  NV_soDLA_CACC_CALC_int8_5_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_5_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
+  wire  NV_soDLA_CACC_CALC_int8_5_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
   wire  NV_soDLA_CACC_CALC_int8_6_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire  NV_soDLA_CACC_CALC_int8_6_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_6_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_6_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_6_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire  NV_soDLA_CACC_CALC_int8_6_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire  NV_soDLA_CACC_CALC_int8_6_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire  NV_soDLA_CACC_CALC_int8_6_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_6_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire  NV_soDLA_CACC_CALC_int8_6_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire  NV_soDLA_CACC_CALC_int8_6_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_6_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
-  wire  NV_soDLA_CACC_CALC_int8_6_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire  NV_soDLA_CACC_CALC_int8_6_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_6_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_6_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_6_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire  NV_soDLA_CACC_CALC_int8_6_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire  NV_soDLA_CACC_CALC_int8_6_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire  NV_soDLA_CACC_CALC_int8_6_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_6_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire  NV_soDLA_CACC_CALC_int8_6_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire  NV_soDLA_CACC_CALC_int8_6_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_6_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
+  wire  NV_soDLA_CACC_CALC_int8_6_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
   wire  NV_soDLA_CACC_CALC_int8_7_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire  NV_soDLA_CACC_CALC_int8_7_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_7_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_7_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_7_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire  NV_soDLA_CACC_CALC_int8_7_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire  NV_soDLA_CACC_CALC_int8_7_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire  NV_soDLA_CACC_CALC_int8_7_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_7_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire  NV_soDLA_CACC_CALC_int8_7_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire  NV_soDLA_CACC_CALC_int8_7_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_7_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
-  wire  NV_soDLA_CACC_CALC_int8_7_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire  NV_soDLA_CACC_CALC_int8_7_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_7_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_7_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_7_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire  NV_soDLA_CACC_CALC_int8_7_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire  NV_soDLA_CACC_CALC_int8_7_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire  NV_soDLA_CACC_CALC_int8_7_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_7_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire  NV_soDLA_CACC_CALC_int8_7_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire  NV_soDLA_CACC_CALC_int8_7_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_7_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
+  wire  NV_soDLA_CACC_CALC_int8_7_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
   wire  NV_soDLA_CACC_CALC_int8_8_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire  NV_soDLA_CACC_CALC_int8_8_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_8_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_8_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_8_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire  NV_soDLA_CACC_CALC_int8_8_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire  NV_soDLA_CACC_CALC_int8_8_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire  NV_soDLA_CACC_CALC_int8_8_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_8_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire  NV_soDLA_CACC_CALC_int8_8_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire  NV_soDLA_CACC_CALC_int8_8_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_8_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
-  wire  NV_soDLA_CACC_CALC_int8_8_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire  NV_soDLA_CACC_CALC_int8_8_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_8_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_8_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_8_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire  NV_soDLA_CACC_CALC_int8_8_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire  NV_soDLA_CACC_CALC_int8_8_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire  NV_soDLA_CACC_CALC_int8_8_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_8_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire  NV_soDLA_CACC_CALC_int8_8_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire  NV_soDLA_CACC_CALC_int8_8_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_8_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
+  wire  NV_soDLA_CACC_CALC_int8_8_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
   wire  NV_soDLA_CACC_CALC_int8_9_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire  NV_soDLA_CACC_CALC_int8_9_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_9_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_9_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_9_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire  NV_soDLA_CACC_CALC_int8_9_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire  NV_soDLA_CACC_CALC_int8_9_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire  NV_soDLA_CACC_CALC_int8_9_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_9_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire  NV_soDLA_CACC_CALC_int8_9_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire  NV_soDLA_CACC_CALC_int8_9_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_9_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
-  wire  NV_soDLA_CACC_CALC_int8_9_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire  NV_soDLA_CACC_CALC_int8_9_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_9_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_9_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_9_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire  NV_soDLA_CACC_CALC_int8_9_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire  NV_soDLA_CACC_CALC_int8_9_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire  NV_soDLA_CACC_CALC_int8_9_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_9_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire  NV_soDLA_CACC_CALC_int8_9_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire  NV_soDLA_CACC_CALC_int8_9_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_9_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
+  wire  NV_soDLA_CACC_CALC_int8_9_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
   wire  NV_soDLA_CACC_CALC_int8_10_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire  NV_soDLA_CACC_CALC_int8_10_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_10_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_10_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_10_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire  NV_soDLA_CACC_CALC_int8_10_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire  NV_soDLA_CACC_CALC_int8_10_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire  NV_soDLA_CACC_CALC_int8_10_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_10_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire  NV_soDLA_CACC_CALC_int8_10_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire  NV_soDLA_CACC_CALC_int8_10_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_10_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
-  wire  NV_soDLA_CACC_CALC_int8_10_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire  NV_soDLA_CACC_CALC_int8_10_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_10_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_10_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_10_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire  NV_soDLA_CACC_CALC_int8_10_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire  NV_soDLA_CACC_CALC_int8_10_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire  NV_soDLA_CACC_CALC_int8_10_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_10_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire  NV_soDLA_CACC_CALC_int8_10_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire  NV_soDLA_CACC_CALC_int8_10_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_10_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
+  wire  NV_soDLA_CACC_CALC_int8_10_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
   wire  NV_soDLA_CACC_CALC_int8_11_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire  NV_soDLA_CACC_CALC_int8_11_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_11_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_11_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_11_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire  NV_soDLA_CACC_CALC_int8_11_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire  NV_soDLA_CACC_CALC_int8_11_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire  NV_soDLA_CACC_CALC_int8_11_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_11_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire  NV_soDLA_CACC_CALC_int8_11_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire  NV_soDLA_CACC_CALC_int8_11_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_11_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
-  wire  NV_soDLA_CACC_CALC_int8_11_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire  NV_soDLA_CACC_CALC_int8_11_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_11_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_11_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_11_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire  NV_soDLA_CACC_CALC_int8_11_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire  NV_soDLA_CACC_CALC_int8_11_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire  NV_soDLA_CACC_CALC_int8_11_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_11_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire  NV_soDLA_CACC_CALC_int8_11_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire  NV_soDLA_CACC_CALC_int8_11_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_11_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
+  wire  NV_soDLA_CACC_CALC_int8_11_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
   wire  NV_soDLA_CACC_CALC_int8_12_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire  NV_soDLA_CACC_CALC_int8_12_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_12_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_12_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_12_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire  NV_soDLA_CACC_CALC_int8_12_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire  NV_soDLA_CACC_CALC_int8_12_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire  NV_soDLA_CACC_CALC_int8_12_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_12_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire  NV_soDLA_CACC_CALC_int8_12_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire  NV_soDLA_CACC_CALC_int8_12_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_12_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
-  wire  NV_soDLA_CACC_CALC_int8_12_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire  NV_soDLA_CACC_CALC_int8_12_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_12_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_12_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_12_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire  NV_soDLA_CACC_CALC_int8_12_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire  NV_soDLA_CACC_CALC_int8_12_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire  NV_soDLA_CACC_CALC_int8_12_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_12_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire  NV_soDLA_CACC_CALC_int8_12_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire  NV_soDLA_CACC_CALC_int8_12_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_12_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
+  wire  NV_soDLA_CACC_CALC_int8_12_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
   wire  NV_soDLA_CACC_CALC_int8_13_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire  NV_soDLA_CACC_CALC_int8_13_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_13_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_13_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_13_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire  NV_soDLA_CACC_CALC_int8_13_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire  NV_soDLA_CACC_CALC_int8_13_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire  NV_soDLA_CACC_CALC_int8_13_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_13_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire  NV_soDLA_CACC_CALC_int8_13_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire  NV_soDLA_CACC_CALC_int8_13_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_13_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
-  wire  NV_soDLA_CACC_CALC_int8_13_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire  NV_soDLA_CACC_CALC_int8_13_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_13_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_13_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_13_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire  NV_soDLA_CACC_CALC_int8_13_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire  NV_soDLA_CACC_CALC_int8_13_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire  NV_soDLA_CACC_CALC_int8_13_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_13_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire  NV_soDLA_CACC_CALC_int8_13_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire  NV_soDLA_CACC_CALC_int8_13_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_13_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
+  wire  NV_soDLA_CACC_CALC_int8_13_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
   wire  NV_soDLA_CACC_CALC_int8_14_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire  NV_soDLA_CACC_CALC_int8_14_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_14_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_14_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_14_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire  NV_soDLA_CACC_CALC_int8_14_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire  NV_soDLA_CACC_CALC_int8_14_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire  NV_soDLA_CACC_CALC_int8_14_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_14_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire  NV_soDLA_CACC_CALC_int8_14_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire  NV_soDLA_CACC_CALC_int8_14_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_14_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
-  wire  NV_soDLA_CACC_CALC_int8_14_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire  NV_soDLA_CACC_CALC_int8_14_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_14_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_14_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_14_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire  NV_soDLA_CACC_CALC_int8_14_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire  NV_soDLA_CACC_CALC_int8_14_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire  NV_soDLA_CACC_CALC_int8_14_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_14_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire  NV_soDLA_CACC_CALC_int8_14_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire  NV_soDLA_CACC_CALC_int8_14_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_14_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
+  wire  NV_soDLA_CACC_CALC_int8_14_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
   wire  NV_soDLA_CACC_CALC_int8_15_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire  NV_soDLA_CACC_CALC_int8_15_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_15_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_15_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_15_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire  NV_soDLA_CACC_CALC_int8_15_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire  NV_soDLA_CACC_CALC_int8_15_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire  NV_soDLA_CACC_CALC_int8_15_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_15_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire  NV_soDLA_CACC_CALC_int8_15_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire  NV_soDLA_CACC_CALC_int8_15_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_15_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
-  wire  NV_soDLA_CACC_CALC_int8_15_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire  NV_soDLA_CACC_CALC_int8_15_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_15_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_15_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_15_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire  NV_soDLA_CACC_CALC_int8_15_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire  NV_soDLA_CACC_CALC_int8_15_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire  NV_soDLA_CACC_CALC_int8_15_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_15_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire  NV_soDLA_CACC_CALC_int8_15_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire  NV_soDLA_CACC_CALC_int8_15_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_15_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
+  wire  NV_soDLA_CACC_CALC_int8_15_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
   wire  NV_soDLA_CACC_CALC_int8_16_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire  NV_soDLA_CACC_CALC_int8_16_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_16_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_16_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_16_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire  NV_soDLA_CACC_CALC_int8_16_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire  NV_soDLA_CACC_CALC_int8_16_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire  NV_soDLA_CACC_CALC_int8_16_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_16_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire  NV_soDLA_CACC_CALC_int8_16_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire  NV_soDLA_CACC_CALC_int8_16_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_16_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
-  wire  NV_soDLA_CACC_CALC_int8_16_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire  NV_soDLA_CACC_CALC_int8_16_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_16_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_16_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_16_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire  NV_soDLA_CACC_CALC_int8_16_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire  NV_soDLA_CACC_CALC_int8_16_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire  NV_soDLA_CACC_CALC_int8_16_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_16_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire  NV_soDLA_CACC_CALC_int8_16_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire  NV_soDLA_CACC_CALC_int8_16_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_16_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
+  wire  NV_soDLA_CACC_CALC_int8_16_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
   wire  NV_soDLA_CACC_CALC_int8_17_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire  NV_soDLA_CACC_CALC_int8_17_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_17_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_17_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_17_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire  NV_soDLA_CACC_CALC_int8_17_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire  NV_soDLA_CACC_CALC_int8_17_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire  NV_soDLA_CACC_CALC_int8_17_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_17_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire  NV_soDLA_CACC_CALC_int8_17_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire  NV_soDLA_CACC_CALC_int8_17_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_17_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
-  wire  NV_soDLA_CACC_CALC_int8_17_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire  NV_soDLA_CACC_CALC_int8_17_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_17_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_17_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_17_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire  NV_soDLA_CACC_CALC_int8_17_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire  NV_soDLA_CACC_CALC_int8_17_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire  NV_soDLA_CACC_CALC_int8_17_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_17_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire  NV_soDLA_CACC_CALC_int8_17_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire  NV_soDLA_CACC_CALC_int8_17_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_17_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
+  wire  NV_soDLA_CACC_CALC_int8_17_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
   wire  NV_soDLA_CACC_CALC_int8_18_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire  NV_soDLA_CACC_CALC_int8_18_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_18_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_18_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_18_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire  NV_soDLA_CACC_CALC_int8_18_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire  NV_soDLA_CACC_CALC_int8_18_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire  NV_soDLA_CACC_CALC_int8_18_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_18_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire  NV_soDLA_CACC_CALC_int8_18_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire  NV_soDLA_CACC_CALC_int8_18_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_18_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
-  wire  NV_soDLA_CACC_CALC_int8_18_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire  NV_soDLA_CACC_CALC_int8_18_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_18_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_18_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_18_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire  NV_soDLA_CACC_CALC_int8_18_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire  NV_soDLA_CACC_CALC_int8_18_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire  NV_soDLA_CACC_CALC_int8_18_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_18_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire  NV_soDLA_CACC_CALC_int8_18_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire  NV_soDLA_CACC_CALC_int8_18_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_18_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
+  wire  NV_soDLA_CACC_CALC_int8_18_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
   wire  NV_soDLA_CACC_CALC_int8_19_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire  NV_soDLA_CACC_CALC_int8_19_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_19_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_19_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_19_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire  NV_soDLA_CACC_CALC_int8_19_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire  NV_soDLA_CACC_CALC_int8_19_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire  NV_soDLA_CACC_CALC_int8_19_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_19_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire  NV_soDLA_CACC_CALC_int8_19_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire  NV_soDLA_CACC_CALC_int8_19_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_19_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
-  wire  NV_soDLA_CACC_CALC_int8_19_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire  NV_soDLA_CACC_CALC_int8_19_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_19_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_19_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_19_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire  NV_soDLA_CACC_CALC_int8_19_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire  NV_soDLA_CACC_CALC_int8_19_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire  NV_soDLA_CACC_CALC_int8_19_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_19_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire  NV_soDLA_CACC_CALC_int8_19_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire  NV_soDLA_CACC_CALC_int8_19_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_19_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
+  wire  NV_soDLA_CACC_CALC_int8_19_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
   wire  NV_soDLA_CACC_CALC_int8_20_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire  NV_soDLA_CACC_CALC_int8_20_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_20_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_20_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_20_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire  NV_soDLA_CACC_CALC_int8_20_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire  NV_soDLA_CACC_CALC_int8_20_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire  NV_soDLA_CACC_CALC_int8_20_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_20_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire  NV_soDLA_CACC_CALC_int8_20_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire  NV_soDLA_CACC_CALC_int8_20_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_20_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
-  wire  NV_soDLA_CACC_CALC_int8_20_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire  NV_soDLA_CACC_CALC_int8_20_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_20_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_20_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_20_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire  NV_soDLA_CACC_CALC_int8_20_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire  NV_soDLA_CACC_CALC_int8_20_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire  NV_soDLA_CACC_CALC_int8_20_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_20_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire  NV_soDLA_CACC_CALC_int8_20_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire  NV_soDLA_CACC_CALC_int8_20_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_20_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
+  wire  NV_soDLA_CACC_CALC_int8_20_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
   wire  NV_soDLA_CACC_CALC_int8_21_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire  NV_soDLA_CACC_CALC_int8_21_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_21_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_21_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_21_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire  NV_soDLA_CACC_CALC_int8_21_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire  NV_soDLA_CACC_CALC_int8_21_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire  NV_soDLA_CACC_CALC_int8_21_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_21_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire  NV_soDLA_CACC_CALC_int8_21_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire  NV_soDLA_CACC_CALC_int8_21_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_21_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
-  wire  NV_soDLA_CACC_CALC_int8_21_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire  NV_soDLA_CACC_CALC_int8_21_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_21_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_21_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_21_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire  NV_soDLA_CACC_CALC_int8_21_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire  NV_soDLA_CACC_CALC_int8_21_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire  NV_soDLA_CACC_CALC_int8_21_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_21_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire  NV_soDLA_CACC_CALC_int8_21_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire  NV_soDLA_CACC_CALC_int8_21_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_21_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
+  wire  NV_soDLA_CACC_CALC_int8_21_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
   wire  NV_soDLA_CACC_CALC_int8_22_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire  NV_soDLA_CACC_CALC_int8_22_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_22_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_22_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_22_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire  NV_soDLA_CACC_CALC_int8_22_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire  NV_soDLA_CACC_CALC_int8_22_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire  NV_soDLA_CACC_CALC_int8_22_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_22_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire  NV_soDLA_CACC_CALC_int8_22_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire  NV_soDLA_CACC_CALC_int8_22_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_22_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
-  wire  NV_soDLA_CACC_CALC_int8_22_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire  NV_soDLA_CACC_CALC_int8_22_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_22_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_22_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_22_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire  NV_soDLA_CACC_CALC_int8_22_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire  NV_soDLA_CACC_CALC_int8_22_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire  NV_soDLA_CACC_CALC_int8_22_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_22_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire  NV_soDLA_CACC_CALC_int8_22_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire  NV_soDLA_CACC_CALC_int8_22_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_22_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
+  wire  NV_soDLA_CACC_CALC_int8_22_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
   wire  NV_soDLA_CACC_CALC_int8_23_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire  NV_soDLA_CACC_CALC_int8_23_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_23_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_23_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_23_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire  NV_soDLA_CACC_CALC_int8_23_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire  NV_soDLA_CACC_CALC_int8_23_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire  NV_soDLA_CACC_CALC_int8_23_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_23_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire  NV_soDLA_CACC_CALC_int8_23_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire  NV_soDLA_CACC_CALC_int8_23_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_23_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
-  wire  NV_soDLA_CACC_CALC_int8_23_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire  NV_soDLA_CACC_CALC_int8_23_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_23_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_23_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_23_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire  NV_soDLA_CACC_CALC_int8_23_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire  NV_soDLA_CACC_CALC_int8_23_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire  NV_soDLA_CACC_CALC_int8_23_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_23_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire  NV_soDLA_CACC_CALC_int8_23_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire  NV_soDLA_CACC_CALC_int8_23_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_23_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
+  wire  NV_soDLA_CACC_CALC_int8_23_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
   wire  NV_soDLA_CACC_CALC_int8_24_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire  NV_soDLA_CACC_CALC_int8_24_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_24_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_24_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_24_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire  NV_soDLA_CACC_CALC_int8_24_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire  NV_soDLA_CACC_CALC_int8_24_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire  NV_soDLA_CACC_CALC_int8_24_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_24_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire  NV_soDLA_CACC_CALC_int8_24_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire  NV_soDLA_CACC_CALC_int8_24_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_24_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
-  wire  NV_soDLA_CACC_CALC_int8_24_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire  NV_soDLA_CACC_CALC_int8_24_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_24_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_24_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_24_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire  NV_soDLA_CACC_CALC_int8_24_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire  NV_soDLA_CACC_CALC_int8_24_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire  NV_soDLA_CACC_CALC_int8_24_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_24_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire  NV_soDLA_CACC_CALC_int8_24_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire  NV_soDLA_CACC_CALC_int8_24_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_24_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
+  wire  NV_soDLA_CACC_CALC_int8_24_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
   wire  NV_soDLA_CACC_CALC_int8_25_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire  NV_soDLA_CACC_CALC_int8_25_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_25_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_25_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_25_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire  NV_soDLA_CACC_CALC_int8_25_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire  NV_soDLA_CACC_CALC_int8_25_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire  NV_soDLA_CACC_CALC_int8_25_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_25_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire  NV_soDLA_CACC_CALC_int8_25_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire  NV_soDLA_CACC_CALC_int8_25_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_25_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
-  wire  NV_soDLA_CACC_CALC_int8_25_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire  NV_soDLA_CACC_CALC_int8_25_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_25_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_25_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_25_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire  NV_soDLA_CACC_CALC_int8_25_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire  NV_soDLA_CACC_CALC_int8_25_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire  NV_soDLA_CACC_CALC_int8_25_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_25_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire  NV_soDLA_CACC_CALC_int8_25_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire  NV_soDLA_CACC_CALC_int8_25_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_25_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
+  wire  NV_soDLA_CACC_CALC_int8_25_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
   wire  NV_soDLA_CACC_CALC_int8_26_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire  NV_soDLA_CACC_CALC_int8_26_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_26_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_26_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_26_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire  NV_soDLA_CACC_CALC_int8_26_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire  NV_soDLA_CACC_CALC_int8_26_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire  NV_soDLA_CACC_CALC_int8_26_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_26_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire  NV_soDLA_CACC_CALC_int8_26_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire  NV_soDLA_CACC_CALC_int8_26_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_26_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
-  wire  NV_soDLA_CACC_CALC_int8_26_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire  NV_soDLA_CACC_CALC_int8_26_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_26_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_26_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_26_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire  NV_soDLA_CACC_CALC_int8_26_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire  NV_soDLA_CACC_CALC_int8_26_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire  NV_soDLA_CACC_CALC_int8_26_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_26_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire  NV_soDLA_CACC_CALC_int8_26_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire  NV_soDLA_CACC_CALC_int8_26_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_26_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
+  wire  NV_soDLA_CACC_CALC_int8_26_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
   wire  NV_soDLA_CACC_CALC_int8_27_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire  NV_soDLA_CACC_CALC_int8_27_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_27_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_27_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_27_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire  NV_soDLA_CACC_CALC_int8_27_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire  NV_soDLA_CACC_CALC_int8_27_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire  NV_soDLA_CACC_CALC_int8_27_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_27_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire  NV_soDLA_CACC_CALC_int8_27_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire  NV_soDLA_CACC_CALC_int8_27_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_27_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
-  wire  NV_soDLA_CACC_CALC_int8_27_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire  NV_soDLA_CACC_CALC_int8_27_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_27_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_27_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_27_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire  NV_soDLA_CACC_CALC_int8_27_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire  NV_soDLA_CACC_CALC_int8_27_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire  NV_soDLA_CACC_CALC_int8_27_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_27_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire  NV_soDLA_CACC_CALC_int8_27_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire  NV_soDLA_CACC_CALC_int8_27_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_27_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
+  wire  NV_soDLA_CACC_CALC_int8_27_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
   wire  NV_soDLA_CACC_CALC_int8_28_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire  NV_soDLA_CACC_CALC_int8_28_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_28_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_28_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_28_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire  NV_soDLA_CACC_CALC_int8_28_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire  NV_soDLA_CACC_CALC_int8_28_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire  NV_soDLA_CACC_CALC_int8_28_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_28_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire  NV_soDLA_CACC_CALC_int8_28_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire  NV_soDLA_CACC_CALC_int8_28_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_28_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
-  wire  NV_soDLA_CACC_CALC_int8_28_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire  NV_soDLA_CACC_CALC_int8_28_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_28_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_28_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_28_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire  NV_soDLA_CACC_CALC_int8_28_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire  NV_soDLA_CACC_CALC_int8_28_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire  NV_soDLA_CACC_CALC_int8_28_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_28_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire  NV_soDLA_CACC_CALC_int8_28_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire  NV_soDLA_CACC_CALC_int8_28_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_28_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
+  wire  NV_soDLA_CACC_CALC_int8_28_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
   wire  NV_soDLA_CACC_CALC_int8_29_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire  NV_soDLA_CACC_CALC_int8_29_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_29_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_29_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_29_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire  NV_soDLA_CACC_CALC_int8_29_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire  NV_soDLA_CACC_CALC_int8_29_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire  NV_soDLA_CACC_CALC_int8_29_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_29_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire  NV_soDLA_CACC_CALC_int8_29_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire  NV_soDLA_CACC_CALC_int8_29_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_29_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
-  wire  NV_soDLA_CACC_CALC_int8_29_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire  NV_soDLA_CACC_CALC_int8_29_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_29_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_29_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_29_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire  NV_soDLA_CACC_CALC_int8_29_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire  NV_soDLA_CACC_CALC_int8_29_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire  NV_soDLA_CACC_CALC_int8_29_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_29_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire  NV_soDLA_CACC_CALC_int8_29_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire  NV_soDLA_CACC_CALC_int8_29_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_29_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
+  wire  NV_soDLA_CACC_CALC_int8_29_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
   wire  NV_soDLA_CACC_CALC_int8_30_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire  NV_soDLA_CACC_CALC_int8_30_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_30_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_30_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_30_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire  NV_soDLA_CACC_CALC_int8_30_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire  NV_soDLA_CACC_CALC_int8_30_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire  NV_soDLA_CACC_CALC_int8_30_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_30_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire  NV_soDLA_CACC_CALC_int8_30_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire  NV_soDLA_CACC_CALC_int8_30_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_30_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
-  wire  NV_soDLA_CACC_CALC_int8_30_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire  NV_soDLA_CACC_CALC_int8_30_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_30_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_30_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_30_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire  NV_soDLA_CACC_CALC_int8_30_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire  NV_soDLA_CACC_CALC_int8_30_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire  NV_soDLA_CACC_CALC_int8_30_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_30_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire  NV_soDLA_CACC_CALC_int8_30_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire  NV_soDLA_CACC_CALC_int8_30_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_30_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
+  wire  NV_soDLA_CACC_CALC_int8_30_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
   wire  NV_soDLA_CACC_CALC_int8_31_reset; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire  NV_soDLA_CACC_CALC_int8_31_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire [4:0] NV_soDLA_CACC_CALC_int8_31_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire [21:0] NV_soDLA_CACC_CALC_int8_31_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_31_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire  NV_soDLA_CACC_CALC_int8_31_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire  NV_soDLA_CACC_CALC_int8_31_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire  NV_soDLA_CACC_CALC_int8_31_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire [31:0] NV_soDLA_CACC_CALC_int8_31_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire  NV_soDLA_CACC_CALC_int8_31_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire  NV_soDLA_CACC_CALC_int8_31_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire [33:0] NV_soDLA_CACC_CALC_int8_31_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
-  wire  NV_soDLA_CACC_CALC_int8_31_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire  NV_soDLA_CACC_CALC_int8_31_io_nvdla_core_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire [4:0] NV_soDLA_CACC_CALC_int8_31_io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire [21:0] NV_soDLA_CACC_CALC_int8_31_io_in_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_31_io_in_op; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire  NV_soDLA_CACC_CALC_int8_31_io_in_op_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire  NV_soDLA_CACC_CALC_int8_31_io_in_sel; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire  NV_soDLA_CACC_CALC_int8_31_io_in_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire [31:0] NV_soDLA_CACC_CALC_int8_31_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire  NV_soDLA_CACC_CALC_int8_31_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire  NV_soDLA_CACC_CALC_int8_31_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire [33:0] NV_soDLA_CACC_CALC_int8_31_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
+  wire  NV_soDLA_CACC_CALC_int8_31_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
   reg [12:0] accu_ctrl_pd_d1; // @[Reg.scala 19:20:@3337.4]
   reg [31:0] _RAND_0;
   wire [12:0] _GEN_0; // @[Reg.scala 20:19:@3338.4]
@@ -1221,522 +1221,522 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   wire [55:0] _GEN_112; // @[NV_NVDLA_CACC_calculator_for_check.scala 234:21:@4724.4]
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3564.4]
     .reset(NV_soDLA_CACC_CALC_int8_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_1 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3567.4]
     .reset(NV_soDLA_CACC_CALC_int8_1_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_1_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_1_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_1_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_1_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_1_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_1_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_1_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_1_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_1_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_1_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_1_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_1_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_1_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_1_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_1_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_1_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_1_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_1_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_1_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_1_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_1_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_1_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_1_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_1_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_2 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3570.4]
     .reset(NV_soDLA_CACC_CALC_int8_2_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_2_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_2_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_2_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_2_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_2_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_2_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_2_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_2_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_2_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_2_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_2_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_2_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_2_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_2_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_2_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_2_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_2_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_2_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_2_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_2_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_2_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_2_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_2_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_2_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_3 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3573.4]
     .reset(NV_soDLA_CACC_CALC_int8_3_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_3_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_3_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_3_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_3_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_3_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_3_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_3_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_3_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_3_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_3_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_3_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_3_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_3_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_3_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_3_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_3_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_3_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_3_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_3_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_3_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_3_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_3_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_3_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_3_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_4 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3576.4]
     .reset(NV_soDLA_CACC_CALC_int8_4_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_4_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_4_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_4_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_4_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_4_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_4_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_4_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_4_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_4_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_4_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_4_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_4_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_4_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_4_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_4_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_4_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_4_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_4_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_4_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_4_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_4_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_4_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_4_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_4_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_5 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3579.4]
     .reset(NV_soDLA_CACC_CALC_int8_5_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_5_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_5_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_5_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_5_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_5_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_5_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_5_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_5_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_5_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_5_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_5_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_5_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_5_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_5_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_5_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_5_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_5_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_5_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_5_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_5_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_5_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_5_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_5_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_5_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_6 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3582.4]
     .reset(NV_soDLA_CACC_CALC_int8_6_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_6_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_6_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_6_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_6_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_6_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_6_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_6_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_6_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_6_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_6_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_6_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_6_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_6_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_6_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_6_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_6_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_6_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_6_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_6_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_6_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_6_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_6_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_6_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_6_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_7 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3585.4]
     .reset(NV_soDLA_CACC_CALC_int8_7_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_7_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_7_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_7_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_7_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_7_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_7_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_7_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_7_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_7_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_7_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_7_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_7_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_7_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_7_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_7_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_7_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_7_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_7_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_7_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_7_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_7_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_7_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_7_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_7_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_8 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3588.4]
     .reset(NV_soDLA_CACC_CALC_int8_8_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_8_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_8_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_8_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_8_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_8_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_8_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_8_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_8_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_8_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_8_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_8_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_8_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_8_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_8_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_8_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_8_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_8_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_8_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_8_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_8_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_8_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_8_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_8_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_8_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_9 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3591.4]
     .reset(NV_soDLA_CACC_CALC_int8_9_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_9_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_9_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_9_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_9_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_9_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_9_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_9_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_9_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_9_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_9_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_9_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_9_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_9_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_9_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_9_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_9_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_9_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_9_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_9_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_9_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_9_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_9_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_9_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_9_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_10 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3594.4]
     .reset(NV_soDLA_CACC_CALC_int8_10_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_10_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_10_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_10_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_10_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_10_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_10_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_10_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_10_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_10_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_10_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_10_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_10_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_10_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_10_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_10_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_10_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_10_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_10_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_10_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_10_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_10_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_10_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_10_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_10_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_11 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3597.4]
     .reset(NV_soDLA_CACC_CALC_int8_11_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_11_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_11_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_11_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_11_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_11_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_11_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_11_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_11_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_11_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_11_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_11_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_11_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_11_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_11_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_11_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_11_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_11_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_11_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_11_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_11_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_11_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_11_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_11_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_11_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_12 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3600.4]
     .reset(NV_soDLA_CACC_CALC_int8_12_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_12_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_12_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_12_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_12_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_12_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_12_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_12_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_12_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_12_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_12_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_12_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_12_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_12_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_12_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_12_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_12_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_12_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_12_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_12_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_12_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_12_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_12_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_12_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_12_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_13 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3603.4]
     .reset(NV_soDLA_CACC_CALC_int8_13_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_13_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_13_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_13_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_13_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_13_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_13_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_13_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_13_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_13_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_13_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_13_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_13_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_13_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_13_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_13_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_13_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_13_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_13_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_13_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_13_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_13_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_13_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_13_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_13_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_14 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3606.4]
     .reset(NV_soDLA_CACC_CALC_int8_14_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_14_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_14_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_14_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_14_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_14_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_14_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_14_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_14_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_14_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_14_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_14_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_14_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_14_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_14_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_14_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_14_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_14_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_14_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_14_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_14_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_14_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_14_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_14_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_14_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_15 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3609.4]
     .reset(NV_soDLA_CACC_CALC_int8_15_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_15_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_15_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_15_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_15_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_15_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_15_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_15_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_15_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_15_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_15_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_15_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_15_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_15_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_15_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_15_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_15_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_15_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_15_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_15_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_15_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_15_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_15_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_15_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_15_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_16 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3612.4]
     .reset(NV_soDLA_CACC_CALC_int8_16_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_16_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_16_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_16_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_16_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_16_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_16_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_16_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_16_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_16_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_16_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_16_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_16_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_16_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_16_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_16_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_16_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_16_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_16_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_16_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_16_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_16_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_16_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_16_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_16_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_17 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3615.4]
     .reset(NV_soDLA_CACC_CALC_int8_17_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_17_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_17_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_17_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_17_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_17_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_17_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_17_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_17_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_17_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_17_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_17_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_17_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_17_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_17_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_17_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_17_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_17_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_17_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_17_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_17_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_17_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_17_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_17_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_17_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_18 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3618.4]
     .reset(NV_soDLA_CACC_CALC_int8_18_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_18_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_18_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_18_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_18_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_18_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_18_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_18_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_18_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_18_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_18_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_18_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_18_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_18_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_18_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_18_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_18_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_18_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_18_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_18_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_18_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_18_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_18_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_18_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_18_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_19 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3621.4]
     .reset(NV_soDLA_CACC_CALC_int8_19_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_19_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_19_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_19_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_19_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_19_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_19_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_19_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_19_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_19_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_19_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_19_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_19_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_19_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_19_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_19_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_19_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_19_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_19_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_19_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_19_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_19_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_19_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_19_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_19_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_20 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3624.4]
     .reset(NV_soDLA_CACC_CALC_int8_20_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_20_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_20_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_20_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_20_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_20_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_20_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_20_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_20_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_20_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_20_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_20_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_20_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_20_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_20_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_20_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_20_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_20_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_20_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_20_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_20_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_20_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_20_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_20_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_20_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_21 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3627.4]
     .reset(NV_soDLA_CACC_CALC_int8_21_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_21_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_21_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_21_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_21_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_21_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_21_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_21_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_21_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_21_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_21_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_21_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_21_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_21_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_21_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_21_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_21_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_21_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_21_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_21_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_21_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_21_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_21_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_21_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_21_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_22 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3630.4]
     .reset(NV_soDLA_CACC_CALC_int8_22_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_22_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_22_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_22_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_22_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_22_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_22_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_22_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_22_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_22_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_22_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_22_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_22_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_22_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_22_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_22_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_22_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_22_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_22_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_22_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_22_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_22_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_22_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_22_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_22_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_23 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3633.4]
     .reset(NV_soDLA_CACC_CALC_int8_23_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_23_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_23_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_23_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_23_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_23_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_23_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_23_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_23_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_23_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_23_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_23_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_23_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_23_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_23_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_23_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_23_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_23_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_23_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_23_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_23_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_23_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_23_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_23_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_23_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_24 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3636.4]
     .reset(NV_soDLA_CACC_CALC_int8_24_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_24_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_24_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_24_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_24_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_24_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_24_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_24_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_24_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_24_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_24_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_24_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_24_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_24_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_24_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_24_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_24_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_24_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_24_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_24_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_24_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_24_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_24_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_24_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_24_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_25 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3639.4]
     .reset(NV_soDLA_CACC_CALC_int8_25_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_25_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_25_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_25_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_25_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_25_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_25_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_25_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_25_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_25_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_25_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_25_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_25_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_25_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_25_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_25_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_25_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_25_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_25_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_25_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_25_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_25_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_25_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_25_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_25_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_26 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3642.4]
     .reset(NV_soDLA_CACC_CALC_int8_26_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_26_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_26_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_26_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_26_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_26_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_26_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_26_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_26_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_26_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_26_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_26_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_26_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_26_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_26_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_26_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_26_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_26_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_26_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_26_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_26_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_26_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_26_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_26_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_26_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_27 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3645.4]
     .reset(NV_soDLA_CACC_CALC_int8_27_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_27_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_27_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_27_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_27_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_27_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_27_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_27_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_27_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_27_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_27_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_27_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_27_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_27_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_27_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_27_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_27_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_27_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_27_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_27_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_27_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_27_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_27_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_27_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_27_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_28 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3648.4]
     .reset(NV_soDLA_CACC_CALC_int8_28_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_28_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_28_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_28_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_28_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_28_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_28_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_28_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_28_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_28_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_28_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_28_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_28_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_28_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_28_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_28_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_28_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_28_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_28_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_28_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_28_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_28_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_28_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_28_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_28_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_29 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3651.4]
     .reset(NV_soDLA_CACC_CALC_int8_29_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_29_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_29_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_29_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_29_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_29_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_29_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_29_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_29_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_29_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_29_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_29_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_29_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_29_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_29_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_29_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_29_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_29_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_29_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_29_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_29_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_29_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_29_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_29_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_29_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_30 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3654.4]
     .reset(NV_soDLA_CACC_CALC_int8_30_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_30_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_30_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_30_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_30_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_30_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_30_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_30_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_30_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_30_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_30_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_30_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_30_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_30_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_30_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_30_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_30_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_30_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_30_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_30_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_30_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_30_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_30_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_30_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_30_io_out_partial_valid)
   );
   NV_soDLA_CACC_CALC_int8 NV_soDLA_CACC_CALC_int8_31 ( // @[NV_NVDLA_CACC_calculator_for_check.scala 111:57:@3657.4]
     .reset(NV_soDLA_CACC_CALC_int8_31_reset),
-    .nvdla_core_clk(NV_soDLA_CACC_CALC_int8_31_nvdla_core_clk),
-    .cfg_truncate(NV_soDLA_CACC_CALC_int8_31_cfg_truncate),
-    .in_data(NV_soDLA_CACC_CALC_int8_31_in_data),
-    .in_op(NV_soDLA_CACC_CALC_int8_31_in_op),
-    .in_op_valid(NV_soDLA_CACC_CALC_int8_31_in_op_valid),
-    .in_sel(NV_soDLA_CACC_CALC_int8_31_in_sel),
-    .in_valid(NV_soDLA_CACC_CALC_int8_31_in_valid),
-    .out_final_data(NV_soDLA_CACC_CALC_int8_31_out_final_data),
-    .out_final_sat(NV_soDLA_CACC_CALC_int8_31_out_final_sat),
-    .out_final_valid(NV_soDLA_CACC_CALC_int8_31_out_final_valid),
-    .out_partial_data(NV_soDLA_CACC_CALC_int8_31_out_partial_data),
-    .out_partial_valid(NV_soDLA_CACC_CALC_int8_31_out_partial_valid)
+    .io_nvdla_core_clk(NV_soDLA_CACC_CALC_int8_31_io_nvdla_core_clk),
+    .io_cfg_truncate(NV_soDLA_CACC_CALC_int8_31_io_cfg_truncate),
+    .io_in_data(NV_soDLA_CACC_CALC_int8_31_io_in_data),
+    .io_in_op(NV_soDLA_CACC_CALC_int8_31_io_in_op),
+    .io_in_op_valid(NV_soDLA_CACC_CALC_int8_31_io_in_op_valid),
+    .io_in_sel(NV_soDLA_CACC_CALC_int8_31_io_in_sel),
+    .io_in_valid(NV_soDLA_CACC_CALC_int8_31_io_in_valid),
+    .io_out_final_data(NV_soDLA_CACC_CALC_int8_31_io_out_final_data),
+    .io_out_final_sat(NV_soDLA_CACC_CALC_int8_31_io_out_final_sat),
+    .io_out_final_valid(NV_soDLA_CACC_CALC_int8_31_io_out_final_valid),
+    .io_out_partial_data(NV_soDLA_CACC_CALC_int8_31_io_out_partial_data),
+    .io_out_partial_valid(NV_soDLA_CACC_CALC_int8_31_io_out_partial_valid)
   );
-  assign _GEN_0 = accu_ctrl_pd_valid ? accu_ctrl_pd_bits : accu_ctrl_pd_d1; // @[Reg.scala 20:19:@3338.4]
-  assign calc_valid_in = mac_b2accu_pvld | mac_a2accu_pvld; // @[NV_NVDLA_CACC_calculator_for_check.scala 74:45:@3341.4]
+  assign _GEN_0 = io_accu_ctrl_pd_valid ? io_accu_ctrl_pd_bits : accu_ctrl_pd_d1; // @[Reg.scala 20:19:@3338.4]
+  assign calc_valid_in = io_mac_b2accu_pvld | io_mac_a2accu_pvld; // @[NV_NVDLA_CACC_calculator_for_check.scala 74:45:@3341.4]
   assign calc_addr = accu_ctrl_pd_d1[5:0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 79:36:@3354.4]
   assign calc_stripe_end = accu_ctrl_pd_d1[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 81:42:@3356.4]
   assign calc_channel_end = accu_ctrl_pd_d1[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 82:43:@3357.4]
   assign calc_layer_end = accu_ctrl_pd_d1[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 83:41:@3358.4]
-  assign calc_in_mask_0 = mac_a2accu_mask[0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3364.4]
-  assign calc_in_mask_16 = mac_b2accu_mask[0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3366.4]
-  assign calc_in_mask_1 = mac_a2accu_mask[1]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3370.4]
-  assign calc_in_mask_17 = mac_b2accu_mask[1]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3372.4]
-  assign calc_in_mask_2 = mac_a2accu_mask[2]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3376.4]
-  assign calc_in_mask_18 = mac_b2accu_mask[2]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3378.4]
-  assign calc_in_mask_3 = mac_a2accu_mask[3]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3382.4]
-  assign calc_in_mask_19 = mac_b2accu_mask[3]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3384.4]
-  assign calc_in_mask_4 = mac_a2accu_mask[4]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3388.4]
-  assign calc_in_mask_20 = mac_b2accu_mask[4]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3390.4]
-  assign calc_in_mask_5 = mac_a2accu_mask[5]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3394.4]
-  assign calc_in_mask_21 = mac_b2accu_mask[5]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3396.4]
-  assign calc_in_mask_6 = mac_a2accu_mask[6]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3400.4]
-  assign calc_in_mask_22 = mac_b2accu_mask[6]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3402.4]
-  assign calc_in_mask_7 = mac_a2accu_mask[7]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3406.4]
-  assign calc_in_mask_23 = mac_b2accu_mask[7]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3408.4]
-  assign calc_in_mask_8 = mac_a2accu_mask[8]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3412.4]
-  assign calc_in_mask_24 = mac_b2accu_mask[8]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3414.4]
-  assign calc_in_mask_9 = mac_a2accu_mask[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3418.4]
-  assign calc_in_mask_25 = mac_b2accu_mask[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3420.4]
-  assign calc_in_mask_10 = mac_a2accu_mask[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3424.4]
-  assign calc_in_mask_26 = mac_b2accu_mask[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3426.4]
-  assign calc_in_mask_11 = mac_a2accu_mask[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3430.4]
-  assign calc_in_mask_27 = mac_b2accu_mask[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3432.4]
-  assign calc_in_mask_12 = mac_a2accu_mask[12]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3436.4]
-  assign calc_in_mask_28 = mac_b2accu_mask[12]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3438.4]
-  assign calc_in_mask_13 = mac_a2accu_mask[13]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3442.4]
-  assign calc_in_mask_29 = mac_b2accu_mask[13]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3444.4]
-  assign calc_in_mask_14 = mac_a2accu_mask[14]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3448.4]
-  assign calc_in_mask_30 = mac_b2accu_mask[14]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3450.4]
-  assign calc_in_mask_15 = mac_a2accu_mask[15]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3454.4]
-  assign calc_in_mask_31 = mac_b2accu_mask[15]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3456.4]
+  assign calc_in_mask_0 = io_mac_a2accu_mask[0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3364.4]
+  assign calc_in_mask_16 = io_mac_b2accu_mask[0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3366.4]
+  assign calc_in_mask_1 = io_mac_a2accu_mask[1]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3370.4]
+  assign calc_in_mask_17 = io_mac_b2accu_mask[1]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3372.4]
+  assign calc_in_mask_2 = io_mac_a2accu_mask[2]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3376.4]
+  assign calc_in_mask_18 = io_mac_b2accu_mask[2]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3378.4]
+  assign calc_in_mask_3 = io_mac_a2accu_mask[3]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3382.4]
+  assign calc_in_mask_19 = io_mac_b2accu_mask[3]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3384.4]
+  assign calc_in_mask_4 = io_mac_a2accu_mask[4]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3388.4]
+  assign calc_in_mask_20 = io_mac_b2accu_mask[4]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3390.4]
+  assign calc_in_mask_5 = io_mac_a2accu_mask[5]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3394.4]
+  assign calc_in_mask_21 = io_mac_b2accu_mask[5]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3396.4]
+  assign calc_in_mask_6 = io_mac_a2accu_mask[6]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3400.4]
+  assign calc_in_mask_22 = io_mac_b2accu_mask[6]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3402.4]
+  assign calc_in_mask_7 = io_mac_a2accu_mask[7]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3406.4]
+  assign calc_in_mask_23 = io_mac_b2accu_mask[7]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3408.4]
+  assign calc_in_mask_8 = io_mac_a2accu_mask[8]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3412.4]
+  assign calc_in_mask_24 = io_mac_b2accu_mask[8]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3414.4]
+  assign calc_in_mask_9 = io_mac_a2accu_mask[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3418.4]
+  assign calc_in_mask_25 = io_mac_b2accu_mask[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3420.4]
+  assign calc_in_mask_10 = io_mac_a2accu_mask[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3424.4]
+  assign calc_in_mask_26 = io_mac_b2accu_mask[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3426.4]
+  assign calc_in_mask_11 = io_mac_a2accu_mask[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3430.4]
+  assign calc_in_mask_27 = io_mac_b2accu_mask[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3432.4]
+  assign calc_in_mask_12 = io_mac_a2accu_mask[12]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3436.4]
+  assign calc_in_mask_28 = io_mac_b2accu_mask[12]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3438.4]
+  assign calc_in_mask_13 = io_mac_a2accu_mask[13]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3442.4]
+  assign calc_in_mask_29 = io_mac_b2accu_mask[13]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3444.4]
+  assign calc_in_mask_14 = io_mac_a2accu_mask[14]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3448.4]
+  assign calc_in_mask_30 = io_mac_b2accu_mask[14]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3450.4]
+  assign calc_in_mask_15 = io_mac_a2accu_mask[15]; // @[NV_NVDLA_CACC_calculator_for_check.scala 91:46:@3454.4]
+  assign calc_in_mask_31 = io_mac_b2accu_mask[15]; // @[NV_NVDLA_CACC_calculator_for_check.scala 92:66:@3456.4]
   assign calc_dlv_valid = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 97:37:@3556.4]
   assign _T_421 = ~ calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 98:36:@3557.4]
   assign calc_wr_en = calc_valid & _T_421; // @[NV_NVDLA_CACC_calculator_for_check.scala 98:33:@3558.4]
@@ -1746,197 +1746,197 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   assign _GEN_7 = calc_dlv_valid ? calc_layer_end : _T_646; // @[NV_NVDLA_CACC_calculator_for_check.scala 166:34:@4079.4]
   assign _GEN_8 = _T_632 ? _T_639 : calc_stripe_end_out; // @[NV_NVDLA_CACC_calculator_for_check.scala 166:34:@4084.4]
   assign _GEN_9 = _T_632 ? _T_646 : calc_layer_end_out; // @[NV_NVDLA_CACC_calculator_for_check.scala 166:34:@4084.4]
-  assign calc_pout_vld_0 = NV_soDLA_CACC_CALC_int8_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3671.4]
-  assign calc_pout_sum_0 = NV_soDLA_CACC_CALC_int8_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3670.4]
+  assign calc_pout_vld_0 = NV_soDLA_CACC_CALC_int8_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3671.4]
+  assign calc_pout_sum_0 = NV_soDLA_CACC_CALC_int8_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3670.4]
   assign calc_pout_0 = calc_pout_vld_0 ? calc_pout_sum_0 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4089.4]
-  assign calc_pout_vld_1 = NV_soDLA_CACC_CALC_int8_1_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3683.4]
-  assign calc_pout_sum_1 = NV_soDLA_CACC_CALC_int8_1_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3682.4]
+  assign calc_pout_vld_1 = NV_soDLA_CACC_CALC_int8_1_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3683.4]
+  assign calc_pout_sum_1 = NV_soDLA_CACC_CALC_int8_1_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3682.4]
   assign calc_pout_1 = calc_pout_vld_1 ? calc_pout_sum_1 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4095.4]
-  assign calc_pout_vld_2 = NV_soDLA_CACC_CALC_int8_2_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3695.4]
-  assign calc_pout_sum_2 = NV_soDLA_CACC_CALC_int8_2_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3694.4]
+  assign calc_pout_vld_2 = NV_soDLA_CACC_CALC_int8_2_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3695.4]
+  assign calc_pout_sum_2 = NV_soDLA_CACC_CALC_int8_2_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3694.4]
   assign calc_pout_2 = calc_pout_vld_2 ? calc_pout_sum_2 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4101.4]
-  assign calc_pout_vld_3 = NV_soDLA_CACC_CALC_int8_3_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3707.4]
-  assign calc_pout_sum_3 = NV_soDLA_CACC_CALC_int8_3_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3706.4]
+  assign calc_pout_vld_3 = NV_soDLA_CACC_CALC_int8_3_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3707.4]
+  assign calc_pout_sum_3 = NV_soDLA_CACC_CALC_int8_3_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3706.4]
   assign calc_pout_3 = calc_pout_vld_3 ? calc_pout_sum_3 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4107.4]
-  assign calc_pout_vld_4 = NV_soDLA_CACC_CALC_int8_4_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3719.4]
-  assign calc_pout_sum_4 = NV_soDLA_CACC_CALC_int8_4_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3718.4]
+  assign calc_pout_vld_4 = NV_soDLA_CACC_CALC_int8_4_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3719.4]
+  assign calc_pout_sum_4 = NV_soDLA_CACC_CALC_int8_4_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3718.4]
   assign calc_pout_4 = calc_pout_vld_4 ? calc_pout_sum_4 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4113.4]
-  assign calc_pout_vld_5 = NV_soDLA_CACC_CALC_int8_5_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3731.4]
-  assign calc_pout_sum_5 = NV_soDLA_CACC_CALC_int8_5_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3730.4]
+  assign calc_pout_vld_5 = NV_soDLA_CACC_CALC_int8_5_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3731.4]
+  assign calc_pout_sum_5 = NV_soDLA_CACC_CALC_int8_5_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3730.4]
   assign calc_pout_5 = calc_pout_vld_5 ? calc_pout_sum_5 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4119.4]
-  assign calc_pout_vld_6 = NV_soDLA_CACC_CALC_int8_6_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3743.4]
-  assign calc_pout_sum_6 = NV_soDLA_CACC_CALC_int8_6_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3742.4]
+  assign calc_pout_vld_6 = NV_soDLA_CACC_CALC_int8_6_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3743.4]
+  assign calc_pout_sum_6 = NV_soDLA_CACC_CALC_int8_6_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3742.4]
   assign calc_pout_6 = calc_pout_vld_6 ? calc_pout_sum_6 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4125.4]
-  assign calc_pout_vld_7 = NV_soDLA_CACC_CALC_int8_7_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3755.4]
-  assign calc_pout_sum_7 = NV_soDLA_CACC_CALC_int8_7_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3754.4]
+  assign calc_pout_vld_7 = NV_soDLA_CACC_CALC_int8_7_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3755.4]
+  assign calc_pout_sum_7 = NV_soDLA_CACC_CALC_int8_7_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3754.4]
   assign calc_pout_7 = calc_pout_vld_7 ? calc_pout_sum_7 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4131.4]
-  assign calc_pout_vld_8 = NV_soDLA_CACC_CALC_int8_8_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3767.4]
-  assign calc_pout_sum_8 = NV_soDLA_CACC_CALC_int8_8_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3766.4]
+  assign calc_pout_vld_8 = NV_soDLA_CACC_CALC_int8_8_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3767.4]
+  assign calc_pout_sum_8 = NV_soDLA_CACC_CALC_int8_8_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3766.4]
   assign calc_pout_8 = calc_pout_vld_8 ? calc_pout_sum_8 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4137.4]
-  assign calc_pout_vld_9 = NV_soDLA_CACC_CALC_int8_9_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3779.4]
-  assign calc_pout_sum_9 = NV_soDLA_CACC_CALC_int8_9_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3778.4]
+  assign calc_pout_vld_9 = NV_soDLA_CACC_CALC_int8_9_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3779.4]
+  assign calc_pout_sum_9 = NV_soDLA_CACC_CALC_int8_9_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3778.4]
   assign calc_pout_9 = calc_pout_vld_9 ? calc_pout_sum_9 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4143.4]
-  assign calc_pout_vld_10 = NV_soDLA_CACC_CALC_int8_10_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3791.4]
-  assign calc_pout_sum_10 = NV_soDLA_CACC_CALC_int8_10_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3790.4]
+  assign calc_pout_vld_10 = NV_soDLA_CACC_CALC_int8_10_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3791.4]
+  assign calc_pout_sum_10 = NV_soDLA_CACC_CALC_int8_10_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3790.4]
   assign calc_pout_10 = calc_pout_vld_10 ? calc_pout_sum_10 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4149.4]
-  assign calc_pout_vld_11 = NV_soDLA_CACC_CALC_int8_11_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3803.4]
-  assign calc_pout_sum_11 = NV_soDLA_CACC_CALC_int8_11_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3802.4]
+  assign calc_pout_vld_11 = NV_soDLA_CACC_CALC_int8_11_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3803.4]
+  assign calc_pout_sum_11 = NV_soDLA_CACC_CALC_int8_11_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3802.4]
   assign calc_pout_11 = calc_pout_vld_11 ? calc_pout_sum_11 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4155.4]
-  assign calc_pout_vld_12 = NV_soDLA_CACC_CALC_int8_12_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3815.4]
-  assign calc_pout_sum_12 = NV_soDLA_CACC_CALC_int8_12_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3814.4]
+  assign calc_pout_vld_12 = NV_soDLA_CACC_CALC_int8_12_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3815.4]
+  assign calc_pout_sum_12 = NV_soDLA_CACC_CALC_int8_12_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3814.4]
   assign calc_pout_12 = calc_pout_vld_12 ? calc_pout_sum_12 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4161.4]
-  assign calc_pout_vld_13 = NV_soDLA_CACC_CALC_int8_13_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3827.4]
-  assign calc_pout_sum_13 = NV_soDLA_CACC_CALC_int8_13_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3826.4]
+  assign calc_pout_vld_13 = NV_soDLA_CACC_CALC_int8_13_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3827.4]
+  assign calc_pout_sum_13 = NV_soDLA_CACC_CALC_int8_13_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3826.4]
   assign calc_pout_13 = calc_pout_vld_13 ? calc_pout_sum_13 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4167.4]
-  assign calc_pout_vld_14 = NV_soDLA_CACC_CALC_int8_14_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3839.4]
-  assign calc_pout_sum_14 = NV_soDLA_CACC_CALC_int8_14_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3838.4]
+  assign calc_pout_vld_14 = NV_soDLA_CACC_CALC_int8_14_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3839.4]
+  assign calc_pout_sum_14 = NV_soDLA_CACC_CALC_int8_14_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3838.4]
   assign calc_pout_14 = calc_pout_vld_14 ? calc_pout_sum_14 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4173.4]
-  assign calc_pout_vld_15 = NV_soDLA_CACC_CALC_int8_15_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3851.4]
-  assign calc_pout_sum_15 = NV_soDLA_CACC_CALC_int8_15_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3850.4]
+  assign calc_pout_vld_15 = NV_soDLA_CACC_CALC_int8_15_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3851.4]
+  assign calc_pout_sum_15 = NV_soDLA_CACC_CALC_int8_15_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3850.4]
   assign calc_pout_15 = calc_pout_vld_15 ? calc_pout_sum_15 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4179.4]
-  assign calc_pout_vld_16 = NV_soDLA_CACC_CALC_int8_16_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3863.4]
-  assign calc_pout_sum_16 = NV_soDLA_CACC_CALC_int8_16_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3862.4]
+  assign calc_pout_vld_16 = NV_soDLA_CACC_CALC_int8_16_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3863.4]
+  assign calc_pout_sum_16 = NV_soDLA_CACC_CALC_int8_16_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3862.4]
   assign calc_pout_16 = calc_pout_vld_16 ? calc_pout_sum_16 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4185.4]
-  assign calc_pout_vld_17 = NV_soDLA_CACC_CALC_int8_17_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3875.4]
-  assign calc_pout_sum_17 = NV_soDLA_CACC_CALC_int8_17_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3874.4]
+  assign calc_pout_vld_17 = NV_soDLA_CACC_CALC_int8_17_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3875.4]
+  assign calc_pout_sum_17 = NV_soDLA_CACC_CALC_int8_17_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3874.4]
   assign calc_pout_17 = calc_pout_vld_17 ? calc_pout_sum_17 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4191.4]
-  assign calc_pout_vld_18 = NV_soDLA_CACC_CALC_int8_18_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3887.4]
-  assign calc_pout_sum_18 = NV_soDLA_CACC_CALC_int8_18_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3886.4]
+  assign calc_pout_vld_18 = NV_soDLA_CACC_CALC_int8_18_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3887.4]
+  assign calc_pout_sum_18 = NV_soDLA_CACC_CALC_int8_18_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3886.4]
   assign calc_pout_18 = calc_pout_vld_18 ? calc_pout_sum_18 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4197.4]
-  assign calc_pout_vld_19 = NV_soDLA_CACC_CALC_int8_19_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3899.4]
-  assign calc_pout_sum_19 = NV_soDLA_CACC_CALC_int8_19_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3898.4]
+  assign calc_pout_vld_19 = NV_soDLA_CACC_CALC_int8_19_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3899.4]
+  assign calc_pout_sum_19 = NV_soDLA_CACC_CALC_int8_19_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3898.4]
   assign calc_pout_19 = calc_pout_vld_19 ? calc_pout_sum_19 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4203.4]
-  assign calc_pout_vld_20 = NV_soDLA_CACC_CALC_int8_20_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3911.4]
-  assign calc_pout_sum_20 = NV_soDLA_CACC_CALC_int8_20_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3910.4]
+  assign calc_pout_vld_20 = NV_soDLA_CACC_CALC_int8_20_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3911.4]
+  assign calc_pout_sum_20 = NV_soDLA_CACC_CALC_int8_20_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3910.4]
   assign calc_pout_20 = calc_pout_vld_20 ? calc_pout_sum_20 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4209.4]
-  assign calc_pout_vld_21 = NV_soDLA_CACC_CALC_int8_21_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3923.4]
-  assign calc_pout_sum_21 = NV_soDLA_CACC_CALC_int8_21_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3922.4]
+  assign calc_pout_vld_21 = NV_soDLA_CACC_CALC_int8_21_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3923.4]
+  assign calc_pout_sum_21 = NV_soDLA_CACC_CALC_int8_21_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3922.4]
   assign calc_pout_21 = calc_pout_vld_21 ? calc_pout_sum_21 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4215.4]
-  assign calc_pout_vld_22 = NV_soDLA_CACC_CALC_int8_22_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3935.4]
-  assign calc_pout_sum_22 = NV_soDLA_CACC_CALC_int8_22_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3934.4]
+  assign calc_pout_vld_22 = NV_soDLA_CACC_CALC_int8_22_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3935.4]
+  assign calc_pout_sum_22 = NV_soDLA_CACC_CALC_int8_22_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3934.4]
   assign calc_pout_22 = calc_pout_vld_22 ? calc_pout_sum_22 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4221.4]
-  assign calc_pout_vld_23 = NV_soDLA_CACC_CALC_int8_23_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3947.4]
-  assign calc_pout_sum_23 = NV_soDLA_CACC_CALC_int8_23_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3946.4]
+  assign calc_pout_vld_23 = NV_soDLA_CACC_CALC_int8_23_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3947.4]
+  assign calc_pout_sum_23 = NV_soDLA_CACC_CALC_int8_23_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3946.4]
   assign calc_pout_23 = calc_pout_vld_23 ? calc_pout_sum_23 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4227.4]
-  assign calc_pout_vld_24 = NV_soDLA_CACC_CALC_int8_24_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3959.4]
-  assign calc_pout_sum_24 = NV_soDLA_CACC_CALC_int8_24_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3958.4]
+  assign calc_pout_vld_24 = NV_soDLA_CACC_CALC_int8_24_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3959.4]
+  assign calc_pout_sum_24 = NV_soDLA_CACC_CALC_int8_24_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3958.4]
   assign calc_pout_24 = calc_pout_vld_24 ? calc_pout_sum_24 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4233.4]
-  assign calc_pout_vld_25 = NV_soDLA_CACC_CALC_int8_25_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3971.4]
-  assign calc_pout_sum_25 = NV_soDLA_CACC_CALC_int8_25_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3970.4]
+  assign calc_pout_vld_25 = NV_soDLA_CACC_CALC_int8_25_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3971.4]
+  assign calc_pout_sum_25 = NV_soDLA_CACC_CALC_int8_25_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3970.4]
   assign calc_pout_25 = calc_pout_vld_25 ? calc_pout_sum_25 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4239.4]
-  assign calc_pout_vld_26 = NV_soDLA_CACC_CALC_int8_26_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3983.4]
-  assign calc_pout_sum_26 = NV_soDLA_CACC_CALC_int8_26_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3982.4]
+  assign calc_pout_vld_26 = NV_soDLA_CACC_CALC_int8_26_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3983.4]
+  assign calc_pout_sum_26 = NV_soDLA_CACC_CALC_int8_26_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3982.4]
   assign calc_pout_26 = calc_pout_vld_26 ? calc_pout_sum_26 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4245.4]
-  assign calc_pout_vld_27 = NV_soDLA_CACC_CALC_int8_27_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3995.4]
-  assign calc_pout_sum_27 = NV_soDLA_CACC_CALC_int8_27_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3994.4]
+  assign calc_pout_vld_27 = NV_soDLA_CACC_CALC_int8_27_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@3995.4]
+  assign calc_pout_sum_27 = NV_soDLA_CACC_CALC_int8_27_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@3994.4]
   assign calc_pout_27 = calc_pout_vld_27 ? calc_pout_sum_27 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4251.4]
-  assign calc_pout_vld_28 = NV_soDLA_CACC_CALC_int8_28_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@4007.4]
-  assign calc_pout_sum_28 = NV_soDLA_CACC_CALC_int8_28_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@4006.4]
+  assign calc_pout_vld_28 = NV_soDLA_CACC_CALC_int8_28_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@4007.4]
+  assign calc_pout_sum_28 = NV_soDLA_CACC_CALC_int8_28_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@4006.4]
   assign calc_pout_28 = calc_pout_vld_28 ? calc_pout_sum_28 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4257.4]
-  assign calc_pout_vld_29 = NV_soDLA_CACC_CALC_int8_29_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@4019.4]
-  assign calc_pout_sum_29 = NV_soDLA_CACC_CALC_int8_29_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@4018.4]
+  assign calc_pout_vld_29 = NV_soDLA_CACC_CALC_int8_29_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@4019.4]
+  assign calc_pout_sum_29 = NV_soDLA_CACC_CALC_int8_29_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@4018.4]
   assign calc_pout_29 = calc_pout_vld_29 ? calc_pout_sum_29 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4263.4]
-  assign calc_pout_vld_30 = NV_soDLA_CACC_CALC_int8_30_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@4031.4]
-  assign calc_pout_sum_30 = NV_soDLA_CACC_CALC_int8_30_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@4030.4]
+  assign calc_pout_vld_30 = NV_soDLA_CACC_CALC_int8_30_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@4031.4]
+  assign calc_pout_sum_30 = NV_soDLA_CACC_CALC_int8_30_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@4030.4]
   assign calc_pout_30 = calc_pout_vld_30 ? calc_pout_sum_30 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4269.4]
-  assign calc_pout_vld_31 = NV_soDLA_CACC_CALC_int8_31_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@4043.4]
-  assign calc_pout_sum_31 = NV_soDLA_CACC_CALC_int8_31_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@4042.4]
+  assign calc_pout_vld_31 = NV_soDLA_CACC_CALC_int8_31_io_out_partial_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 106:29:@3560.4 NV_NVDLA_CACC_calculator_for_check.scala 125:26:@4043.4]
+  assign calc_pout_sum_31 = NV_soDLA_CACC_CALC_int8_31_io_out_partial_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 108:29:@3562.4 NV_NVDLA_CACC_calculator_for_check.scala 124:26:@4042.4]
   assign calc_pout_31 = calc_pout_vld_31 ? calc_pout_sum_31 : 34'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 179:31:@4275.4]
-  assign calc_fout_vld_0 = NV_soDLA_CACC_CALC_int8_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3669.4]
-  assign calc_fout_sum_0 = NV_soDLA_CACC_CALC_int8_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3667.4]
+  assign calc_fout_vld_0 = NV_soDLA_CACC_CALC_int8_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3669.4]
+  assign calc_fout_sum_0 = NV_soDLA_CACC_CALC_int8_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3667.4]
   assign calc_fout_0 = calc_fout_vld_0 ? calc_fout_sum_0 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4282.4]
-  assign calc_fout_vld_1 = NV_soDLA_CACC_CALC_int8_1_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3681.4]
-  assign calc_fout_sum_1 = NV_soDLA_CACC_CALC_int8_1_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3679.4]
+  assign calc_fout_vld_1 = NV_soDLA_CACC_CALC_int8_1_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3681.4]
+  assign calc_fout_sum_1 = NV_soDLA_CACC_CALC_int8_1_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3679.4]
   assign calc_fout_1 = calc_fout_vld_1 ? calc_fout_sum_1 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4288.4]
-  assign calc_fout_vld_2 = NV_soDLA_CACC_CALC_int8_2_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3693.4]
-  assign calc_fout_sum_2 = NV_soDLA_CACC_CALC_int8_2_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3691.4]
+  assign calc_fout_vld_2 = NV_soDLA_CACC_CALC_int8_2_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3693.4]
+  assign calc_fout_sum_2 = NV_soDLA_CACC_CALC_int8_2_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3691.4]
   assign calc_fout_2 = calc_fout_vld_2 ? calc_fout_sum_2 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4294.4]
-  assign calc_fout_vld_3 = NV_soDLA_CACC_CALC_int8_3_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3705.4]
-  assign calc_fout_sum_3 = NV_soDLA_CACC_CALC_int8_3_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3703.4]
+  assign calc_fout_vld_3 = NV_soDLA_CACC_CALC_int8_3_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3705.4]
+  assign calc_fout_sum_3 = NV_soDLA_CACC_CALC_int8_3_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3703.4]
   assign calc_fout_3 = calc_fout_vld_3 ? calc_fout_sum_3 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4300.4]
-  assign calc_fout_vld_4 = NV_soDLA_CACC_CALC_int8_4_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3717.4]
-  assign calc_fout_sum_4 = NV_soDLA_CACC_CALC_int8_4_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3715.4]
+  assign calc_fout_vld_4 = NV_soDLA_CACC_CALC_int8_4_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3717.4]
+  assign calc_fout_sum_4 = NV_soDLA_CACC_CALC_int8_4_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3715.4]
   assign calc_fout_4 = calc_fout_vld_4 ? calc_fout_sum_4 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4306.4]
-  assign calc_fout_vld_5 = NV_soDLA_CACC_CALC_int8_5_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3729.4]
-  assign calc_fout_sum_5 = NV_soDLA_CACC_CALC_int8_5_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3727.4]
+  assign calc_fout_vld_5 = NV_soDLA_CACC_CALC_int8_5_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3729.4]
+  assign calc_fout_sum_5 = NV_soDLA_CACC_CALC_int8_5_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3727.4]
   assign calc_fout_5 = calc_fout_vld_5 ? calc_fout_sum_5 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4312.4]
-  assign calc_fout_vld_6 = NV_soDLA_CACC_CALC_int8_6_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3741.4]
-  assign calc_fout_sum_6 = NV_soDLA_CACC_CALC_int8_6_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3739.4]
+  assign calc_fout_vld_6 = NV_soDLA_CACC_CALC_int8_6_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3741.4]
+  assign calc_fout_sum_6 = NV_soDLA_CACC_CALC_int8_6_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3739.4]
   assign calc_fout_6 = calc_fout_vld_6 ? calc_fout_sum_6 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4318.4]
-  assign calc_fout_vld_7 = NV_soDLA_CACC_CALC_int8_7_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3753.4]
-  assign calc_fout_sum_7 = NV_soDLA_CACC_CALC_int8_7_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3751.4]
+  assign calc_fout_vld_7 = NV_soDLA_CACC_CALC_int8_7_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3753.4]
+  assign calc_fout_sum_7 = NV_soDLA_CACC_CALC_int8_7_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3751.4]
   assign calc_fout_7 = calc_fout_vld_7 ? calc_fout_sum_7 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4324.4]
-  assign calc_fout_vld_8 = NV_soDLA_CACC_CALC_int8_8_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3765.4]
-  assign calc_fout_sum_8 = NV_soDLA_CACC_CALC_int8_8_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3763.4]
+  assign calc_fout_vld_8 = NV_soDLA_CACC_CALC_int8_8_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3765.4]
+  assign calc_fout_sum_8 = NV_soDLA_CACC_CALC_int8_8_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3763.4]
   assign calc_fout_8 = calc_fout_vld_8 ? calc_fout_sum_8 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4330.4]
-  assign calc_fout_vld_9 = NV_soDLA_CACC_CALC_int8_9_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3777.4]
-  assign calc_fout_sum_9 = NV_soDLA_CACC_CALC_int8_9_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3775.4]
+  assign calc_fout_vld_9 = NV_soDLA_CACC_CALC_int8_9_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3777.4]
+  assign calc_fout_sum_9 = NV_soDLA_CACC_CALC_int8_9_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3775.4]
   assign calc_fout_9 = calc_fout_vld_9 ? calc_fout_sum_9 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4336.4]
-  assign calc_fout_vld_10 = NV_soDLA_CACC_CALC_int8_10_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3789.4]
-  assign calc_fout_sum_10 = NV_soDLA_CACC_CALC_int8_10_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3787.4]
+  assign calc_fout_vld_10 = NV_soDLA_CACC_CALC_int8_10_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3789.4]
+  assign calc_fout_sum_10 = NV_soDLA_CACC_CALC_int8_10_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3787.4]
   assign calc_fout_10 = calc_fout_vld_10 ? calc_fout_sum_10 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4342.4]
-  assign calc_fout_vld_11 = NV_soDLA_CACC_CALC_int8_11_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3801.4]
-  assign calc_fout_sum_11 = NV_soDLA_CACC_CALC_int8_11_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3799.4]
+  assign calc_fout_vld_11 = NV_soDLA_CACC_CALC_int8_11_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3801.4]
+  assign calc_fout_sum_11 = NV_soDLA_CACC_CALC_int8_11_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3799.4]
   assign calc_fout_11 = calc_fout_vld_11 ? calc_fout_sum_11 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4348.4]
-  assign calc_fout_vld_12 = NV_soDLA_CACC_CALC_int8_12_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3813.4]
-  assign calc_fout_sum_12 = NV_soDLA_CACC_CALC_int8_12_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3811.4]
+  assign calc_fout_vld_12 = NV_soDLA_CACC_CALC_int8_12_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3813.4]
+  assign calc_fout_sum_12 = NV_soDLA_CACC_CALC_int8_12_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3811.4]
   assign calc_fout_12 = calc_fout_vld_12 ? calc_fout_sum_12 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4354.4]
-  assign calc_fout_vld_13 = NV_soDLA_CACC_CALC_int8_13_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3825.4]
-  assign calc_fout_sum_13 = NV_soDLA_CACC_CALC_int8_13_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3823.4]
+  assign calc_fout_vld_13 = NV_soDLA_CACC_CALC_int8_13_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3825.4]
+  assign calc_fout_sum_13 = NV_soDLA_CACC_CALC_int8_13_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3823.4]
   assign calc_fout_13 = calc_fout_vld_13 ? calc_fout_sum_13 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4360.4]
-  assign calc_fout_vld_14 = NV_soDLA_CACC_CALC_int8_14_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3837.4]
-  assign calc_fout_sum_14 = NV_soDLA_CACC_CALC_int8_14_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3835.4]
+  assign calc_fout_vld_14 = NV_soDLA_CACC_CALC_int8_14_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3837.4]
+  assign calc_fout_sum_14 = NV_soDLA_CACC_CALC_int8_14_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3835.4]
   assign calc_fout_14 = calc_fout_vld_14 ? calc_fout_sum_14 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4366.4]
-  assign calc_fout_vld_15 = NV_soDLA_CACC_CALC_int8_15_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3849.4]
-  assign calc_fout_sum_15 = NV_soDLA_CACC_CALC_int8_15_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3847.4]
+  assign calc_fout_vld_15 = NV_soDLA_CACC_CALC_int8_15_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3849.4]
+  assign calc_fout_sum_15 = NV_soDLA_CACC_CALC_int8_15_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3847.4]
   assign calc_fout_15 = calc_fout_vld_15 ? calc_fout_sum_15 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4372.4]
-  assign calc_fout_vld_16 = NV_soDLA_CACC_CALC_int8_16_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3861.4]
-  assign calc_fout_sum_16 = NV_soDLA_CACC_CALC_int8_16_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3859.4]
+  assign calc_fout_vld_16 = NV_soDLA_CACC_CALC_int8_16_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3861.4]
+  assign calc_fout_sum_16 = NV_soDLA_CACC_CALC_int8_16_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3859.4]
   assign calc_fout_16 = calc_fout_vld_16 ? calc_fout_sum_16 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4378.4]
-  assign calc_fout_vld_17 = NV_soDLA_CACC_CALC_int8_17_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3873.4]
-  assign calc_fout_sum_17 = NV_soDLA_CACC_CALC_int8_17_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3871.4]
+  assign calc_fout_vld_17 = NV_soDLA_CACC_CALC_int8_17_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3873.4]
+  assign calc_fout_sum_17 = NV_soDLA_CACC_CALC_int8_17_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3871.4]
   assign calc_fout_17 = calc_fout_vld_17 ? calc_fout_sum_17 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4384.4]
-  assign calc_fout_vld_18 = NV_soDLA_CACC_CALC_int8_18_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3885.4]
-  assign calc_fout_sum_18 = NV_soDLA_CACC_CALC_int8_18_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3883.4]
+  assign calc_fout_vld_18 = NV_soDLA_CACC_CALC_int8_18_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3885.4]
+  assign calc_fout_sum_18 = NV_soDLA_CACC_CALC_int8_18_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3883.4]
   assign calc_fout_18 = calc_fout_vld_18 ? calc_fout_sum_18 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4390.4]
-  assign calc_fout_vld_19 = NV_soDLA_CACC_CALC_int8_19_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3897.4]
-  assign calc_fout_sum_19 = NV_soDLA_CACC_CALC_int8_19_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3895.4]
+  assign calc_fout_vld_19 = NV_soDLA_CACC_CALC_int8_19_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3897.4]
+  assign calc_fout_sum_19 = NV_soDLA_CACC_CALC_int8_19_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3895.4]
   assign calc_fout_19 = calc_fout_vld_19 ? calc_fout_sum_19 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4396.4]
-  assign calc_fout_vld_20 = NV_soDLA_CACC_CALC_int8_20_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3909.4]
-  assign calc_fout_sum_20 = NV_soDLA_CACC_CALC_int8_20_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3907.4]
+  assign calc_fout_vld_20 = NV_soDLA_CACC_CALC_int8_20_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3909.4]
+  assign calc_fout_sum_20 = NV_soDLA_CACC_CALC_int8_20_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3907.4]
   assign calc_fout_20 = calc_fout_vld_20 ? calc_fout_sum_20 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4402.4]
-  assign calc_fout_vld_21 = NV_soDLA_CACC_CALC_int8_21_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3921.4]
-  assign calc_fout_sum_21 = NV_soDLA_CACC_CALC_int8_21_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3919.4]
+  assign calc_fout_vld_21 = NV_soDLA_CACC_CALC_int8_21_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3921.4]
+  assign calc_fout_sum_21 = NV_soDLA_CACC_CALC_int8_21_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3919.4]
   assign calc_fout_21 = calc_fout_vld_21 ? calc_fout_sum_21 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4408.4]
-  assign calc_fout_vld_22 = NV_soDLA_CACC_CALC_int8_22_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3933.4]
-  assign calc_fout_sum_22 = NV_soDLA_CACC_CALC_int8_22_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3931.4]
+  assign calc_fout_vld_22 = NV_soDLA_CACC_CALC_int8_22_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3933.4]
+  assign calc_fout_sum_22 = NV_soDLA_CACC_CALC_int8_22_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3931.4]
   assign calc_fout_22 = calc_fout_vld_22 ? calc_fout_sum_22 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4414.4]
-  assign calc_fout_vld_23 = NV_soDLA_CACC_CALC_int8_23_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3945.4]
-  assign calc_fout_sum_23 = NV_soDLA_CACC_CALC_int8_23_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3943.4]
+  assign calc_fout_vld_23 = NV_soDLA_CACC_CALC_int8_23_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3945.4]
+  assign calc_fout_sum_23 = NV_soDLA_CACC_CALC_int8_23_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3943.4]
   assign calc_fout_23 = calc_fout_vld_23 ? calc_fout_sum_23 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4420.4]
-  assign calc_fout_vld_24 = NV_soDLA_CACC_CALC_int8_24_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3957.4]
-  assign calc_fout_sum_24 = NV_soDLA_CACC_CALC_int8_24_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3955.4]
+  assign calc_fout_vld_24 = NV_soDLA_CACC_CALC_int8_24_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3957.4]
+  assign calc_fout_sum_24 = NV_soDLA_CACC_CALC_int8_24_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3955.4]
   assign calc_fout_24 = calc_fout_vld_24 ? calc_fout_sum_24 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4426.4]
-  assign calc_fout_vld_25 = NV_soDLA_CACC_CALC_int8_25_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3969.4]
-  assign calc_fout_sum_25 = NV_soDLA_CACC_CALC_int8_25_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3967.4]
+  assign calc_fout_vld_25 = NV_soDLA_CACC_CALC_int8_25_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3969.4]
+  assign calc_fout_sum_25 = NV_soDLA_CACC_CALC_int8_25_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3967.4]
   assign calc_fout_25 = calc_fout_vld_25 ? calc_fout_sum_25 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4432.4]
-  assign calc_fout_vld_26 = NV_soDLA_CACC_CALC_int8_26_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3981.4]
-  assign calc_fout_sum_26 = NV_soDLA_CACC_CALC_int8_26_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3979.4]
+  assign calc_fout_vld_26 = NV_soDLA_CACC_CALC_int8_26_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3981.4]
+  assign calc_fout_sum_26 = NV_soDLA_CACC_CALC_int8_26_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3979.4]
   assign calc_fout_26 = calc_fout_vld_26 ? calc_fout_sum_26 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4438.4]
-  assign calc_fout_vld_27 = NV_soDLA_CACC_CALC_int8_27_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3993.4]
-  assign calc_fout_sum_27 = NV_soDLA_CACC_CALC_int8_27_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3991.4]
+  assign calc_fout_vld_27 = NV_soDLA_CACC_CALC_int8_27_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@3993.4]
+  assign calc_fout_sum_27 = NV_soDLA_CACC_CALC_int8_27_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@3991.4]
   assign calc_fout_27 = calc_fout_vld_27 ? calc_fout_sum_27 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4444.4]
-  assign calc_fout_vld_28 = NV_soDLA_CACC_CALC_int8_28_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@4005.4]
-  assign calc_fout_sum_28 = NV_soDLA_CACC_CALC_int8_28_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@4003.4]
+  assign calc_fout_vld_28 = NV_soDLA_CACC_CALC_int8_28_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@4005.4]
+  assign calc_fout_sum_28 = NV_soDLA_CACC_CALC_int8_28_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@4003.4]
   assign calc_fout_28 = calc_fout_vld_28 ? calc_fout_sum_28 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4450.4]
-  assign calc_fout_vld_29 = NV_soDLA_CACC_CALC_int8_29_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@4017.4]
-  assign calc_fout_sum_29 = NV_soDLA_CACC_CALC_int8_29_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@4015.4]
+  assign calc_fout_vld_29 = NV_soDLA_CACC_CALC_int8_29_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@4017.4]
+  assign calc_fout_sum_29 = NV_soDLA_CACC_CALC_int8_29_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@4015.4]
   assign calc_fout_29 = calc_fout_vld_29 ? calc_fout_sum_29 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4456.4]
-  assign calc_fout_vld_30 = NV_soDLA_CACC_CALC_int8_30_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@4029.4]
-  assign calc_fout_sum_30 = NV_soDLA_CACC_CALC_int8_30_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@4027.4]
+  assign calc_fout_vld_30 = NV_soDLA_CACC_CALC_int8_30_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@4029.4]
+  assign calc_fout_sum_30 = NV_soDLA_CACC_CALC_int8_30_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@4027.4]
   assign calc_fout_30 = calc_fout_vld_30 ? calc_fout_sum_30 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4462.4]
-  assign calc_fout_vld_31 = NV_soDLA_CACC_CALC_int8_31_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@4041.4]
-  assign calc_fout_sum_31 = NV_soDLA_CACC_CALC_int8_31_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@4039.4]
+  assign calc_fout_vld_31 = NV_soDLA_CACC_CALC_int8_31_io_out_final_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 107:29:@3561.4 NV_NVDLA_CACC_calculator_for_check.scala 123:26:@4041.4]
+  assign calc_fout_sum_31 = NV_soDLA_CACC_CALC_int8_31_io_out_final_data; // @[NV_NVDLA_CACC_calculator_for_check.scala 109:29:@3563.4 NV_NVDLA_CACC_calculator_for_check.scala 121:26:@4039.4]
   assign calc_fout_31 = calc_fout_vld_31 ? calc_fout_sum_31 : 32'h0; // @[NV_NVDLA_CACC_calculator_for_check.scala 188:31:@4468.4]
   assign _T_798 = {calc_pout_7,calc_pout_6,calc_pout_5,calc_pout_4,calc_pout_3,calc_pout_2,calc_pout_1,calc_pout_0}; // @[NV_NVDLA_CACC_calculator_for_check.scala 200:44:@4488.4]
   assign _T_806 = {calc_pout_15,calc_pout_14,calc_pout_13,calc_pout_12,calc_pout_11,calc_pout_10,calc_pout_9,calc_pout_8,_T_798}; // @[NV_NVDLA_CACC_calculator_for_check.scala 200:44:@4496.4]
@@ -1953,69 +1953,69 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   assign _T_1114 = calc_dlv_valid_out & _T_1113; // @[NV_NVDLA_CACC_calculator_for_check.scala 218:42:@4609.4]
   assign dlv_sat_clr = _T_1114 & dlv_sat_end_d1; // @[NV_NVDLA_CACC_calculator_for_check.scala 218:57:@4610.4]
   assign _GEN_79 = calc_dlv_valid_out ? dlv_sat_end : dlv_sat_end_d1; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_0 = NV_soDLA_CACC_CALC_int8_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3668.4]
+  assign calc_fout_sat_0 = NV_soDLA_CACC_CALC_int8_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3668.4]
   assign _GEN_80 = calc_dlv_valid_out ? calc_fout_sat_0 : dlv_sat_bit_d1_0; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_1 = NV_soDLA_CACC_CALC_int8_1_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3680.4]
+  assign calc_fout_sat_1 = NV_soDLA_CACC_CALC_int8_1_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3680.4]
   assign _GEN_81 = calc_dlv_valid_out ? calc_fout_sat_1 : dlv_sat_bit_d1_1; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_2 = NV_soDLA_CACC_CALC_int8_2_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3692.4]
+  assign calc_fout_sat_2 = NV_soDLA_CACC_CALC_int8_2_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3692.4]
   assign _GEN_82 = calc_dlv_valid_out ? calc_fout_sat_2 : dlv_sat_bit_d1_2; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_3 = NV_soDLA_CACC_CALC_int8_3_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3704.4]
+  assign calc_fout_sat_3 = NV_soDLA_CACC_CALC_int8_3_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3704.4]
   assign _GEN_83 = calc_dlv_valid_out ? calc_fout_sat_3 : dlv_sat_bit_d1_3; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_4 = NV_soDLA_CACC_CALC_int8_4_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3716.4]
+  assign calc_fout_sat_4 = NV_soDLA_CACC_CALC_int8_4_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3716.4]
   assign _GEN_84 = calc_dlv_valid_out ? calc_fout_sat_4 : dlv_sat_bit_d1_4; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_5 = NV_soDLA_CACC_CALC_int8_5_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3728.4]
+  assign calc_fout_sat_5 = NV_soDLA_CACC_CALC_int8_5_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3728.4]
   assign _GEN_85 = calc_dlv_valid_out ? calc_fout_sat_5 : dlv_sat_bit_d1_5; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_6 = NV_soDLA_CACC_CALC_int8_6_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3740.4]
+  assign calc_fout_sat_6 = NV_soDLA_CACC_CALC_int8_6_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3740.4]
   assign _GEN_86 = calc_dlv_valid_out ? calc_fout_sat_6 : dlv_sat_bit_d1_6; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_7 = NV_soDLA_CACC_CALC_int8_7_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3752.4]
+  assign calc_fout_sat_7 = NV_soDLA_CACC_CALC_int8_7_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3752.4]
   assign _GEN_87 = calc_dlv_valid_out ? calc_fout_sat_7 : dlv_sat_bit_d1_7; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_8 = NV_soDLA_CACC_CALC_int8_8_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3764.4]
+  assign calc_fout_sat_8 = NV_soDLA_CACC_CALC_int8_8_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3764.4]
   assign _GEN_88 = calc_dlv_valid_out ? calc_fout_sat_8 : dlv_sat_bit_d1_8; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_9 = NV_soDLA_CACC_CALC_int8_9_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3776.4]
+  assign calc_fout_sat_9 = NV_soDLA_CACC_CALC_int8_9_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3776.4]
   assign _GEN_89 = calc_dlv_valid_out ? calc_fout_sat_9 : dlv_sat_bit_d1_9; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_10 = NV_soDLA_CACC_CALC_int8_10_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3788.4]
+  assign calc_fout_sat_10 = NV_soDLA_CACC_CALC_int8_10_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3788.4]
   assign _GEN_90 = calc_dlv_valid_out ? calc_fout_sat_10 : dlv_sat_bit_d1_10; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_11 = NV_soDLA_CACC_CALC_int8_11_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3800.4]
+  assign calc_fout_sat_11 = NV_soDLA_CACC_CALC_int8_11_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3800.4]
   assign _GEN_91 = calc_dlv_valid_out ? calc_fout_sat_11 : dlv_sat_bit_d1_11; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_12 = NV_soDLA_CACC_CALC_int8_12_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3812.4]
+  assign calc_fout_sat_12 = NV_soDLA_CACC_CALC_int8_12_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3812.4]
   assign _GEN_92 = calc_dlv_valid_out ? calc_fout_sat_12 : dlv_sat_bit_d1_12; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_13 = NV_soDLA_CACC_CALC_int8_13_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3824.4]
+  assign calc_fout_sat_13 = NV_soDLA_CACC_CALC_int8_13_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3824.4]
   assign _GEN_93 = calc_dlv_valid_out ? calc_fout_sat_13 : dlv_sat_bit_d1_13; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_14 = NV_soDLA_CACC_CALC_int8_14_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3836.4]
+  assign calc_fout_sat_14 = NV_soDLA_CACC_CALC_int8_14_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3836.4]
   assign _GEN_94 = calc_dlv_valid_out ? calc_fout_sat_14 : dlv_sat_bit_d1_14; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_15 = NV_soDLA_CACC_CALC_int8_15_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3848.4]
+  assign calc_fout_sat_15 = NV_soDLA_CACC_CALC_int8_15_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3848.4]
   assign _GEN_95 = calc_dlv_valid_out ? calc_fout_sat_15 : dlv_sat_bit_d1_15; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_16 = NV_soDLA_CACC_CALC_int8_16_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3860.4]
+  assign calc_fout_sat_16 = NV_soDLA_CACC_CALC_int8_16_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3860.4]
   assign _GEN_96 = calc_dlv_valid_out ? calc_fout_sat_16 : dlv_sat_bit_d1_16; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_17 = NV_soDLA_CACC_CALC_int8_17_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3872.4]
+  assign calc_fout_sat_17 = NV_soDLA_CACC_CALC_int8_17_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3872.4]
   assign _GEN_97 = calc_dlv_valid_out ? calc_fout_sat_17 : dlv_sat_bit_d1_17; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_18 = NV_soDLA_CACC_CALC_int8_18_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3884.4]
+  assign calc_fout_sat_18 = NV_soDLA_CACC_CALC_int8_18_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3884.4]
   assign _GEN_98 = calc_dlv_valid_out ? calc_fout_sat_18 : dlv_sat_bit_d1_18; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_19 = NV_soDLA_CACC_CALC_int8_19_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3896.4]
+  assign calc_fout_sat_19 = NV_soDLA_CACC_CALC_int8_19_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3896.4]
   assign _GEN_99 = calc_dlv_valid_out ? calc_fout_sat_19 : dlv_sat_bit_d1_19; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_20 = NV_soDLA_CACC_CALC_int8_20_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3908.4]
+  assign calc_fout_sat_20 = NV_soDLA_CACC_CALC_int8_20_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3908.4]
   assign _GEN_100 = calc_dlv_valid_out ? calc_fout_sat_20 : dlv_sat_bit_d1_20; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_21 = NV_soDLA_CACC_CALC_int8_21_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3920.4]
+  assign calc_fout_sat_21 = NV_soDLA_CACC_CALC_int8_21_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3920.4]
   assign _GEN_101 = calc_dlv_valid_out ? calc_fout_sat_21 : dlv_sat_bit_d1_21; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_22 = NV_soDLA_CACC_CALC_int8_22_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3932.4]
+  assign calc_fout_sat_22 = NV_soDLA_CACC_CALC_int8_22_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3932.4]
   assign _GEN_102 = calc_dlv_valid_out ? calc_fout_sat_22 : dlv_sat_bit_d1_22; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_23 = NV_soDLA_CACC_CALC_int8_23_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3944.4]
+  assign calc_fout_sat_23 = NV_soDLA_CACC_CALC_int8_23_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3944.4]
   assign _GEN_103 = calc_dlv_valid_out ? calc_fout_sat_23 : dlv_sat_bit_d1_23; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_24 = NV_soDLA_CACC_CALC_int8_24_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3956.4]
+  assign calc_fout_sat_24 = NV_soDLA_CACC_CALC_int8_24_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3956.4]
   assign _GEN_104 = calc_dlv_valid_out ? calc_fout_sat_24 : dlv_sat_bit_d1_24; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_25 = NV_soDLA_CACC_CALC_int8_25_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3968.4]
+  assign calc_fout_sat_25 = NV_soDLA_CACC_CALC_int8_25_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3968.4]
   assign _GEN_105 = calc_dlv_valid_out ? calc_fout_sat_25 : dlv_sat_bit_d1_25; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_26 = NV_soDLA_CACC_CALC_int8_26_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3980.4]
+  assign calc_fout_sat_26 = NV_soDLA_CACC_CALC_int8_26_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3980.4]
   assign _GEN_106 = calc_dlv_valid_out ? calc_fout_sat_26 : dlv_sat_bit_d1_26; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_27 = NV_soDLA_CACC_CALC_int8_27_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3992.4]
+  assign calc_fout_sat_27 = NV_soDLA_CACC_CALC_int8_27_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@3992.4]
   assign _GEN_107 = calc_dlv_valid_out ? calc_fout_sat_27 : dlv_sat_bit_d1_27; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_28 = NV_soDLA_CACC_CALC_int8_28_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@4004.4]
+  assign calc_fout_sat_28 = NV_soDLA_CACC_CALC_int8_28_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@4004.4]
   assign _GEN_108 = calc_dlv_valid_out ? calc_fout_sat_28 : dlv_sat_bit_d1_28; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_29 = NV_soDLA_CACC_CALC_int8_29_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@4016.4]
+  assign calc_fout_sat_29 = NV_soDLA_CACC_CALC_int8_29_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@4016.4]
   assign _GEN_109 = calc_dlv_valid_out ? calc_fout_sat_29 : dlv_sat_bit_d1_29; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_30 = NV_soDLA_CACC_CALC_int8_30_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@4028.4]
+  assign calc_fout_sat_30 = NV_soDLA_CACC_CALC_int8_30_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@4028.4]
   assign _GEN_110 = calc_dlv_valid_out ? calc_fout_sat_30 : dlv_sat_bit_d1_30; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
-  assign calc_fout_sat_31 = NV_soDLA_CACC_CALC_int8_31_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@4040.4]
+  assign calc_fout_sat_31 = NV_soDLA_CACC_CALC_int8_31_io_out_final_sat; // @[NV_NVDLA_CACC_calculator_for_check.scala 105:29:@3559.4 NV_NVDLA_CACC_calculator_for_check.scala 122:26:@4040.4]
   assign _GEN_111 = calc_dlv_valid_out ? calc_fout_sat_31 : dlv_sat_bit_d1_31; // @[NV_NVDLA_CACC_calculator_for_check.scala 221:29:@4612.4]
   assign _T_1153 = dlv_sat_bit_d1_0 + dlv_sat_bit_d1_1; // @[NV_NVDLA_CACC_calculator_for_check.scala 226:98:@4681.4]
   assign _GEN_113 = {{1'd0}, dlv_sat_bit_d1_2}; // @[NV_NVDLA_CACC_calculator_for_check.scala 226:98:@4682.4]
@@ -2088,270 +2088,270 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   assign _T_1197 = _T_1196 | dlv_sat_clr_d1; // @[NV_NVDLA_CACC_calculator_for_check.scala 233:54:@4722.4]
   assign sat_reg_en = dlv_sat_vld_d1 & _T_1197; // @[NV_NVDLA_CACC_calculator_for_check.scala 233:37:@4723.4]
   assign _GEN_112 = sat_reg_en ? sat_count_w : {{24'd0}, sat_count}; // @[NV_NVDLA_CACC_calculator_for_check.scala 234:21:@4724.4]
-  assign abuf_wr_addr_valid = _T_789; // @[NV_NVDLA_CACC_calculator_for_check.scala 198:27:@4476.4]
-  assign abuf_wr_addr_bits = _T_791; // @[NV_NVDLA_CACC_calculator_for_check.scala 199:26:@4481.4]
-  assign abuf_wr_data = _T_824; // @[NV_NVDLA_CACC_calculator_for_check.scala 200:21:@4517.4]
-  assign dlv_valid = _T_860; // @[NV_NVDLA_CACC_calculator_for_check.scala 204:18:@4556.4]
-  assign dlv_mask = _T_863; // @[NV_NVDLA_CACC_calculator_for_check.scala 205:17:@4559.4]
-  assign dlv_data = _T_857; // @[NV_NVDLA_CACC_calculator_for_check.scala 203:17:@4553.4]
-  assign dlv_pd = {dlv_layer_end,dlv_stripe_end}; // @[NV_NVDLA_CACC_calculator_for_check.scala 208:15:@4569.4]
-  assign dp2reg_sat_count = sat_count; // @[NV_NVDLA_CACC_calculator_for_check.scala 238:25:@4727.4]
+  assign io_abuf_wr_addr_valid = _T_789; // @[NV_NVDLA_CACC_calculator_for_check.scala 198:27:@4476.4]
+  assign io_abuf_wr_addr_bits = _T_791; // @[NV_NVDLA_CACC_calculator_for_check.scala 199:26:@4481.4]
+  assign io_abuf_wr_data = _T_824; // @[NV_NVDLA_CACC_calculator_for_check.scala 200:21:@4517.4]
+  assign io_dlv_valid = _T_860; // @[NV_NVDLA_CACC_calculator_for_check.scala 204:18:@4556.4]
+  assign io_dlv_mask = _T_863; // @[NV_NVDLA_CACC_calculator_for_check.scala 205:17:@4559.4]
+  assign io_dlv_data = _T_857; // @[NV_NVDLA_CACC_calculator_for_check.scala 203:17:@4553.4]
+  assign io_dlv_pd = {dlv_layer_end,dlv_stripe_end}; // @[NV_NVDLA_CACC_calculator_for_check.scala 208:15:@4569.4]
+  assign io_dp2reg_sat_count = sat_count; // @[NV_NVDLA_CACC_calculator_for_check.scala 238:25:@4727.4]
   assign NV_soDLA_CACC_CALC_int8_reset = reset; // @[:@3566.4]
-  assign NV_soDLA_CACC_CALC_int8_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3660.4]
-  assign NV_soDLA_CACC_CALC_int8_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3661.4]
-  assign NV_soDLA_CACC_CALC_int8_in_data = mac_a2accu_data_0; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3662.4]
-  assign NV_soDLA_CACC_CALC_int8_in_op = abuf_rd_data[33:0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3663.4]
-  assign NV_soDLA_CACC_CALC_int8_in_op_valid = calc_in_mask_0 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3664.4]
-  assign NV_soDLA_CACC_CALC_int8_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3665.4]
-  assign NV_soDLA_CACC_CALC_int8_in_valid = mac_a2accu_mask[0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3666.4]
+  assign NV_soDLA_CACC_CALC_int8_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3660.4]
+  assign NV_soDLA_CACC_CALC_int8_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3661.4]
+  assign NV_soDLA_CACC_CALC_int8_io_in_data = io_mac_a2accu_data_0; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3662.4]
+  assign NV_soDLA_CACC_CALC_int8_io_in_op = io_abuf_rd_data[33:0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3663.4]
+  assign NV_soDLA_CACC_CALC_int8_io_in_op_valid = calc_in_mask_0 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3664.4]
+  assign NV_soDLA_CACC_CALC_int8_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3665.4]
+  assign NV_soDLA_CACC_CALC_int8_io_in_valid = io_mac_a2accu_mask[0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3666.4]
   assign NV_soDLA_CACC_CALC_int8_1_reset = reset; // @[:@3569.4]
-  assign NV_soDLA_CACC_CALC_int8_1_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3672.4]
-  assign NV_soDLA_CACC_CALC_int8_1_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3673.4]
-  assign NV_soDLA_CACC_CALC_int8_1_in_data = mac_a2accu_data_1; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3674.4]
-  assign NV_soDLA_CACC_CALC_int8_1_in_op = abuf_rd_data[67:34]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3675.4]
-  assign NV_soDLA_CACC_CALC_int8_1_in_op_valid = calc_in_mask_1 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3676.4]
-  assign NV_soDLA_CACC_CALC_int8_1_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3677.4]
-  assign NV_soDLA_CACC_CALC_int8_1_in_valid = mac_a2accu_mask[1]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3678.4]
+  assign NV_soDLA_CACC_CALC_int8_1_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3672.4]
+  assign NV_soDLA_CACC_CALC_int8_1_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3673.4]
+  assign NV_soDLA_CACC_CALC_int8_1_io_in_data = io_mac_a2accu_data_1; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3674.4]
+  assign NV_soDLA_CACC_CALC_int8_1_io_in_op = io_abuf_rd_data[67:34]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3675.4]
+  assign NV_soDLA_CACC_CALC_int8_1_io_in_op_valid = calc_in_mask_1 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3676.4]
+  assign NV_soDLA_CACC_CALC_int8_1_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3677.4]
+  assign NV_soDLA_CACC_CALC_int8_1_io_in_valid = io_mac_a2accu_mask[1]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3678.4]
   assign NV_soDLA_CACC_CALC_int8_2_reset = reset; // @[:@3572.4]
-  assign NV_soDLA_CACC_CALC_int8_2_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3684.4]
-  assign NV_soDLA_CACC_CALC_int8_2_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3685.4]
-  assign NV_soDLA_CACC_CALC_int8_2_in_data = mac_a2accu_data_2; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3686.4]
-  assign NV_soDLA_CACC_CALC_int8_2_in_op = abuf_rd_data[101:68]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3687.4]
-  assign NV_soDLA_CACC_CALC_int8_2_in_op_valid = calc_in_mask_2 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3688.4]
-  assign NV_soDLA_CACC_CALC_int8_2_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3689.4]
-  assign NV_soDLA_CACC_CALC_int8_2_in_valid = mac_a2accu_mask[2]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3690.4]
+  assign NV_soDLA_CACC_CALC_int8_2_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3684.4]
+  assign NV_soDLA_CACC_CALC_int8_2_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3685.4]
+  assign NV_soDLA_CACC_CALC_int8_2_io_in_data = io_mac_a2accu_data_2; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3686.4]
+  assign NV_soDLA_CACC_CALC_int8_2_io_in_op = io_abuf_rd_data[101:68]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3687.4]
+  assign NV_soDLA_CACC_CALC_int8_2_io_in_op_valid = calc_in_mask_2 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3688.4]
+  assign NV_soDLA_CACC_CALC_int8_2_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3689.4]
+  assign NV_soDLA_CACC_CALC_int8_2_io_in_valid = io_mac_a2accu_mask[2]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3690.4]
   assign NV_soDLA_CACC_CALC_int8_3_reset = reset; // @[:@3575.4]
-  assign NV_soDLA_CACC_CALC_int8_3_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3696.4]
-  assign NV_soDLA_CACC_CALC_int8_3_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3697.4]
-  assign NV_soDLA_CACC_CALC_int8_3_in_data = mac_a2accu_data_3; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3698.4]
-  assign NV_soDLA_CACC_CALC_int8_3_in_op = abuf_rd_data[135:102]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3699.4]
-  assign NV_soDLA_CACC_CALC_int8_3_in_op_valid = calc_in_mask_3 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3700.4]
-  assign NV_soDLA_CACC_CALC_int8_3_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3701.4]
-  assign NV_soDLA_CACC_CALC_int8_3_in_valid = mac_a2accu_mask[3]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3702.4]
+  assign NV_soDLA_CACC_CALC_int8_3_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3696.4]
+  assign NV_soDLA_CACC_CALC_int8_3_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3697.4]
+  assign NV_soDLA_CACC_CALC_int8_3_io_in_data = io_mac_a2accu_data_3; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3698.4]
+  assign NV_soDLA_CACC_CALC_int8_3_io_in_op = io_abuf_rd_data[135:102]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3699.4]
+  assign NV_soDLA_CACC_CALC_int8_3_io_in_op_valid = calc_in_mask_3 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3700.4]
+  assign NV_soDLA_CACC_CALC_int8_3_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3701.4]
+  assign NV_soDLA_CACC_CALC_int8_3_io_in_valid = io_mac_a2accu_mask[3]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3702.4]
   assign NV_soDLA_CACC_CALC_int8_4_reset = reset; // @[:@3578.4]
-  assign NV_soDLA_CACC_CALC_int8_4_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3708.4]
-  assign NV_soDLA_CACC_CALC_int8_4_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3709.4]
-  assign NV_soDLA_CACC_CALC_int8_4_in_data = mac_a2accu_data_4; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3710.4]
-  assign NV_soDLA_CACC_CALC_int8_4_in_op = abuf_rd_data[169:136]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3711.4]
-  assign NV_soDLA_CACC_CALC_int8_4_in_op_valid = calc_in_mask_4 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3712.4]
-  assign NV_soDLA_CACC_CALC_int8_4_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3713.4]
-  assign NV_soDLA_CACC_CALC_int8_4_in_valid = mac_a2accu_mask[4]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3714.4]
+  assign NV_soDLA_CACC_CALC_int8_4_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3708.4]
+  assign NV_soDLA_CACC_CALC_int8_4_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3709.4]
+  assign NV_soDLA_CACC_CALC_int8_4_io_in_data = io_mac_a2accu_data_4; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3710.4]
+  assign NV_soDLA_CACC_CALC_int8_4_io_in_op = io_abuf_rd_data[169:136]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3711.4]
+  assign NV_soDLA_CACC_CALC_int8_4_io_in_op_valid = calc_in_mask_4 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3712.4]
+  assign NV_soDLA_CACC_CALC_int8_4_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3713.4]
+  assign NV_soDLA_CACC_CALC_int8_4_io_in_valid = io_mac_a2accu_mask[4]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3714.4]
   assign NV_soDLA_CACC_CALC_int8_5_reset = reset; // @[:@3581.4]
-  assign NV_soDLA_CACC_CALC_int8_5_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3720.4]
-  assign NV_soDLA_CACC_CALC_int8_5_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3721.4]
-  assign NV_soDLA_CACC_CALC_int8_5_in_data = mac_a2accu_data_5; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3722.4]
-  assign NV_soDLA_CACC_CALC_int8_5_in_op = abuf_rd_data[203:170]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3723.4]
-  assign NV_soDLA_CACC_CALC_int8_5_in_op_valid = calc_in_mask_5 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3724.4]
-  assign NV_soDLA_CACC_CALC_int8_5_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3725.4]
-  assign NV_soDLA_CACC_CALC_int8_5_in_valid = mac_a2accu_mask[5]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3726.4]
+  assign NV_soDLA_CACC_CALC_int8_5_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3720.4]
+  assign NV_soDLA_CACC_CALC_int8_5_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3721.4]
+  assign NV_soDLA_CACC_CALC_int8_5_io_in_data = io_mac_a2accu_data_5; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3722.4]
+  assign NV_soDLA_CACC_CALC_int8_5_io_in_op = io_abuf_rd_data[203:170]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3723.4]
+  assign NV_soDLA_CACC_CALC_int8_5_io_in_op_valid = calc_in_mask_5 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3724.4]
+  assign NV_soDLA_CACC_CALC_int8_5_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3725.4]
+  assign NV_soDLA_CACC_CALC_int8_5_io_in_valid = io_mac_a2accu_mask[5]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3726.4]
   assign NV_soDLA_CACC_CALC_int8_6_reset = reset; // @[:@3584.4]
-  assign NV_soDLA_CACC_CALC_int8_6_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3732.4]
-  assign NV_soDLA_CACC_CALC_int8_6_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3733.4]
-  assign NV_soDLA_CACC_CALC_int8_6_in_data = mac_a2accu_data_6; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3734.4]
-  assign NV_soDLA_CACC_CALC_int8_6_in_op = abuf_rd_data[237:204]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3735.4]
-  assign NV_soDLA_CACC_CALC_int8_6_in_op_valid = calc_in_mask_6 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3736.4]
-  assign NV_soDLA_CACC_CALC_int8_6_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3737.4]
-  assign NV_soDLA_CACC_CALC_int8_6_in_valid = mac_a2accu_mask[6]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3738.4]
+  assign NV_soDLA_CACC_CALC_int8_6_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3732.4]
+  assign NV_soDLA_CACC_CALC_int8_6_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3733.4]
+  assign NV_soDLA_CACC_CALC_int8_6_io_in_data = io_mac_a2accu_data_6; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3734.4]
+  assign NV_soDLA_CACC_CALC_int8_6_io_in_op = io_abuf_rd_data[237:204]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3735.4]
+  assign NV_soDLA_CACC_CALC_int8_6_io_in_op_valid = calc_in_mask_6 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3736.4]
+  assign NV_soDLA_CACC_CALC_int8_6_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3737.4]
+  assign NV_soDLA_CACC_CALC_int8_6_io_in_valid = io_mac_a2accu_mask[6]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3738.4]
   assign NV_soDLA_CACC_CALC_int8_7_reset = reset; // @[:@3587.4]
-  assign NV_soDLA_CACC_CALC_int8_7_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3744.4]
-  assign NV_soDLA_CACC_CALC_int8_7_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3745.4]
-  assign NV_soDLA_CACC_CALC_int8_7_in_data = mac_a2accu_data_7; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3746.4]
-  assign NV_soDLA_CACC_CALC_int8_7_in_op = abuf_rd_data[271:238]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3747.4]
-  assign NV_soDLA_CACC_CALC_int8_7_in_op_valid = calc_in_mask_7 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3748.4]
-  assign NV_soDLA_CACC_CALC_int8_7_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3749.4]
-  assign NV_soDLA_CACC_CALC_int8_7_in_valid = mac_a2accu_mask[7]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3750.4]
+  assign NV_soDLA_CACC_CALC_int8_7_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3744.4]
+  assign NV_soDLA_CACC_CALC_int8_7_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3745.4]
+  assign NV_soDLA_CACC_CALC_int8_7_io_in_data = io_mac_a2accu_data_7; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3746.4]
+  assign NV_soDLA_CACC_CALC_int8_7_io_in_op = io_abuf_rd_data[271:238]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3747.4]
+  assign NV_soDLA_CACC_CALC_int8_7_io_in_op_valid = calc_in_mask_7 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3748.4]
+  assign NV_soDLA_CACC_CALC_int8_7_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3749.4]
+  assign NV_soDLA_CACC_CALC_int8_7_io_in_valid = io_mac_a2accu_mask[7]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3750.4]
   assign NV_soDLA_CACC_CALC_int8_8_reset = reset; // @[:@3590.4]
-  assign NV_soDLA_CACC_CALC_int8_8_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3756.4]
-  assign NV_soDLA_CACC_CALC_int8_8_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3757.4]
-  assign NV_soDLA_CACC_CALC_int8_8_in_data = mac_a2accu_data_8; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3758.4]
-  assign NV_soDLA_CACC_CALC_int8_8_in_op = abuf_rd_data[305:272]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3759.4]
-  assign NV_soDLA_CACC_CALC_int8_8_in_op_valid = calc_in_mask_8 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3760.4]
-  assign NV_soDLA_CACC_CALC_int8_8_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3761.4]
-  assign NV_soDLA_CACC_CALC_int8_8_in_valid = mac_a2accu_mask[8]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3762.4]
+  assign NV_soDLA_CACC_CALC_int8_8_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3756.4]
+  assign NV_soDLA_CACC_CALC_int8_8_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3757.4]
+  assign NV_soDLA_CACC_CALC_int8_8_io_in_data = io_mac_a2accu_data_8; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3758.4]
+  assign NV_soDLA_CACC_CALC_int8_8_io_in_op = io_abuf_rd_data[305:272]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3759.4]
+  assign NV_soDLA_CACC_CALC_int8_8_io_in_op_valid = calc_in_mask_8 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3760.4]
+  assign NV_soDLA_CACC_CALC_int8_8_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3761.4]
+  assign NV_soDLA_CACC_CALC_int8_8_io_in_valid = io_mac_a2accu_mask[8]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3762.4]
   assign NV_soDLA_CACC_CALC_int8_9_reset = reset; // @[:@3593.4]
-  assign NV_soDLA_CACC_CALC_int8_9_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3768.4]
-  assign NV_soDLA_CACC_CALC_int8_9_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3769.4]
-  assign NV_soDLA_CACC_CALC_int8_9_in_data = mac_a2accu_data_9; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3770.4]
-  assign NV_soDLA_CACC_CALC_int8_9_in_op = abuf_rd_data[339:306]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3771.4]
-  assign NV_soDLA_CACC_CALC_int8_9_in_op_valid = calc_in_mask_9 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3772.4]
-  assign NV_soDLA_CACC_CALC_int8_9_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3773.4]
-  assign NV_soDLA_CACC_CALC_int8_9_in_valid = mac_a2accu_mask[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3774.4]
+  assign NV_soDLA_CACC_CALC_int8_9_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3768.4]
+  assign NV_soDLA_CACC_CALC_int8_9_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3769.4]
+  assign NV_soDLA_CACC_CALC_int8_9_io_in_data = io_mac_a2accu_data_9; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3770.4]
+  assign NV_soDLA_CACC_CALC_int8_9_io_in_op = io_abuf_rd_data[339:306]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3771.4]
+  assign NV_soDLA_CACC_CALC_int8_9_io_in_op_valid = calc_in_mask_9 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3772.4]
+  assign NV_soDLA_CACC_CALC_int8_9_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3773.4]
+  assign NV_soDLA_CACC_CALC_int8_9_io_in_valid = io_mac_a2accu_mask[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3774.4]
   assign NV_soDLA_CACC_CALC_int8_10_reset = reset; // @[:@3596.4]
-  assign NV_soDLA_CACC_CALC_int8_10_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3780.4]
-  assign NV_soDLA_CACC_CALC_int8_10_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3781.4]
-  assign NV_soDLA_CACC_CALC_int8_10_in_data = mac_a2accu_data_10; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3782.4]
-  assign NV_soDLA_CACC_CALC_int8_10_in_op = abuf_rd_data[373:340]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3783.4]
-  assign NV_soDLA_CACC_CALC_int8_10_in_op_valid = calc_in_mask_10 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3784.4]
-  assign NV_soDLA_CACC_CALC_int8_10_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3785.4]
-  assign NV_soDLA_CACC_CALC_int8_10_in_valid = mac_a2accu_mask[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3786.4]
+  assign NV_soDLA_CACC_CALC_int8_10_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3780.4]
+  assign NV_soDLA_CACC_CALC_int8_10_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3781.4]
+  assign NV_soDLA_CACC_CALC_int8_10_io_in_data = io_mac_a2accu_data_10; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3782.4]
+  assign NV_soDLA_CACC_CALC_int8_10_io_in_op = io_abuf_rd_data[373:340]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3783.4]
+  assign NV_soDLA_CACC_CALC_int8_10_io_in_op_valid = calc_in_mask_10 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3784.4]
+  assign NV_soDLA_CACC_CALC_int8_10_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3785.4]
+  assign NV_soDLA_CACC_CALC_int8_10_io_in_valid = io_mac_a2accu_mask[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3786.4]
   assign NV_soDLA_CACC_CALC_int8_11_reset = reset; // @[:@3599.4]
-  assign NV_soDLA_CACC_CALC_int8_11_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3792.4]
-  assign NV_soDLA_CACC_CALC_int8_11_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3793.4]
-  assign NV_soDLA_CACC_CALC_int8_11_in_data = mac_a2accu_data_11; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3794.4]
-  assign NV_soDLA_CACC_CALC_int8_11_in_op = abuf_rd_data[407:374]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3795.4]
-  assign NV_soDLA_CACC_CALC_int8_11_in_op_valid = calc_in_mask_11 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3796.4]
-  assign NV_soDLA_CACC_CALC_int8_11_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3797.4]
-  assign NV_soDLA_CACC_CALC_int8_11_in_valid = mac_a2accu_mask[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3798.4]
+  assign NV_soDLA_CACC_CALC_int8_11_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3792.4]
+  assign NV_soDLA_CACC_CALC_int8_11_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3793.4]
+  assign NV_soDLA_CACC_CALC_int8_11_io_in_data = io_mac_a2accu_data_11; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3794.4]
+  assign NV_soDLA_CACC_CALC_int8_11_io_in_op = io_abuf_rd_data[407:374]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3795.4]
+  assign NV_soDLA_CACC_CALC_int8_11_io_in_op_valid = calc_in_mask_11 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3796.4]
+  assign NV_soDLA_CACC_CALC_int8_11_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3797.4]
+  assign NV_soDLA_CACC_CALC_int8_11_io_in_valid = io_mac_a2accu_mask[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3798.4]
   assign NV_soDLA_CACC_CALC_int8_12_reset = reset; // @[:@3602.4]
-  assign NV_soDLA_CACC_CALC_int8_12_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3804.4]
-  assign NV_soDLA_CACC_CALC_int8_12_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3805.4]
-  assign NV_soDLA_CACC_CALC_int8_12_in_data = mac_a2accu_data_12; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3806.4]
-  assign NV_soDLA_CACC_CALC_int8_12_in_op = abuf_rd_data[441:408]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3807.4]
-  assign NV_soDLA_CACC_CALC_int8_12_in_op_valid = calc_in_mask_12 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3808.4]
-  assign NV_soDLA_CACC_CALC_int8_12_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3809.4]
-  assign NV_soDLA_CACC_CALC_int8_12_in_valid = mac_a2accu_mask[12]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3810.4]
+  assign NV_soDLA_CACC_CALC_int8_12_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3804.4]
+  assign NV_soDLA_CACC_CALC_int8_12_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3805.4]
+  assign NV_soDLA_CACC_CALC_int8_12_io_in_data = io_mac_a2accu_data_12; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3806.4]
+  assign NV_soDLA_CACC_CALC_int8_12_io_in_op = io_abuf_rd_data[441:408]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3807.4]
+  assign NV_soDLA_CACC_CALC_int8_12_io_in_op_valid = calc_in_mask_12 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3808.4]
+  assign NV_soDLA_CACC_CALC_int8_12_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3809.4]
+  assign NV_soDLA_CACC_CALC_int8_12_io_in_valid = io_mac_a2accu_mask[12]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3810.4]
   assign NV_soDLA_CACC_CALC_int8_13_reset = reset; // @[:@3605.4]
-  assign NV_soDLA_CACC_CALC_int8_13_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3816.4]
-  assign NV_soDLA_CACC_CALC_int8_13_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3817.4]
-  assign NV_soDLA_CACC_CALC_int8_13_in_data = mac_a2accu_data_13; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3818.4]
-  assign NV_soDLA_CACC_CALC_int8_13_in_op = abuf_rd_data[475:442]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3819.4]
-  assign NV_soDLA_CACC_CALC_int8_13_in_op_valid = calc_in_mask_13 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3820.4]
-  assign NV_soDLA_CACC_CALC_int8_13_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3821.4]
-  assign NV_soDLA_CACC_CALC_int8_13_in_valid = mac_a2accu_mask[13]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3822.4]
+  assign NV_soDLA_CACC_CALC_int8_13_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3816.4]
+  assign NV_soDLA_CACC_CALC_int8_13_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3817.4]
+  assign NV_soDLA_CACC_CALC_int8_13_io_in_data = io_mac_a2accu_data_13; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3818.4]
+  assign NV_soDLA_CACC_CALC_int8_13_io_in_op = io_abuf_rd_data[475:442]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3819.4]
+  assign NV_soDLA_CACC_CALC_int8_13_io_in_op_valid = calc_in_mask_13 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3820.4]
+  assign NV_soDLA_CACC_CALC_int8_13_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3821.4]
+  assign NV_soDLA_CACC_CALC_int8_13_io_in_valid = io_mac_a2accu_mask[13]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3822.4]
   assign NV_soDLA_CACC_CALC_int8_14_reset = reset; // @[:@3608.4]
-  assign NV_soDLA_CACC_CALC_int8_14_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3828.4]
-  assign NV_soDLA_CACC_CALC_int8_14_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3829.4]
-  assign NV_soDLA_CACC_CALC_int8_14_in_data = mac_a2accu_data_14; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3830.4]
-  assign NV_soDLA_CACC_CALC_int8_14_in_op = abuf_rd_data[509:476]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3831.4]
-  assign NV_soDLA_CACC_CALC_int8_14_in_op_valid = calc_in_mask_14 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3832.4]
-  assign NV_soDLA_CACC_CALC_int8_14_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3833.4]
-  assign NV_soDLA_CACC_CALC_int8_14_in_valid = mac_a2accu_mask[14]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3834.4]
+  assign NV_soDLA_CACC_CALC_int8_14_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3828.4]
+  assign NV_soDLA_CACC_CALC_int8_14_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3829.4]
+  assign NV_soDLA_CACC_CALC_int8_14_io_in_data = io_mac_a2accu_data_14; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3830.4]
+  assign NV_soDLA_CACC_CALC_int8_14_io_in_op = io_abuf_rd_data[509:476]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3831.4]
+  assign NV_soDLA_CACC_CALC_int8_14_io_in_op_valid = calc_in_mask_14 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3832.4]
+  assign NV_soDLA_CACC_CALC_int8_14_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3833.4]
+  assign NV_soDLA_CACC_CALC_int8_14_io_in_valid = io_mac_a2accu_mask[14]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3834.4]
   assign NV_soDLA_CACC_CALC_int8_15_reset = reset; // @[:@3611.4]
-  assign NV_soDLA_CACC_CALC_int8_15_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3840.4]
-  assign NV_soDLA_CACC_CALC_int8_15_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3841.4]
-  assign NV_soDLA_CACC_CALC_int8_15_in_data = mac_a2accu_data_15; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3842.4]
-  assign NV_soDLA_CACC_CALC_int8_15_in_op = abuf_rd_data[543:510]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3843.4]
-  assign NV_soDLA_CACC_CALC_int8_15_in_op_valid = calc_in_mask_15 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3844.4]
-  assign NV_soDLA_CACC_CALC_int8_15_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3845.4]
-  assign NV_soDLA_CACC_CALC_int8_15_in_valid = mac_a2accu_mask[15]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3846.4]
+  assign NV_soDLA_CACC_CALC_int8_15_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3840.4]
+  assign NV_soDLA_CACC_CALC_int8_15_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3841.4]
+  assign NV_soDLA_CACC_CALC_int8_15_io_in_data = io_mac_a2accu_data_15; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3842.4]
+  assign NV_soDLA_CACC_CALC_int8_15_io_in_op = io_abuf_rd_data[543:510]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3843.4]
+  assign NV_soDLA_CACC_CALC_int8_15_io_in_op_valid = calc_in_mask_15 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3844.4]
+  assign NV_soDLA_CACC_CALC_int8_15_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3845.4]
+  assign NV_soDLA_CACC_CALC_int8_15_io_in_valid = io_mac_a2accu_mask[15]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3846.4]
   assign NV_soDLA_CACC_CALC_int8_16_reset = reset; // @[:@3614.4]
-  assign NV_soDLA_CACC_CALC_int8_16_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3852.4]
-  assign NV_soDLA_CACC_CALC_int8_16_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3853.4]
-  assign NV_soDLA_CACC_CALC_int8_16_in_data = mac_b2accu_data_0; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3854.4]
-  assign NV_soDLA_CACC_CALC_int8_16_in_op = abuf_rd_data[577:544]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3855.4]
-  assign NV_soDLA_CACC_CALC_int8_16_in_op_valid = calc_in_mask_16 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3856.4]
-  assign NV_soDLA_CACC_CALC_int8_16_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3857.4]
-  assign NV_soDLA_CACC_CALC_int8_16_in_valid = mac_b2accu_mask[0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3858.4]
+  assign NV_soDLA_CACC_CALC_int8_16_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3852.4]
+  assign NV_soDLA_CACC_CALC_int8_16_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3853.4]
+  assign NV_soDLA_CACC_CALC_int8_16_io_in_data = io_mac_b2accu_data_0; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3854.4]
+  assign NV_soDLA_CACC_CALC_int8_16_io_in_op = io_abuf_rd_data[577:544]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3855.4]
+  assign NV_soDLA_CACC_CALC_int8_16_io_in_op_valid = calc_in_mask_16 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3856.4]
+  assign NV_soDLA_CACC_CALC_int8_16_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3857.4]
+  assign NV_soDLA_CACC_CALC_int8_16_io_in_valid = io_mac_b2accu_mask[0]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3858.4]
   assign NV_soDLA_CACC_CALC_int8_17_reset = reset; // @[:@3617.4]
-  assign NV_soDLA_CACC_CALC_int8_17_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3864.4]
-  assign NV_soDLA_CACC_CALC_int8_17_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3865.4]
-  assign NV_soDLA_CACC_CALC_int8_17_in_data = mac_b2accu_data_1; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3866.4]
-  assign NV_soDLA_CACC_CALC_int8_17_in_op = abuf_rd_data[611:578]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3867.4]
-  assign NV_soDLA_CACC_CALC_int8_17_in_op_valid = calc_in_mask_17 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3868.4]
-  assign NV_soDLA_CACC_CALC_int8_17_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3869.4]
-  assign NV_soDLA_CACC_CALC_int8_17_in_valid = mac_b2accu_mask[1]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3870.4]
+  assign NV_soDLA_CACC_CALC_int8_17_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3864.4]
+  assign NV_soDLA_CACC_CALC_int8_17_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3865.4]
+  assign NV_soDLA_CACC_CALC_int8_17_io_in_data = io_mac_b2accu_data_1; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3866.4]
+  assign NV_soDLA_CACC_CALC_int8_17_io_in_op = io_abuf_rd_data[611:578]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3867.4]
+  assign NV_soDLA_CACC_CALC_int8_17_io_in_op_valid = calc_in_mask_17 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3868.4]
+  assign NV_soDLA_CACC_CALC_int8_17_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3869.4]
+  assign NV_soDLA_CACC_CALC_int8_17_io_in_valid = io_mac_b2accu_mask[1]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3870.4]
   assign NV_soDLA_CACC_CALC_int8_18_reset = reset; // @[:@3620.4]
-  assign NV_soDLA_CACC_CALC_int8_18_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3876.4]
-  assign NV_soDLA_CACC_CALC_int8_18_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3877.4]
-  assign NV_soDLA_CACC_CALC_int8_18_in_data = mac_b2accu_data_2; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3878.4]
-  assign NV_soDLA_CACC_CALC_int8_18_in_op = abuf_rd_data[645:612]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3879.4]
-  assign NV_soDLA_CACC_CALC_int8_18_in_op_valid = calc_in_mask_18 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3880.4]
-  assign NV_soDLA_CACC_CALC_int8_18_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3881.4]
-  assign NV_soDLA_CACC_CALC_int8_18_in_valid = mac_b2accu_mask[2]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3882.4]
+  assign NV_soDLA_CACC_CALC_int8_18_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3876.4]
+  assign NV_soDLA_CACC_CALC_int8_18_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3877.4]
+  assign NV_soDLA_CACC_CALC_int8_18_io_in_data = io_mac_b2accu_data_2; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3878.4]
+  assign NV_soDLA_CACC_CALC_int8_18_io_in_op = io_abuf_rd_data[645:612]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3879.4]
+  assign NV_soDLA_CACC_CALC_int8_18_io_in_op_valid = calc_in_mask_18 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3880.4]
+  assign NV_soDLA_CACC_CALC_int8_18_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3881.4]
+  assign NV_soDLA_CACC_CALC_int8_18_io_in_valid = io_mac_b2accu_mask[2]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3882.4]
   assign NV_soDLA_CACC_CALC_int8_19_reset = reset; // @[:@3623.4]
-  assign NV_soDLA_CACC_CALC_int8_19_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3888.4]
-  assign NV_soDLA_CACC_CALC_int8_19_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3889.4]
-  assign NV_soDLA_CACC_CALC_int8_19_in_data = mac_b2accu_data_3; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3890.4]
-  assign NV_soDLA_CACC_CALC_int8_19_in_op = abuf_rd_data[679:646]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3891.4]
-  assign NV_soDLA_CACC_CALC_int8_19_in_op_valid = calc_in_mask_19 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3892.4]
-  assign NV_soDLA_CACC_CALC_int8_19_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3893.4]
-  assign NV_soDLA_CACC_CALC_int8_19_in_valid = mac_b2accu_mask[3]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3894.4]
+  assign NV_soDLA_CACC_CALC_int8_19_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3888.4]
+  assign NV_soDLA_CACC_CALC_int8_19_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3889.4]
+  assign NV_soDLA_CACC_CALC_int8_19_io_in_data = io_mac_b2accu_data_3; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3890.4]
+  assign NV_soDLA_CACC_CALC_int8_19_io_in_op = io_abuf_rd_data[679:646]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3891.4]
+  assign NV_soDLA_CACC_CALC_int8_19_io_in_op_valid = calc_in_mask_19 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3892.4]
+  assign NV_soDLA_CACC_CALC_int8_19_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3893.4]
+  assign NV_soDLA_CACC_CALC_int8_19_io_in_valid = io_mac_b2accu_mask[3]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3894.4]
   assign NV_soDLA_CACC_CALC_int8_20_reset = reset; // @[:@3626.4]
-  assign NV_soDLA_CACC_CALC_int8_20_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3900.4]
-  assign NV_soDLA_CACC_CALC_int8_20_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3901.4]
-  assign NV_soDLA_CACC_CALC_int8_20_in_data = mac_b2accu_data_4; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3902.4]
-  assign NV_soDLA_CACC_CALC_int8_20_in_op = abuf_rd_data[713:680]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3903.4]
-  assign NV_soDLA_CACC_CALC_int8_20_in_op_valid = calc_in_mask_20 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3904.4]
-  assign NV_soDLA_CACC_CALC_int8_20_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3905.4]
-  assign NV_soDLA_CACC_CALC_int8_20_in_valid = mac_b2accu_mask[4]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3906.4]
+  assign NV_soDLA_CACC_CALC_int8_20_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3900.4]
+  assign NV_soDLA_CACC_CALC_int8_20_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3901.4]
+  assign NV_soDLA_CACC_CALC_int8_20_io_in_data = io_mac_b2accu_data_4; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3902.4]
+  assign NV_soDLA_CACC_CALC_int8_20_io_in_op = io_abuf_rd_data[713:680]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3903.4]
+  assign NV_soDLA_CACC_CALC_int8_20_io_in_op_valid = calc_in_mask_20 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3904.4]
+  assign NV_soDLA_CACC_CALC_int8_20_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3905.4]
+  assign NV_soDLA_CACC_CALC_int8_20_io_in_valid = io_mac_b2accu_mask[4]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3906.4]
   assign NV_soDLA_CACC_CALC_int8_21_reset = reset; // @[:@3629.4]
-  assign NV_soDLA_CACC_CALC_int8_21_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3912.4]
-  assign NV_soDLA_CACC_CALC_int8_21_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3913.4]
-  assign NV_soDLA_CACC_CALC_int8_21_in_data = mac_b2accu_data_5; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3914.4]
-  assign NV_soDLA_CACC_CALC_int8_21_in_op = abuf_rd_data[747:714]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3915.4]
-  assign NV_soDLA_CACC_CALC_int8_21_in_op_valid = calc_in_mask_21 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3916.4]
-  assign NV_soDLA_CACC_CALC_int8_21_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3917.4]
-  assign NV_soDLA_CACC_CALC_int8_21_in_valid = mac_b2accu_mask[5]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3918.4]
+  assign NV_soDLA_CACC_CALC_int8_21_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3912.4]
+  assign NV_soDLA_CACC_CALC_int8_21_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3913.4]
+  assign NV_soDLA_CACC_CALC_int8_21_io_in_data = io_mac_b2accu_data_5; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3914.4]
+  assign NV_soDLA_CACC_CALC_int8_21_io_in_op = io_abuf_rd_data[747:714]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3915.4]
+  assign NV_soDLA_CACC_CALC_int8_21_io_in_op_valid = calc_in_mask_21 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3916.4]
+  assign NV_soDLA_CACC_CALC_int8_21_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3917.4]
+  assign NV_soDLA_CACC_CALC_int8_21_io_in_valid = io_mac_b2accu_mask[5]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3918.4]
   assign NV_soDLA_CACC_CALC_int8_22_reset = reset; // @[:@3632.4]
-  assign NV_soDLA_CACC_CALC_int8_22_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3924.4]
-  assign NV_soDLA_CACC_CALC_int8_22_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3925.4]
-  assign NV_soDLA_CACC_CALC_int8_22_in_data = mac_b2accu_data_6; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3926.4]
-  assign NV_soDLA_CACC_CALC_int8_22_in_op = abuf_rd_data[781:748]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3927.4]
-  assign NV_soDLA_CACC_CALC_int8_22_in_op_valid = calc_in_mask_22 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3928.4]
-  assign NV_soDLA_CACC_CALC_int8_22_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3929.4]
-  assign NV_soDLA_CACC_CALC_int8_22_in_valid = mac_b2accu_mask[6]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3930.4]
+  assign NV_soDLA_CACC_CALC_int8_22_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3924.4]
+  assign NV_soDLA_CACC_CALC_int8_22_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3925.4]
+  assign NV_soDLA_CACC_CALC_int8_22_io_in_data = io_mac_b2accu_data_6; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3926.4]
+  assign NV_soDLA_CACC_CALC_int8_22_io_in_op = io_abuf_rd_data[781:748]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3927.4]
+  assign NV_soDLA_CACC_CALC_int8_22_io_in_op_valid = calc_in_mask_22 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3928.4]
+  assign NV_soDLA_CACC_CALC_int8_22_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3929.4]
+  assign NV_soDLA_CACC_CALC_int8_22_io_in_valid = io_mac_b2accu_mask[6]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3930.4]
   assign NV_soDLA_CACC_CALC_int8_23_reset = reset; // @[:@3635.4]
-  assign NV_soDLA_CACC_CALC_int8_23_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3936.4]
-  assign NV_soDLA_CACC_CALC_int8_23_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3937.4]
-  assign NV_soDLA_CACC_CALC_int8_23_in_data = mac_b2accu_data_7; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3938.4]
-  assign NV_soDLA_CACC_CALC_int8_23_in_op = abuf_rd_data[815:782]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3939.4]
-  assign NV_soDLA_CACC_CALC_int8_23_in_op_valid = calc_in_mask_23 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3940.4]
-  assign NV_soDLA_CACC_CALC_int8_23_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3941.4]
-  assign NV_soDLA_CACC_CALC_int8_23_in_valid = mac_b2accu_mask[7]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3942.4]
+  assign NV_soDLA_CACC_CALC_int8_23_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3936.4]
+  assign NV_soDLA_CACC_CALC_int8_23_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3937.4]
+  assign NV_soDLA_CACC_CALC_int8_23_io_in_data = io_mac_b2accu_data_7; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3938.4]
+  assign NV_soDLA_CACC_CALC_int8_23_io_in_op = io_abuf_rd_data[815:782]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3939.4]
+  assign NV_soDLA_CACC_CALC_int8_23_io_in_op_valid = calc_in_mask_23 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3940.4]
+  assign NV_soDLA_CACC_CALC_int8_23_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3941.4]
+  assign NV_soDLA_CACC_CALC_int8_23_io_in_valid = io_mac_b2accu_mask[7]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3942.4]
   assign NV_soDLA_CACC_CALC_int8_24_reset = reset; // @[:@3638.4]
-  assign NV_soDLA_CACC_CALC_int8_24_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3948.4]
-  assign NV_soDLA_CACC_CALC_int8_24_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3949.4]
-  assign NV_soDLA_CACC_CALC_int8_24_in_data = mac_b2accu_data_8; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3950.4]
-  assign NV_soDLA_CACC_CALC_int8_24_in_op = abuf_rd_data[849:816]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3951.4]
-  assign NV_soDLA_CACC_CALC_int8_24_in_op_valid = calc_in_mask_24 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3952.4]
-  assign NV_soDLA_CACC_CALC_int8_24_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3953.4]
-  assign NV_soDLA_CACC_CALC_int8_24_in_valid = mac_b2accu_mask[8]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3954.4]
+  assign NV_soDLA_CACC_CALC_int8_24_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3948.4]
+  assign NV_soDLA_CACC_CALC_int8_24_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3949.4]
+  assign NV_soDLA_CACC_CALC_int8_24_io_in_data = io_mac_b2accu_data_8; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3950.4]
+  assign NV_soDLA_CACC_CALC_int8_24_io_in_op = io_abuf_rd_data[849:816]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3951.4]
+  assign NV_soDLA_CACC_CALC_int8_24_io_in_op_valid = calc_in_mask_24 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3952.4]
+  assign NV_soDLA_CACC_CALC_int8_24_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3953.4]
+  assign NV_soDLA_CACC_CALC_int8_24_io_in_valid = io_mac_b2accu_mask[8]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3954.4]
   assign NV_soDLA_CACC_CALC_int8_25_reset = reset; // @[:@3641.4]
-  assign NV_soDLA_CACC_CALC_int8_25_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3960.4]
-  assign NV_soDLA_CACC_CALC_int8_25_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3961.4]
-  assign NV_soDLA_CACC_CALC_int8_25_in_data = mac_b2accu_data_9; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3962.4]
-  assign NV_soDLA_CACC_CALC_int8_25_in_op = abuf_rd_data[883:850]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3963.4]
-  assign NV_soDLA_CACC_CALC_int8_25_in_op_valid = calc_in_mask_25 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3964.4]
-  assign NV_soDLA_CACC_CALC_int8_25_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3965.4]
-  assign NV_soDLA_CACC_CALC_int8_25_in_valid = mac_b2accu_mask[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3966.4]
+  assign NV_soDLA_CACC_CALC_int8_25_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3960.4]
+  assign NV_soDLA_CACC_CALC_int8_25_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3961.4]
+  assign NV_soDLA_CACC_CALC_int8_25_io_in_data = io_mac_b2accu_data_9; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3962.4]
+  assign NV_soDLA_CACC_CALC_int8_25_io_in_op = io_abuf_rd_data[883:850]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3963.4]
+  assign NV_soDLA_CACC_CALC_int8_25_io_in_op_valid = calc_in_mask_25 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3964.4]
+  assign NV_soDLA_CACC_CALC_int8_25_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3965.4]
+  assign NV_soDLA_CACC_CALC_int8_25_io_in_valid = io_mac_b2accu_mask[9]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3966.4]
   assign NV_soDLA_CACC_CALC_int8_26_reset = reset; // @[:@3644.4]
-  assign NV_soDLA_CACC_CALC_int8_26_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3972.4]
-  assign NV_soDLA_CACC_CALC_int8_26_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3973.4]
-  assign NV_soDLA_CACC_CALC_int8_26_in_data = mac_b2accu_data_10; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3974.4]
-  assign NV_soDLA_CACC_CALC_int8_26_in_op = abuf_rd_data[917:884]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3975.4]
-  assign NV_soDLA_CACC_CALC_int8_26_in_op_valid = calc_in_mask_26 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3976.4]
-  assign NV_soDLA_CACC_CALC_int8_26_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3977.4]
-  assign NV_soDLA_CACC_CALC_int8_26_in_valid = mac_b2accu_mask[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3978.4]
+  assign NV_soDLA_CACC_CALC_int8_26_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3972.4]
+  assign NV_soDLA_CACC_CALC_int8_26_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3973.4]
+  assign NV_soDLA_CACC_CALC_int8_26_io_in_data = io_mac_b2accu_data_10; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3974.4]
+  assign NV_soDLA_CACC_CALC_int8_26_io_in_op = io_abuf_rd_data[917:884]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3975.4]
+  assign NV_soDLA_CACC_CALC_int8_26_io_in_op_valid = calc_in_mask_26 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3976.4]
+  assign NV_soDLA_CACC_CALC_int8_26_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3977.4]
+  assign NV_soDLA_CACC_CALC_int8_26_io_in_valid = io_mac_b2accu_mask[10]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3978.4]
   assign NV_soDLA_CACC_CALC_int8_27_reset = reset; // @[:@3647.4]
-  assign NV_soDLA_CACC_CALC_int8_27_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3984.4]
-  assign NV_soDLA_CACC_CALC_int8_27_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3985.4]
-  assign NV_soDLA_CACC_CALC_int8_27_in_data = mac_b2accu_data_11; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3986.4]
-  assign NV_soDLA_CACC_CALC_int8_27_in_op = abuf_rd_data[951:918]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3987.4]
-  assign NV_soDLA_CACC_CALC_int8_27_in_op_valid = calc_in_mask_27 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3988.4]
-  assign NV_soDLA_CACC_CALC_int8_27_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3989.4]
-  assign NV_soDLA_CACC_CALC_int8_27_in_valid = mac_b2accu_mask[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3990.4]
+  assign NV_soDLA_CACC_CALC_int8_27_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3984.4]
+  assign NV_soDLA_CACC_CALC_int8_27_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3985.4]
+  assign NV_soDLA_CACC_CALC_int8_27_io_in_data = io_mac_b2accu_data_11; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3986.4]
+  assign NV_soDLA_CACC_CALC_int8_27_io_in_op = io_abuf_rd_data[951:918]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3987.4]
+  assign NV_soDLA_CACC_CALC_int8_27_io_in_op_valid = calc_in_mask_27 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@3988.4]
+  assign NV_soDLA_CACC_CALC_int8_27_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@3989.4]
+  assign NV_soDLA_CACC_CALC_int8_27_io_in_valid = io_mac_b2accu_mask[11]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@3990.4]
   assign NV_soDLA_CACC_CALC_int8_28_reset = reset; // @[:@3650.4]
-  assign NV_soDLA_CACC_CALC_int8_28_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3996.4]
-  assign NV_soDLA_CACC_CALC_int8_28_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3997.4]
-  assign NV_soDLA_CACC_CALC_int8_28_in_data = mac_b2accu_data_12; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3998.4]
-  assign NV_soDLA_CACC_CALC_int8_28_in_op = abuf_rd_data[985:952]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3999.4]
-  assign NV_soDLA_CACC_CALC_int8_28_in_op_valid = calc_in_mask_28 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@4000.4]
-  assign NV_soDLA_CACC_CALC_int8_28_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@4001.4]
-  assign NV_soDLA_CACC_CALC_int8_28_in_valid = mac_b2accu_mask[12]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@4002.4]
+  assign NV_soDLA_CACC_CALC_int8_28_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@3996.4]
+  assign NV_soDLA_CACC_CALC_int8_28_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@3997.4]
+  assign NV_soDLA_CACC_CALC_int8_28_io_in_data = io_mac_b2accu_data_12; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@3998.4]
+  assign NV_soDLA_CACC_CALC_int8_28_io_in_op = io_abuf_rd_data[985:952]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@3999.4]
+  assign NV_soDLA_CACC_CALC_int8_28_io_in_op_valid = calc_in_mask_28 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@4000.4]
+  assign NV_soDLA_CACC_CALC_int8_28_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@4001.4]
+  assign NV_soDLA_CACC_CALC_int8_28_io_in_valid = io_mac_b2accu_mask[12]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@4002.4]
   assign NV_soDLA_CACC_CALC_int8_29_reset = reset; // @[:@3653.4]
-  assign NV_soDLA_CACC_CALC_int8_29_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@4008.4]
-  assign NV_soDLA_CACC_CALC_int8_29_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@4009.4]
-  assign NV_soDLA_CACC_CALC_int8_29_in_data = mac_b2accu_data_13; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@4010.4]
-  assign NV_soDLA_CACC_CALC_int8_29_in_op = abuf_rd_data[1019:986]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@4011.4]
-  assign NV_soDLA_CACC_CALC_int8_29_in_op_valid = calc_in_mask_29 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@4012.4]
-  assign NV_soDLA_CACC_CALC_int8_29_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@4013.4]
-  assign NV_soDLA_CACC_CALC_int8_29_in_valid = mac_b2accu_mask[13]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@4014.4]
+  assign NV_soDLA_CACC_CALC_int8_29_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@4008.4]
+  assign NV_soDLA_CACC_CALC_int8_29_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@4009.4]
+  assign NV_soDLA_CACC_CALC_int8_29_io_in_data = io_mac_b2accu_data_13; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@4010.4]
+  assign NV_soDLA_CACC_CALC_int8_29_io_in_op = io_abuf_rd_data[1019:986]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@4011.4]
+  assign NV_soDLA_CACC_CALC_int8_29_io_in_op_valid = calc_in_mask_29 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@4012.4]
+  assign NV_soDLA_CACC_CALC_int8_29_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@4013.4]
+  assign NV_soDLA_CACC_CALC_int8_29_io_in_valid = io_mac_b2accu_mask[13]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@4014.4]
   assign NV_soDLA_CACC_CALC_int8_30_reset = reset; // @[:@3656.4]
-  assign NV_soDLA_CACC_CALC_int8_30_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@4020.4]
-  assign NV_soDLA_CACC_CALC_int8_30_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@4021.4]
-  assign NV_soDLA_CACC_CALC_int8_30_in_data = mac_b2accu_data_14; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@4022.4]
-  assign NV_soDLA_CACC_CALC_int8_30_in_op = abuf_rd_data[1053:1020]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@4023.4]
-  assign NV_soDLA_CACC_CALC_int8_30_in_op_valid = calc_in_mask_30 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@4024.4]
-  assign NV_soDLA_CACC_CALC_int8_30_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@4025.4]
-  assign NV_soDLA_CACC_CALC_int8_30_in_valid = mac_b2accu_mask[14]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@4026.4]
+  assign NV_soDLA_CACC_CALC_int8_30_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@4020.4]
+  assign NV_soDLA_CACC_CALC_int8_30_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@4021.4]
+  assign NV_soDLA_CACC_CALC_int8_30_io_in_data = io_mac_b2accu_data_14; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@4022.4]
+  assign NV_soDLA_CACC_CALC_int8_30_io_in_op = io_abuf_rd_data[1053:1020]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@4023.4]
+  assign NV_soDLA_CACC_CALC_int8_30_io_in_op_valid = calc_in_mask_30 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@4024.4]
+  assign NV_soDLA_CACC_CALC_int8_30_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@4025.4]
+  assign NV_soDLA_CACC_CALC_int8_30_io_in_valid = io_mac_b2accu_mask[14]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@4026.4]
   assign NV_soDLA_CACC_CALC_int8_31_reset = reset; // @[:@3659.4]
-  assign NV_soDLA_CACC_CALC_int8_31_nvdla_core_clk = nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@4032.4]
-  assign NV_soDLA_CACC_CALC_int8_31_cfg_truncate = cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@4033.4]
-  assign NV_soDLA_CACC_CALC_int8_31_in_data = mac_b2accu_data_15; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@4034.4]
-  assign NV_soDLA_CACC_CALC_int8_31_in_op = abuf_rd_data[1087:1054]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@4035.4]
-  assign NV_soDLA_CACC_CALC_int8_31_in_op_valid = calc_in_mask_31 & accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@4036.4]
-  assign NV_soDLA_CACC_CALC_int8_31_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@4037.4]
-  assign NV_soDLA_CACC_CALC_int8_31_in_valid = mac_b2accu_mask[15]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@4038.4]
+  assign NV_soDLA_CACC_CALC_int8_31_io_nvdla_core_clk = io_nvdla_cell_clk; // @[NV_NVDLA_CACC_calculator_for_check.scala 114:42:@4032.4]
+  assign NV_soDLA_CACC_CALC_int8_31_io_cfg_truncate = io_cfg_truncate; // @[NV_NVDLA_CACC_calculator_for_check.scala 115:40:@4033.4]
+  assign NV_soDLA_CACC_CALC_int8_31_io_in_data = io_mac_b2accu_data_15; // @[NV_NVDLA_CACC_calculator_for_check.scala 116:35:@4034.4]
+  assign NV_soDLA_CACC_CALC_int8_31_io_in_op = io_abuf_rd_data[1087:1054]; // @[NV_NVDLA_CACC_calculator_for_check.scala 117:33:@4035.4]
+  assign NV_soDLA_CACC_CALC_int8_31_io_in_op_valid = calc_in_mask_31 & io_accu_ctrl_ram_valid; // @[NV_NVDLA_CACC_calculator_for_check.scala 118:39:@4036.4]
+  assign NV_soDLA_CACC_CALC_int8_31_io_in_sel = calc_valid & calc_channel_end; // @[NV_NVDLA_CACC_calculator_for_check.scala 119:34:@4037.4]
+  assign NV_soDLA_CACC_CALC_int8_31_io_in_valid = io_mac_b2accu_mask[15]; // @[NV_NVDLA_CACC_calculator_for_check.scala 120:36:@4038.4]
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
 `define RANDOMIZE
 `endif
@@ -2614,12 +2614,12 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   `endif // RANDOMIZE_REG_INIT
   end
 `endif // RANDOMIZE
-  always @(posedge nvdla_core_clk) begin
+  always @(posedge io_nvdla_core_clk) begin
     if (reset) begin
       accu_ctrl_pd_d1 <= 13'h0;
     end else begin
-      if (accu_ctrl_pd_valid) begin
-        accu_ctrl_pd_d1 <= accu_ctrl_pd_bits;
+      if (io_accu_ctrl_pd_valid) begin
+        accu_ctrl_pd_d1 <= io_accu_ctrl_pd_bits;
       end
     end
     if (reset) begin
@@ -2992,6 +2992,7 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
 endmodule
 
 
+
 // ================================================================
 // NVDLA Open Source Project
 //
@@ -3197,7 +3198,7 @@ wire [34-1:0] abuf_in_data_31 = abuf_rd_data[(31+1)*34-1:31*34];
 //: &eperl::flop("-wid 13 -q accu_ctrl_pd_d1 -en accu_ctrl_valid -d accu_ctrl_pd");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg [12:0] accu_ctrl_pd_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        accu_ctrl_pd_d1 <= 'b0;
    end else begin
@@ -4084,7 +4085,7 @@ wire calc_layer_end_d0 = calc_layer_end;
 //: );
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  calc_valid_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_valid_d1 <= 'b0;
    end else begin
@@ -4092,7 +4093,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  calc_wr_en_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_wr_en_d1 <= 'b0;
    end else begin
@@ -4100,7 +4101,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg [5:0] calc_addr_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_addr_d1 <= 'b0;
    end else begin
@@ -4115,7 +4116,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  calc_valid_d2;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_valid_d2 <= 'b0;
    end else begin
@@ -4123,7 +4124,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  calc_wr_en_d2;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_wr_en_d2 <= 'b0;
    end else begin
@@ -4131,7 +4132,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg [5:0] calc_addr_d2;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_addr_d2 <= 'b0;
    end else begin
@@ -4150,7 +4151,7 @@ wire calc_valid_out = calc_valid_d2;
 wire calc_wr_en_out = calc_wr_en_d2;
 wire [5:0] calc_addr_out = calc_addr_d2;
 reg  calc_dlv_valid_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_dlv_valid_d1 <= 'b0;
    end else begin
@@ -4158,7 +4159,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  calc_stripe_end_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_stripe_end_d1 <= 'b0;
    end else begin
@@ -4173,7 +4174,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  calc_layer_end_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_layer_end_d1 <= 'b0;
    end else begin
@@ -4188,7 +4189,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  calc_dlv_valid_d2;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_dlv_valid_d2 <= 'b0;
    end else begin
@@ -4196,7 +4197,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  calc_stripe_end_d2;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_stripe_end_d2 <= 'b0;
    end else begin
@@ -4211,7 +4212,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  calc_layer_end_d2;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        calc_layer_end_d2 <= 'b0;
    end else begin
@@ -4355,7 +4356,7 @@ assign abuf_wr_data_w[34*(28+1)-1:34*28] = calc_pout_28;
 assign abuf_wr_data_w[34*(29+1)-1:34*29] = calc_pout_29; 
 assign abuf_wr_data_w[34*(30+1)-1:34*30] = calc_pout_30; 
 assign abuf_wr_data_w[34*(31+1)-1:34*31] = calc_pout_31; reg  abuf_wr_en;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        abuf_wr_en <= 'b0;
    end else begin
@@ -4363,7 +4364,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg [5:0] abuf_wr_addr;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        abuf_wr_addr <= 'b0;
    end else begin
@@ -4450,7 +4451,7 @@ always @(posedge nvdla_core_clk) begin
        end
 end
 reg  dlv_valid;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        dlv_valid <= 'b0;
    end else begin
@@ -4458,7 +4459,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  dlv_mask;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        dlv_mask <= 'b0;
    end else begin
@@ -4466,7 +4467,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  dlv_stripe_end;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        dlv_stripe_end <= 'b0;
    end else begin
@@ -4481,7 +4482,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  dlv_layer_end;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        dlv_layer_end <= 'b0;
    end else begin
@@ -4519,14 +4520,14 @@ wire dlv_sat_clr = calc_dlv_valid_out & ~dlv_sat_end & dlv_sat_end_d1;
 //: print "dlv_sat_bit_d1[${i}]; \n";
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 reg  dlv_sat_vld_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        dlv_sat_vld_d1 <= 'b0;
    end else begin
        dlv_sat_vld_d1 <= calc_dlv_valid_out;
    end
 end
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        dlv_sat_end_d1 <= 1;
    end else begin
@@ -4541,7 +4542,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg [31:0] dlv_sat_bit_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        dlv_sat_bit_d1 <= 'b0;
    end else begin
@@ -4556,7 +4557,7 @@ always @(posedge nvdla_core_clk) begin
    end
 end
 reg  dlv_sat_clr_d1;
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        dlv_sat_clr_d1 <= 'b0;
    end else begin
@@ -4576,7 +4577,7 @@ assign sat_count_w = (dlv_sat_clr_d1) ? {24'b0, sat_sum} : sat_carry ? {32{1'b1}
 assign sat_reg_en = dlv_sat_vld_d1 & ((|sat_sum) | dlv_sat_clr_d1);
 //: &eperl::flop("-nodeclare -q  sat_count  -en \"sat_reg_en\" -d  \"sat_count_w\" -clk nvdla_core_clk -rst nvdla_core_rstn -rval 0");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
-always @(posedge nvdla_core_clk) begin
+always @(posedge nvdla_core_clk or negedge nvdla_core_rstn) begin
    if (!nvdla_core_rstn) begin
        sat_count <= 'b0;
    end else begin
