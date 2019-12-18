@@ -1189,9 +1189,9 @@ for(i <- 0 to conf.CSC_ATOMC-1){
 }}
 
 
-object NV_soDLA_CSC_dlDriver extends App {
+object NV_soDLA_CSC_dl_for_checkDriver extends App {
   implicit val conf: nvdlaConfig = new nvdlaConfig
-  chisel3.Driver.execute(args, () => new NV_soDLA_CSC_dl())
+  chisel3.Driver.execute(args, () => new NV_soDLA_CSC_dl_for_check())
 }
 
 
