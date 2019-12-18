@@ -257,8 +257,6 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   input  [12:0]   accu_ctrl_pd, // @[:@3270.4]
   input           accu_ctrl_ram_valid, // @[:@3270.4]
   input  [4:0]    cfg_truncate, // @[:@3270.4]
-  input           cfg_is_wg,
-  input           cfg_in_en_mask,
   input  [21:0]   mac_a2accu_data0, // @[:@3270.4]
   input  [21:0]   mac_a2accu_data1, // @[:@3270.4]
   input  [21:0]   mac_a2accu_data2, // @[:@3270.4]
@@ -3021,8 +3019,6 @@ module NV_NVDLA_CACC_calculator (
   ,accu_ctrl_pd //|< i
   ,accu_ctrl_ram_valid //|< i
   ,accu_ctrl_valid //|< i
-  ,cfg_in_en_mask //|< i
-  ,cfg_is_wg //|< i
   ,cfg_truncate //|< i
 //: for(my $i=0; $i<32/2 ; $i++){
 //: print qq(
@@ -3094,7 +3090,6 @@ input [12:0] accu_ctrl_pd;
 input accu_ctrl_ram_valid;
 input accu_ctrl_valid;
 input cfg_in_en_mask;
-input cfg_is_wg;
 input [4:0] cfg_truncate;
 //: for(my $i=0; $i<32/2 ; $i++){
 //: print qq(
@@ -3295,8 +3290,8 @@ wire [22-1:0] calc_elem_31 = mac_b2accu_data15;
 
 //| eperl: generated_end (DO NOT EDIT ABOVE)
 wire [32 -1:0] calc_in_mask = {mac_b2accu_mask, mac_a2accu_mask};
-wire [32 -1:0] calc_op_en = calc_in_mask & {32{cfg_in_en_mask}};
-wire [32 -1:0] calc_op1_vld = calc_in_mask & {32{cfg_in_en_mask & accu_ctrl_ram_valid}};
+wire [32 -1:0] calc_op_en = calc_in_mask
+wire [32 -1:0] calc_op1_vld = calc_in_mask & {32{accu_ctrl_ram_valid}};
 wire calc_dlv_valid = calc_valid & calc_channel_end;
 wire calc_wr_en = calc_valid & (~calc_channel_end);
 //: my $hh= 22-22;
