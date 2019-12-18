@@ -12,6 +12,7 @@ class NV_soDLA_CACC_calculator_for_check(implicit conf: caccConfiguration) exten
         //clk
         val nvdla_core_clk = Input(Clock())
         val nvdla_cell_clk = Input(Clock())
+        val nvdla_core_rstn = Input(Bool())
 
         //abuf
         val abuf_rd_data = Input(UInt(conf.CACC_ABUF_WIDTH.W))
@@ -65,7 +66,7 @@ class NV_soDLA_CACC_calculator_for_check(implicit conf: caccConfiguration) exten
 //             │ ─┤ ─┤       │ ─┤ ─┤         
 //             └──┴──┘       └──┴──┘ 
 
-withClock(io.nvdla_core_clk){             
+withClockandReset(io.nvdla_core_clk, !io.nvdla_core_rstn){             
     // unpack abuffer read data
     val abuf_in_data = VecInit((0 to conf.CACC_ATOMK-1) 
                         map { i => io.abuf_rd_data(conf.CACC_PARSUM_WIDTH*(i+1)-1, conf.CACC_PARSUM_WIDTH*i)})
