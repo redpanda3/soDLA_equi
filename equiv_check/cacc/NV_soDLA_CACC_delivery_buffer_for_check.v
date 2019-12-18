@@ -1015,6 +1015,7 @@ module NV_soDLA_CACC_delivery_buffer_for_check( // @[:@18.2]
   input  [5:0]    dbuf_wr_addr, // @[:@21.4]
   input  [1023:0] dbuf_wr_data, // @[:@21.4]
   input           dbuf_rd_layer_end, // @[:@21.4]
+  output  [1023:0] dbuf_rd_data, 
   input           dbuf_rd_en, // @[:@21.4]
   input  [5:0]    dbuf_rd_addr, // @[:@21.4]
   output          dbuf_rd_ready, // @[:@21.4]
@@ -1026,7 +1027,6 @@ module NV_soDLA_CACC_delivery_buffer_for_check( // @[:@18.2]
   wire [5:0] u_accu_dbuf_ra; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
   wire [5:0] u_accu_dbuf_wa; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
   wire [1023:0] u_accu_dbuf_di; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
-  wire [1023:0] u_accu_dbuf_dout; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 63:25:@28.4]
   wire  _T_50; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 57:38:@23.4]
   reg [1:0] data_left_mask; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 60:29:@24.4]
   reg [31:0] _RAND_0;
@@ -1081,7 +1081,7 @@ module NV_soDLA_CACC_delivery_buffer_for_check( // @[:@18.2]
     .ra(u_accu_dbuf_ra),
     .wa(u_accu_dbuf_wa),
     .di(u_accu_dbuf_di),
-    .dout(u_accu_dbuf_dout)
+    .dout(dbuf_rd_data)
   );
   assign _T_50 = nvdla_core_rstn == 1'h0; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 57:38:@23.4]
   assign _T_54 = data_left_mask != 2'h0; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 61:39:@25.4]
@@ -1097,10 +1097,13 @@ module NV_soDLA_CACC_delivery_buffer_for_check( // @[:@18.2]
   assign _T_72 = _T_60 ? _T_71 : {{1'd0}, data_left_mask}; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:29:@48.4]
   assign _T_73 = dbuf_rd_en_new ? 3'h3 : _T_72; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 84:29:@49.4]
   assign data_left_mask_pre = _T_73[1:0]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 85:112:@50.4]
-
-
-  assign cacc2sdp_pd_data = u_accu_dbuf_dout[(0+1)*512-1:0*512]&{512{rd_data_mask[0]}} |u_accu_dbuf_dout[(1+1)*512-1:1*512]&{512{rd_data_mask[1]}};
-
+  assign _T_79 = dbuf_rd_data[511:0]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:42:@57.4]
+  assign _T_84 = _T_61 ? 512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff : 512'h0; // @[Bitwise.scala 72:12:@60.4]
+  assign _T_85 = _T_79 & _T_84; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:104:@61.4]
+  assign _T_86 = dbuf_rd_data[1023:512]; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:42:@62.4]
+  assign _T_91 = _T_62 ? 512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff : 512'h0; // @[Bitwise.scala 72:12:@65.4]
+  assign _T_92 = _T_86 & _T_91; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:104:@66.4]
+  assign cacc2sdp_pd_data = _T_85 | _T_92; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 91:163:@70.4]
   assign _T_108 = _T_55 ? 1'h0 : dbuf_rd_layer_end_latch; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 96:36:@74.4]
   assign dbuf_rd_layer_end_latch_w = dbuf_rd_layer_end ? 1'h1 : _T_108; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 95:36:@75.4]
   assign last_data = data_left_mask == 2'h2; // @[NV_NVDLA_CACC_delivery_buffer_for_check.scala 118:30:@99.4]
@@ -1273,7 +1276,7 @@ output dbuf_rd_ready;
 output [2:0] accu2sc_credit_size;
 output accu2sc_credit_vld;
 // Instance RAMs
-wire [32*32 -1:0] dbuf_rd_data;
+output [32*32 -1:0] dbuf_rd_data;
 reg [(32*32)/(32*16)-1:0] data_left_mask;
 wire dbuf_rd_en_new = ~(|data_left_mask) & dbuf_rd_en;
 // spyglass disable_block NoWidthInBasedNum-ML
