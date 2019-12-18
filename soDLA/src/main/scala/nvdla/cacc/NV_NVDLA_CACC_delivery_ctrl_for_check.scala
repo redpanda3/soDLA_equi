@@ -18,7 +18,7 @@ class NV_soDLA_CACC_delivery_ctrl_for_check(implicit conf: caccConfiguration) ex
         val dbuf_rd_ready = Input(Bool())
         val dbuf_rd_addr = ValidIO(UInt(conf.CACC_DBUF_AWIDTH.W))
         val dbuf_rd_layer_end = Output(Bool())
-        val dbuf_wr = new nvdla_wr_if(conf.CACC_ABUF_AWIDTH, conf.CACC_ABUF_WIDTH)
+        val dbuf_wr = new nvdla_wr_if(conf.CACC_DBUF_AWIDTH, conf.CACC_DBUF_WIDTH)
 
         //reg2dp
         val dp2reg_done = Output(Bool())
