@@ -180,8 +180,8 @@ when(dlv_end_tag1_en){
 }}
 
 
-object NV_soDLA_CACC_delivery_ctrlDriver extends App {
+object NV_soDLA_CACC_delivery_ctrl_for_checkDriver extends App {
   implicit val conf: nvdlaConfig = new nvdlaConfig
-  chisel3.Driver.execute(args, () => new NV_soDLA_CACC_delivery_ctrl())
+  chisel3.Driver.execute(args, () => new NV_soDLA_CACC_delivery_ctrl_for_check())
 }
 
