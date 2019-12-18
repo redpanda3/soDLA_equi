@@ -276,6 +276,7 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   input  [21:0]   mac_a2accu_data14, // @[:@3270.4]
   input  [21:0]   mac_a2accu_data15, // @[:@3270.4]
   input  [15:0]   mac_a2accu_mask, // @[:@3270.4]
+  input           mac_a2accu_mode, 
   input           mac_a2accu_pvld, // @[:@3270.4]
   input  [21:0]   mac_b2accu_data0, // @[:@3270.4]
   input  [21:0]   mac_b2accu_data1, // @[:@3270.4]
@@ -294,6 +295,7 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   input  [21:0]   mac_b2accu_data14, // @[:@3270.4]
   input  [21:0]   mac_b2accu_data15, // @[:@3270.4]
   input  [15:0]   mac_b2accu_mask, // @[:@3270.4]
+  input           mac_b2accu_mode, 
   input           mac_b2accu_pvld, // @[:@3270.4]
   output [31:0]   dp2reg_sat_count // @[:@3270.4]
 );
