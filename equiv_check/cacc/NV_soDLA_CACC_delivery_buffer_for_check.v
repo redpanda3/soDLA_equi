@@ -1247,6 +1247,7 @@ module NV_NVDLA_CACC_delivery_buffer (
   ,cacc2sdp_ready //|< i
   ,dbuf_rd_addr //|< i
   ,dbuf_rd_en //|< i
+  ,dbuf_rd_data
   ,dbuf_rd_layer_end //|< i
   ,dbuf_wr_addr //|< i
   ,dbuf_wr_data //|< i
