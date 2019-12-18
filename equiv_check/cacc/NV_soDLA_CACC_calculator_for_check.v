@@ -258,7 +258,6 @@ module NV_soDLA_CACC_calculator_for_check( // @[:@3267.2]
   input           accu_ctrl_ram_valid, // @[:@3270.4]
   input  [4:0]    cfg_truncate, // @[:@3270.4]
   input           cfg_is_wg,
-  input           cfg_truncate, 
   input           cfg_in_en_mask,
   input  [21:0]   mac_a2accu_data_0, // @[:@3270.4]
   input  [21:0]   mac_a2accu_data_1, // @[:@3270.4]
