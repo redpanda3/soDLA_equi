@@ -137,12 +137,12 @@ val entries_single_w = (io.reg2dp_entries +& 1.U)(conf.CSC_ENTRIES_NUM_WIDTH-1, 
 val entries_batch_w = (entries_single_w * data_batch_w)(conf.CSC_ENTRIES_NUM_WIDTH-1, 0)
 val entries_w = Mux(is_winograd, Cat(io.reg2dp_entries, 0.U(2.W)) +& "h4".asUInt(3.W), entries_single_w)
 val h_offset_slice_w = data_batch_w * y_dilate_w  
-val h_bias_0_stride_w = (entries * data_batch)(11, 0)
-val h_bias_1_stride_w = (entries * h_offset_slice)(11, 0)
+val h_bias_0_stride_w = entries * data_batch
+val h_bias_1_stride_w = entries * h_offset_slice
 val rls_slices_w = io.reg2dp_rls_slices +& 1.U
 val slice_left_w = Mux(io.reg2dp_skip_data_rls, io.reg2dp_datain_height_ext +& 1.U, io.reg2dp_datain_height_ext -& io.reg2dp_rls_slices)
 val slices_oprand = Mux(layer_st_d1, rls_slices, slice_left)
-val slice_entries_w = (entries_batch * slices_oprand)(conf.CSC_ENTRIES_NUM_WIDTH-1, 0)
+val slice_entries_w = entries_batch * slices_oprand
 val dataout_width_cmp_w = io.reg2dp_dataout_width
 val pra_truncate_w = Mux(io.reg2dp_pra_truncate === 3.U, 2.U, io.reg2dp_pra_truncate)
 
