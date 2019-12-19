@@ -485,7 +485,7 @@ val pixel_force_fetch_d1 = RegInit(false.B)
 
 val datain_w_cnt_st = Mux(is_img, "b0".asUInt(14.W),
                       Mux(is_winograd, "h2".asUInt(14.W), 
-                      "b0".asUInt(13.W) -& io.reg2dp_pad_left)
+                      "b0".asUInt(13.W) -& io.reg2dp_pad_left))
 val datain_w_cnt_inc = Mux(is_winograd_d1(3), datain_w_cnt +& 2.U, datain_w_cnt +& conv_x_stride)
 
 //full data cube w counter,start form negtive, only for feature data. non-image, by element
@@ -1098,7 +1098,7 @@ when(dat_rsp_sft_d3_en){
 //sub_h_total=2, each sub_h align to 1/2 entry;
 //sub_h_total=4, each sub_h align to 1/4 entry;
 
-val dat_rsp_ori_mask = ~((Fill(conf.CSC_ATOMC, true.B) << dat_rsp_bytes)(conf.CSC_ATOMC-1, 0))
+val dat_rsp_ori_mask = ~(Fill(conf.CSC_ATOMC, true.B) << dat_rsp_bytes)
 
 val dat_rsp_cur_h_mask_p1 = Mux(dat_rsp_cur_sub_h >= "h1".asUInt(2.W), Fill(conf.CSC_ATOMC, true.B), 0.U)
 val dat_rsp_cur_h_mask_p2 = Mux(dat_rsp_cur_sub_h >= "h2".asUInt(2.W), Fill(conf.CSC_ATOMC_HALF, true.B), 0.U)
