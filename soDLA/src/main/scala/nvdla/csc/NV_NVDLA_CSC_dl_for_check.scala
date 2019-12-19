@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.experimental._
 import chisel3.util._
 
-@chiselName
+
 class NV_soDLA_CSC_dl_for_checkIO(implicit conf: nvdlaConfig) extends Bundle{
     val nvdla_core_clk = Input(Clock())
     val nvdla_core_ng_clk = Input(Clock())
@@ -19,8 +19,15 @@ class NV_soDLA_CSC_dl_for_checkIO(implicit conf: nvdlaConfig) extends Bundle{
 
     val sc2buf_dat_rd = new sc2buf_data_rd_if
 
-    val sc2mac_dat_a = ValidIO(new csc2cmac_data_if)              /* data valid */
-    val sc2mac_dat_b = ValidIO(new csc2cmac_data_if)             /* data valid */
+    val sc2mac_dat_a_pvld = Output(Bool())
+    val sc2mac_dat_a_mask = Output(UInt(conf.CSC_ATOMC.W))
+    val sc2mac_dat_a_data = Output(Vec(conf.CSC_ATOMC, UInt(conf.CSC_BPE.W)))
+    val sc2mac_dat_a_pd = Output(UInt(9.W))
+
+    val sc2mac_dat_b_pvld = Output(Bool())
+    val sc2mac_dat_b_mask = Output(UInt(conf.CSC_ATOMC.W))
+    val sc2mac_dat_b_data = Output(Vec(conf.CSC_ATOMC, UInt(conf.CSC_BPE.W)))
+    val sc2mac_dat_b_pd = Output(UInt(9.W))
 
     val reg2dp_op_en = Input(Bool())
     val reg2dp_conv_mode = Input(Bool())
@@ -50,6 +57,7 @@ class NV_soDLA_CSC_dl_for_checkIO(implicit conf: nvdlaConfig) extends Bundle{
 
 }
 
+@chiselName
 class NV_soDLA_CSC_dl_for_check(implicit val conf: nvdlaConfig) extends Module {
     val io = IO(new NV_soDLA_CSC_dl_for_checkIO)
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -1199,15 +1207,15 @@ for(i <- 0 to conf.CSC_ATOMC-1){
 val dl_out_pvld_d1 = RegNext(dl_out_pvld, false.B)
 val sc2mac_dat_pd_w = Mux(~dl_out_pvld, "b0".asUInt(9.W), dl_out_flag)
 
-io.sc2mac_dat_a.valid := RegNext(dl_out_pvld, false.B)
-io.sc2mac_dat_b.valid := RegNext(dl_out_pvld, false.B)
-io.sc2mac_dat_a.bits.pd := RegEnable(sc2mac_dat_pd_w, "b0".asUInt(9.W), dl_out_pvld | dl_out_pvld_d1)
-io.sc2mac_dat_b.bits.pd := RegEnable(sc2mac_dat_pd_w, "b0".asUInt(9.W), dl_out_pvld | dl_out_pvld_d1)
-io.sc2mac_dat_a.bits.mask := RegEnable(dl_out_mask, VecInit(Seq.fill(conf.CSC_ATOMC)(false.B)), dl_out_pvld | dl_out_pvld_d1)
-io.sc2mac_dat_b.bits.mask := RegEnable(dl_out_mask, VecInit(Seq.fill(conf.CSC_ATOMC)(false.B)), dl_out_pvld | dl_out_pvld_d1)
+io.sc2mac_dat_a_pvld := RegNext(dl_out_pvld, false.B)
+io.sc2mac_dat_b_pvld := RegNext(dl_out_pvld, false.B)
+io.sc2mac_dat_a_pd := RegEnable(sc2mac_dat_pd_w, "b0".asUInt(9.W), dl_out_pvld | dl_out_pvld_d1)
+io.sc2mac_dat_b_pd := RegEnable(sc2mac_dat_pd_w, "b0".asUInt(9.W), dl_out_pvld | dl_out_pvld_d1)
+io.sc2mac_dat_a_mask := RegEnable(dl_out_mask, VecInit(Seq.fill(conf.CSC_ATOMC)(false.B)), dl_out_pvld | dl_out_pvld_d1).asUInt
+io.sc2mac_dat_b_mask := RegEnable(dl_out_mask, VecInit(Seq.fill(conf.CSC_ATOMC)(false.B)), dl_out_pvld | dl_out_pvld_d1).asUInt
 for(i <- 0 to conf.CSC_ATOMC-1){
-    io.sc2mac_dat_a.bits.data(i) := RegEnable(dl_out_data(i), dl_out_mask(i))
-    io.sc2mac_dat_b.bits.data(i) := RegEnable(dl_out_data(i), dl_out_mask(i))
+    io.sc2mac_dat_a_data(i) := RegEnable(dl_out_data(i), dl_out_mask(i))
+    io.sc2mac_dat_b_data(i) := RegEnable(dl_out_data(i), dl_out_mask(i))
 }
 
 
