@@ -12012,31 +12012,7 @@ endmodule
 // this distribution for more information.
 // ================================================================
 // File Name: NV_NVDLA_CSC.h
-    //entry bits
-    //atomC
-    //in bytes, entry/8
-    //CSC_ENTRY_HEX/2
-    //CSC_ENTRY_HEX/4
-    //CSC_ENTRY_HEX-1
-    //atomK
-    //atomK
-    //atomK*2
-//notice, for image case, first atom OP within one strip OP must fetch from entry align place, in the middle of an entry is not supported.
-//thus, when atomC/atomK=4, stripe=4*atomK, feature data still keeps atomK*2
-    `define CC_ATOMC_DIV_ATOMK_EQUAL_2
-//batch keep 1
-// ================================================================
-// NVDLA Open Source Project
-// 
-// Copyright(c) 2016 - 2017 NVIDIA Corporation.  Licensed under the
-// NVDLA Open Hardware License; Check "LICENSE" which comes with 
-// this distribution for more information.
-// ================================================================
-// File Name: NV_NVDLA_CBUF.h
-    `define CBUF_BANK_RAM_CASE2
-    `define CBUF_NO_SUPPORT_READ_JUMPING
-//ram case could be 0/1/2/3/4/5  0:1ram/bank; 1:1*2ram/bank; 2:2*1ram/bank; 3:2*2ram/bank  4:4*1ram/bank  5:4*2ram/bank
-`define CDMA2CBUF_DEBUG_PRINT //open debug print
+
 module NV_NVDLA_CSC_dl (
    nvdla_core_clk //|< i
   ,nvdla_core_rstn //|< i
@@ -13225,15 +13201,8 @@ assign pixel_x_byte_stride_w = {1'b0, pixel_x_stride_w};
 //: }
 //| eperl: generated_beg (DO NOT EDIT BELOW)
 
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_1
 assign pixel_ch_stride_w = {pixel_x_stride_w, {5 +1{1'b0}}}; //stick to 2*atomK  no matter which config.  
-`endif
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_2
-assign pixel_ch_stride_w = {pixel_x_stride_w, {5 +1{1'b0}}}; //stick to 2*atomK  no matter which config.  
-`endif
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_4
-assign pixel_ch_stride_w = {pixel_x_stride_w, {5 +2{1'b0}}}; //stick to 4*atomK  no matter which config.  
-`endif
+
 
 //| eperl: generated_end (DO NOT EDIT ABOVE)
 assign conv_y_stride_w = (is_winograd) ? 4'b1 : reg2dp_conv_y_stride_ext + 1'b1;
@@ -15039,27 +15008,19 @@ assign {mon_h_bias_3_w,h_bias_3_w} = layer_st ? 13'b0 :sub_h_cnt * h_bias_3_stri
 assign h_bias_reg_en[0] = dat_exec_valid;
 assign h_bias_reg_en[1] = layer_st | (dat_exec_valid & (is_winograd_d1[7] | is_img_d1[9]));
 //width bias, by entry in image, by element in feature data
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_1
-assign w_bias_int8 = is_img_d1[10] ? {pixel_w_cur} : //by entry in image 
-                     is_winograd_d1[8] ? {1'b0, datain_w_cnt} :
-                     (~is_last_channel | datain_c_cnt[0] | is_winograd_d1[8]) ? {2'b0,datain_w_cur[12:0]} ://by element
-                     {2'b0, datain_w_cur[12:0]}; //by element, last channel and current c is even, atomC=atomM
-`endif
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_2
+
 assign w_bias_int8 = is_img_d1[10] ? {pixel_w_cur} : //by entry in image 
                      is_winograd_d1[8] ? {1'b0, datain_w_cnt} :
                      (~is_last_channel | is_winograd_d1[8]) ? {2'b0,datain_w_cur[12:0]} ://not last channel, by element
                      (dat_req_bytes > 8'h20) ? {2'b0,datain_w_cur[12:0]} : //last channel & request >1/2*entry
                      {3'b0, datain_w_cur[12:1]}; //last channel & request<=1/2*entry
-`endif
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_4
+
 assign w_bias_int8 = is_img_d1[10] ? {pixel_w_cur} : //by entry in image 
                      is_winograd_d1[8] ? {1'b0, datain_w_cnt} :
                      (~is_last_channel | is_winograd_d1[8]) ? {2'b0,datain_w_cur[12:0]} ://not last channel, by element
                      (dat_req_bytes > 8'h20) ? {2'b0,datain_w_cur[12:0]} : //last channel & request >1/2*entry
                      (dat_req_bytes <= 8'h10) ? {4'b0, datain_w_cur[12:2]} : //last channel & request <=1/4*entry
                      {3'b0, datain_w_cur[12:1]}; //last channel & (1/4*entry<request<=1/2*entry)
-`endif
 assign w_bias_w = w_bias_int8[13:0];
 assign w_bias_reg_en = dat_exec_valid;
 assign dat_req_base_d1 = dat_entry_st[13 -1:0];
@@ -16534,28 +16495,11 @@ assign dat_rsp_l1c1 = dat_l1c1_dummy ? dat_rsp_pad_value : dat_l1c1;
 assign dat_rsp_l2c1 = dat_l2c1_dummy ? dat_rsp_pad_value : dat_l2c1;
 assign dat_rsp_l3c1 = dat_l3c1_dummy ? dat_rsp_pad_value : dat_l3c1;
 //several atomM may combine together as an entry
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_1
-assign dat_rsp_conv_8b = (is_winograd_d1[14] | is_img_d1[26]) ? {512{1'b0}} :
-                         dat_rsp_l0c0;
-`endif
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_2
+
 assign dat_rsp_conv_8b = (is_winograd_d1[14] | is_img_d1[26]) ? {512{1'b0}} :
 ((dat_rsp_bytes <= 8'h20)&((dat_rsp_sub_w[0] == 1'h0))) ? {{512/2{1'b0}}, dat_rsp_l0c0[512/2 -1:0]} :
 ((dat_rsp_bytes <= 8'h20)&((dat_rsp_sub_w[0] == 1'h1))) ? {{512/2{1'b0}}, dat_rsp_l0c0[512 -1:512/2]} :
                 dat_rsp_l0c0;
-`endif
-`ifdef CC_ATOMC_DIV_ATOMK_EQUAL_4
-assign dat_rsp_conv_8b = (is_winograd_d1[14] | is_img_d1[26]) ? {512{1'b0}} :
-((dat_rsp_bytes <= 8'h20)&(dat_rsp_bytes > 8'h10)&((dat_rsp_sub_w[0] == 1'h0))) ?
- {{512/2{1'b0}}, dat_rsp_l0c0[512/2 -1:0]} :
-((dat_rsp_bytes <= 8'h20)&(dat_rsp_bytes > 8'h10)&((dat_rsp_sub_w[0] == 1'h1))) ?
- {{512/2{1'b0}}, dat_rsp_l0c0[512 -1:512/2]} :
-((dat_rsp_bytes <= 8'h10) & (dat_rsp_sub_w == 2'h0)) ? {{512*3/4{1'b0}}, dat_rsp_l0c0[512/4 -1:0]} :
-((dat_rsp_bytes <= 8'h10) & (dat_rsp_sub_w == 2'h1)) ? {{512*3/4{1'b0}}, dat_rsp_l0c0[512/2 -1:512/4]} :
-((dat_rsp_bytes <= 8'h10) & (dat_rsp_sub_w == 2'h2)) ? {{512*3/4{1'b0}}, dat_rsp_l0c0[512*3/4 -1:512/2]} :
-((dat_rsp_bytes <= 8'h10) & (dat_rsp_sub_w == 2'h3)) ? {{512*3/4{1'b0}}, dat_rsp_l0c0[512 -1:512*3/4]} :
-dat_rsp_l0c0;
-`endif
 assign dat_rsp_conv = dat_rsp_conv_8b;
 //////////////// data for image ////////////////
 assign dat_rsp_l0_sft_in = ~is_img_d1[27] ? 'b0 : {dat_rsp_l0c0, dat_rsp_l0c1};
