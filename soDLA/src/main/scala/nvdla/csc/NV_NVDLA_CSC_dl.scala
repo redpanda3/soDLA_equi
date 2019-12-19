@@ -248,7 +248,7 @@ when(is_sg_done){
 ////////////////////////////////////////////////////////////////////////
 //  SLCG control signal                                               //
 ////////////////////////////////////////////////////////////////////////
-io.slcg_wg_en := ShiftRegister(io.reg2dp_op_en & io.is_winograd, 3, false.B, true.B)
+io.slcg_wg_en := ShiftRegister(io.reg2dp_op_en & is_winograd, 3, false.B, true.B)
 
 /////////////////////////////////////////////////////////////
 ///// cbuf status management                             /////
@@ -652,13 +652,13 @@ else if(conf.NVDLA_CC_ATOMC_DIV_ATOMK==2){
 }
 else if(conf.NVDLA_CC_ATOMC_DIV_ATOMK==4){
     w_bias_int8 := Mux(is_img_d1(10), pixel_w_cur,   //by entry in image 
-                   Mux(is_winograd_d1(8), datain_w_cnt
+                   Mux(is_winograd_d1(8), datain_w_cnt, 
                    Mux(dat_req_bytes > conf.CSC_HALF_ENTRY_HEX.U, Cat("b0".asUInt(2.W), datain_w_cur(12, 0)),  //last channel & request >1/2*entry
                    Mux(dat_req_bytes <= conf.CSC_HALF_ENTRY_HEX.U, Cat("b0".asUInt(4.W), datain_w_cur(12, 2)),  //last channel & request <=1/4*entry
                    Cat("b0".asUInt(3.W), datain_w_cur(12, 1))))))  //last channel & (1/4*entry<request<=1/2*entry
 }
 
-w_bias_w := w_bias_int8(conf.CBUF_ADDR_WIDTH-1, 0)
+w_bias_w := w_bias_int8(13, 0)
 val w_bias_reg_en = dat_exec_valid
 val dat_req_base_d1 = dat_entry_st
 
@@ -1115,7 +1115,7 @@ val dat_rsp_mask_8b = Mux(sub_h_total_g11 === "h4".asUInt(3.W), Fill(4, dat_rsp_
 val dat_rsp_data_w = Mux(is_img_d1(33), dat_rsp_img, dat_rsp_conv)
 val dat_rsp_mask_val_int8 = VecInit((0 to conf.CSC_ATOMC-1) map { i => dat_rsp_data_w(i).asUInt.orR})
 val dat_rsp_mask_w = VecInit((0 to conf.CSC_ATOMC-1) map { i => dat_rsp_mask_8b(i)&dat_rsp_mask_val_int8(i)})
-val dat_rsp_p0_vld_w = dat_rsp_pvld | & ~is_winograd_d1(16)
+val dat_rsp_p0_vld_w = dat_rsp_pvld & ~is_winograd_d1(16)
 
 //////////////////////////////////////////////////////////////
 ///// latency register to balance with PRA cell          /////
