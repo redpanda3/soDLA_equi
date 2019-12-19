@@ -1109,7 +1109,7 @@ val dat_rsp_cur_h_e4_mask_8b = Cat(dat_rsp_cur_h_mask_p3(conf.CSC_ATOMC_QUAT-1, 
 
 val dat_rsp_mask_8b = Mux(sub_h_total_g11 === "h4".asUInt(3.W), Fill(4, dat_rsp_ori_mask(conf.CSC_ATOMC_QUAT-1, 0))&dat_rsp_cur_h_e4_mask_8b,
                       Mux(sub_h_total_g11 === "h2".asUInt(3.W), Fill(2, dat_rsp_ori_mask(conf.CSC_ATOMC_HALF-1, 0))&dat_rsp_cur_h_e2_mask_8b,
-                      dat_rsp_ori_mask))
+                      dat_rsp_ori_mask(conf.CSC_ATOMC-1, 0)))
 
 
 val dat_rsp_data_w = Mux(is_img_d1(33), dat_rsp_img, dat_rsp_conv)
