@@ -15256,20 +15256,6 @@ always @(posedge nvdla_core_clk) begin
 end
 always @(posedge nvdla_core_clk) begin
    if (!nvdla_core_rstn) begin
-       sc2buf_dat_rd_next1_addr <= {13{1'b1}};
-   end else begin
-       if ((layer_st | sc2buf_dat_rd_en_w) == 1'b1) begin
-           sc2buf_dat_rd_next1_addr <= sc2buf_dat_rd_next1_addr_w;
-       // VCS coverage off
-       end else if ((layer_st | sc2buf_dat_rd_en_w) == 1'b0) begin
-       end else begin
-           sc2buf_dat_rd_next1_addr <= 'bx;
-       // VCS coverage on
-       end
-   end
-end
-always @(posedge nvdla_core_clk) begin
-   if (!nvdla_core_rstn) begin
        dat_pipe_valid_d2 <= 1'b0;
    end else begin
        dat_pipe_valid_d2 <= dat_pipe_valid_d1;
