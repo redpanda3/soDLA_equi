@@ -30,14 +30,14 @@ class NV_soDLA_CSC_dl_for_checkIO(implicit conf: nvdlaConfig) extends Bundle{
     val sg2dl_pvld = Input(Bool())
     val sg2dl_pd = Input(UInt(31.W))
     
-    val cdma2sc_dat_updt = Output(Bool())
-    val cdma2sc_dat_entries = Output(UInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
-    val cdma2sc_dat_slices = Output(UInt(14.W))
+    val cdma2sc_dat_updt = Input(Bool())
+    val cdma2sc_dat_entries = Input(UInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
+    val cdma2sc_dat_slices = Input(UInt(14.W))
 
     val sc2cdma_dat_pending_req = Input(Bool())
-    val sc2cdma_dat_updt = Input(Bool())
-    val sc2cdma_dat_entries = Input(UInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
-    val sc2cdma_dat_slices = Input(UInt(14.W))
+    val sc2cdma_dat_updt = Output(Bool())
+    val sc2cdma_dat_entries = Output(UInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
+    val sc2cdma_dat_slices = Output(UInt(14.W))
 
     val sc2buf_dat_rd = new sc2buf_data_rd_if
 
