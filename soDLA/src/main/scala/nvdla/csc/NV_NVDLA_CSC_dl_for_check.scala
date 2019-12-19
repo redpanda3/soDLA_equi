@@ -323,7 +323,7 @@ when(io.cdma2sc_dat_updt|cbuf_reset){ dat_entry_end := dat_entry_end_w }
 val dat_rsp_pvld = Wire(Bool())
 val dat_rsp_rls = Wire(Bool())
 val sub_rls = (dat_rsp_pvld & dat_rsp_rls)
-val reuse_rls = io.sg2dl.reuse_rls
+val reuse_rls = io.sg2dl_reuse_rls
 
 dat_rls := (reuse_rls & last_slices.orR) | (sub_rls & rls_slices.orR)
 sc2cdma_dat_slices_w := Mux(sub_rls, rls_slices, last_slices)
@@ -346,8 +346,8 @@ val dl_in_pvld_d =  Wire(Bool()) +:
 val dl_in_pd_d = Wire(UInt(31.W)) +: 
                  Seq.fill(total_depth)(RegInit("b0".asUInt(31.W)))
 
-dl_in_pvld_d(0) := io.sg2dl.pd.valid
-dl_in_pd_d(0) := io.sg2dl.pd.bits
+dl_in_pvld_d(0) := io.sg2dl_pvld
+dl_in_pd_d(0) := io.sg2dl_pd
 
 for(t <- 0 to total_depth-1){
     dl_in_pvld_d(t+1) := dl_in_pvld_d(t)

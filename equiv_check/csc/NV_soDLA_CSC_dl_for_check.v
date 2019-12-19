@@ -1,4 +1,6 @@
 module NV_soDLA_CSC_dl_for_check( // @[:@3.2]
+  input          clock, // @[:@4.4]
+  input          reset, // @[:@5.4]
   input          io_nvdla_core_clk, // @[:@6.4]
   input          io_nvdla_core_ng_clk, // @[:@6.4]
   input          io_nvdla_core_rstn, // @[:@6.4]
