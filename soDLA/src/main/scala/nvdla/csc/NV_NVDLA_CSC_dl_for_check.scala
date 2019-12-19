@@ -18,7 +18,6 @@ class csc2cmac_data_if_for_check(implicit val conf: nvdlaConfig)  extends Bundle
 }
 
 
-@chiselName
 class NV_soDLA_CSC_dl_for_checkIO(implicit conf: nvdlaConfig) extends Bundle{
     val nvdla_core_clk = Input(Clock())
     val nvdla_core_ng_clk = Input(Clock())
@@ -72,6 +71,7 @@ class NV_soDLA_CSC_dl_for_checkIO(implicit conf: nvdlaConfig) extends Bundle{
 
 }
 
+@chiselName
 class NV_soDLA_CSC_dl_for_check(implicit val conf: nvdlaConfig) extends Module {
     val io = IO(new NV_soDLA_CSC_dl_for_checkIO)
 /////////////////////////////////////////////////////////////////////////////////////////////
