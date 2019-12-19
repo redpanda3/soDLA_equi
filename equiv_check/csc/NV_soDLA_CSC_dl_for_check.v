@@ -12031,9 +12031,6 @@ module NV_NVDLA_CSC_dl (
   ,sc2buf_dat_rd_addr //|> o
   ,sc2buf_dat_rd_valid //|< i
   ,sc2buf_dat_rd_data //|< i
-  ,sc2buf_dat_rd_shift //|> o
-  ,sc2buf_dat_rd_next1_en //|> o
-  ,sc2buf_dat_rd_next1_addr //|> o
   ,sc2mac_dat_a_pvld //|> o
   ,sc2mac_dat_a_mask //|> o
 //: for(my $i=0; $i<64 ; $i++){
@@ -12225,9 +12222,6 @@ output sc2buf_dat_rd_en; /* data valid */
 output [13 -1:0] sc2buf_dat_rd_addr;
 input sc2buf_dat_rd_valid; /* data valid */
 input [512 -1:0] sc2buf_dat_rd_data;
-output [10 -1:0] sc2buf_dat_rd_shift;
-output sc2buf_dat_rd_next1_en;
-output [13 -1:0] sc2buf_dat_rd_next1_addr;
 output sc2mac_dat_a_pvld; /* data valid */
 output [64 -1:0] sc2mac_dat_a_mask;
 //: for(my $i=0; $i<64 ; $i++){
@@ -15158,103 +15152,9 @@ assign dat_req_sub_h_0_addr_en = layer_st | ((dat_req_valid_d1 | dat_req_dummy_d
 assign dat_req_sub_h_1_addr_en = layer_st | ((dat_req_valid_d1 | dat_req_dummy_d1) & (dat_req_sub_h_d1 == 2'h1));
 assign dat_req_sub_h_2_addr_en = layer_st | ((dat_req_valid_d1 | dat_req_dummy_d1) & (dat_req_sub_h_d1 == 2'h2));
 assign dat_req_sub_h_3_addr_en = layer_st | ((dat_req_valid_d1 | dat_req_dummy_d1) & (dat_req_sub_h_d1 == 2'h3));
-`ifdef CBUF_NO_SUPPORT_READ_JUMPING
-wire sc2buf_dat_rd_next1_en = 1'b0;
-wire sc2buf_dat_rd_next1_en_w = 1'b0;
-wire sc2buf_dat_rd_shift = {10{1'b0}};
-`endif
-`ifdef CBUF_SUPPORT_READ_JUMPING
-wire [10 -1:0] sc2buf_dat_rd_shift_w;
-wire mon_sc2buf_dat_rd_shift_w;
-wire sc2buf_dat_rd_next1_en_w;
-wire [13 -1:0] dat_req_addr_last_plus1;
-wire [13 -1:0] dat_req_addr_last_plus1_real;
-wire is_dat_req_addr_last_plus1_wrap;
-wire [13 -1:0] dat_req_addr_last_plus1_wrap;
-wire mon_dat_req_addr_last_plus1_wrap;
-wire [6:0] pixel_w_cnt_plus1;
-wire stripe_begin_disable_jump_w;
-//every stripe will start form the head Byte of an entry, no need to jump
-assign stripe_begin_disable_jump_w = sub_h_total_g0[2] ? (stripe_cnt[6:2]==5'b0) : //stripe_cnt = 0/1/2/3
-                                     sub_h_total_g0[1] ? (stripe_cnt[6:1]==6'b0) : //stripe_cnt = 0/1
-                                     stripe_cnt==7'b0; //stripe_cnt = 0
-//: my $kk= 6 +1;
-//: &eperl::flop("-q  stripe_begin_disable_jump -d stripe_begin_disable_jump_w");
-//: &eperl::flop("-wid ${kk} -q pixel_w_cnt_plus1_d1 -d pixel_w_cnt_plus1");
-//| eperl: generated_beg (DO NOT EDIT BELOW)
-reg  stripe_begin_disable_jump;
-always @(posedge nvdla_core_clk) begin
-   if (!nvdla_core_rstn) begin
-       stripe_begin_disable_jump <= 'b0;
-   end else begin
-       stripe_begin_disable_jump <= stripe_begin_disable_jump_w;
-   end
-end
-reg [6:0] pixel_w_cnt_plus1_d1;
-always @(posedge nvdla_core_clk) begin
-   if (!nvdla_core_rstn) begin
-       pixel_w_cnt_plus1_d1 <= 'b0;
-   end else begin
-       pixel_w_cnt_plus1_d1 <= pixel_w_cnt_plus1;
-   end
-end
 
-//| eperl: generated_end (DO NOT EDIT ABOVE)
-assign dat_req_addr_last_plus1 = dat_req_addr_last+1'b1;
-assign is_dat_req_addr_last_plus1_wrap = (dat_req_addr_last_plus1 >= {data_bank, {9{1'b0}}});
-assign {mon_dat_req_addr_last_plus1_wrap,dat_req_addr_last_plus1_wrap} = dat_req_addr_last_plus1[13 -1:0] - {data_bank, {9{1'b0}}};
-assign dat_req_addr_last_plus1_real = is_dat_req_addr_last_plus1_wrap ? dat_req_addr_last_plus1_wrap : dat_req_addr_last_plus1;
-//iamge data may encounter read jump, which happens when image data_read_address - last_rd_address >= 2 entries, and read form the middle of an entry.
-//then csc need read 2 entries simultaneously, then shift out unneeded part.
-//this address jump should not happened in the begining of a stripe OP.
-//assign sc2buf_dat_rd_next1_en_w = is_img_d1[10]&&sc2buf_dat_rd_en_w&&(pixel_x_byte_stride > 8'h40  )&&(dat_req_addr_w != dat_req_addr_last_plus1_real)
-// &&(pixel_w_cnt_plus1_d1<dat_req_pipe_bytes[6:0])&&(~stripe_begin_disable_jump);
-assign sc2buf_dat_rd_next1_en_w = is_img_d1[10]&&sc2buf_dat_rd_en_w&&(pixel_x_byte_stride > 8'h40  )
-                                    &&(pixel_w_cnt_plus1_d1<dat_req_pipe_bytes[6:0])&&(~stripe_begin_disable_jump);
-assign pixel_w_cnt_plus1 = pixel_w_cnt[6 -1:0]+1'b1;
-//for no y_ext cases,the entry read form cbuf must make sure low byte aligned. High Bytes may dropped, low bytes will always be used.
-//for y_ext cases, cbuf do no shift, csc will take this job.
-//assign sc2buf_dat_rd_shift_w = sc2buf_dat_rd_next1_en_w ? pixel_w_cnt_plus1_d1[6 -1:0]+ 7'h40 - dat_req_pipe_bytes: //image read jump
-// is_img_d1[10]&&stripe_begin_disable_jump ? {10{1'd0}}: //image read no jump,stripe's start need no shift 
-// is_img_d1[10]&&(reg2dp_y_extension!=2'b0)? {10{1'd0}}: //y_ext,no need to shift,csc will shift
-// //image read no jump, not image's start, not y_ext,then not all bytes are used,need shift out low bytes
-// is_img_d1[10]&&(pixel_w_cnt_plus1_d1[6:0]> dat_req_pipe_bytes)&&(pixel_x_byte_stride > 8'h40  )?
-// pixel_w_cnt_plus1_d1[6:0] - dat_req_pipe_bytes :
-// is_img_d1[10]&&(pixel_w_cnt_plus1_d1[6:0]<= dat_req_pipe_bytes)? {10{1'd0}} :
-// {10{1'd0}}; //read data, no need to shift
-//only when pixel_stride>entry and fetched more data than needed, then need shift
-assign {mon_sc2buf_dat_rd_shift_w, sc2buf_dat_rd_shift_w} =
-        sc2buf_dat_rd_next1_en_w ? pixel_w_cnt_plus1_d1[6 -1:0]+ 7'h40 - dat_req_pipe_bytes: //image read jump
-//image read no jump, not image's start,fetch more than needed,not y_ext,then not all bytes are used,need shift out low bytes
-        is_img_d1[10]&&(pixel_w_cnt_plus1_d1[6:0]> dat_req_pipe_bytes[6:0])&&(~stripe_begin_disable_jump)&&(pixel_x_byte_stride > 8'h40  )?
-        pixel_w_cnt_plus1_d1[6:0] - dat_req_pipe_bytes[6:0] : {10{1'd0}};
-//: my $kk= 10;
-//: &eperl::flop("-d sc2buf_dat_rd_next1_en_w -q sc2buf_dat_rd_next1_en");
-//: &eperl::flop("-d sc2buf_dat_rd_shift_w -q sc2buf_dat_rd_shift -wid ${kk}");
-//| eperl: generated_beg (DO NOT EDIT BELOW)
-reg  sc2buf_dat_rd_next1_en;
-always @(posedge nvdla_core_clk) begin
-   if (!nvdla_core_rstn) begin
-       sc2buf_dat_rd_next1_en <= 'b0;
-   end else begin
-       sc2buf_dat_rd_next1_en <= sc2buf_dat_rd_next1_en_w;
-   end
-end
-reg [9:0] sc2buf_dat_rd_shift;
-always @(posedge nvdla_core_clk) begin
-   if (!nvdla_core_rstn) begin
-       sc2buf_dat_rd_shift <= 'b0;
-   end else begin
-       sc2buf_dat_rd_shift <= sc2buf_dat_rd_shift_w;
-   end
-end
-
-//| eperl: generated_end (DO NOT EDIT ABOVE)
-`endif
 wire [13 -1:0] sc2buf_dat_rd_addr_w;
-wire [13 -1:0] sc2buf_dat_rd_next1_addr_w;
-assign sc2buf_dat_rd_addr_w = sc2buf_dat_rd_next1_en_w ? dat_req_addr_minus1_real : dat_req_addr_w;
-assign sc2buf_dat_rd_next1_addr_w = sc2buf_dat_rd_next1_en_w ? dat_req_addr_w : {13{1'b0}};
+assign sc2buf_dat_rd_addr_w = dat_req_addr_w
 //: my $kk=13;
 //: &eperl::flop("-nodeclare   -rval \"{${kk}{1'b1}}\"  -en \"dat_req_sub_h_0_addr_en\" -d \"dat_req_addr_w\" -q dat_req_sub_h_0_addr");
 //: &eperl::flop("-nodeclare   -rval \"{${kk}{1'b1}}\"  -en \"dat_req_sub_h_1_addr_en\" -d \"dat_req_addr_w\" -q dat_req_sub_h_1_addr");
