@@ -4,6 +4,20 @@ import chisel3._
 import chisel3.experimental._
 import chisel3.util._
 
+// flow valid
+class csc2cmac_data_if_for_check(implicit val conf: nvdlaConfig)  extends Bundle{
+    val mask = Output(UInt((conf.NVDLA_MAC_ATOMIC_C_SIZE).W))
+    val data = Output(Vec(conf.NVDLA_MAC_ATOMIC_C_SIZE, UInt(conf.NVDLA_BPE.W)))
+//pd
+//   field batch_index 5
+//   field stripe_st 1
+//   field stripe_end 1
+//   field channel_end 1
+//   field layer_end 1
+    val pd = Output(UInt(9.W))
+}
+
+
 @chiselName
 class NV_soDLA_CSC_dl_for_checkIO(implicit conf: nvdlaConfig) extends Bundle{
     val nvdla_core_clk = Input(Clock())
@@ -11,16 +25,24 @@ class NV_soDLA_CSC_dl_for_checkIO(implicit conf: nvdlaConfig) extends Bundle{
     val nvdla_core_rstn = Input(Bool())
 
     val sc_state = Input(UInt(2.W))
-    val sg2dl = Flipped(new csc_sg2dl_if) /* data valid */
+
+    val sg2dl_reuse_rls = Input(Bool())
+    val sg2dl_pvld = Input(Bool())
+    val sg2dl_pd = Input(UInt(31.W))
     
-    val cdma2sc_dat_updt = Flipped(ValidIO(new updt_entries_slices_if))
+    val cdma2sc_dat_updt = Output(Bool())
+    val cdma2sc_dat_entries = Output(UInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
+    val cdma2sc_dat_slices = Output(UInt(14.W))
+
     val sc2cdma_dat_pending_req = Input(Bool())
-    val sc2cdma_dat_updt = ValidIO(new updt_entries_slices_if)
+    val sc2cdma_dat_updt = Input(Bool())
+    val sc2cdma_dat_entries = Input(UInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
+    val sc2cdma_dat_slices = Input(UInt(14.W))
 
     val sc2buf_dat_rd = new sc2buf_data_rd_if
 
-    val sc2mac_dat_a = ValidIO(new csc2cmac_data_if)              /* data valid */
-    val sc2mac_dat_b = ValidIO(new csc2cmac_data_if)             /* data valid */
+    val sc2mac_dat_a = ValidIO(new csc2cmac_data_if_for_check)              /* data valid */
+    val sc2mac_dat_b = ValidIO(new csc2cmac_data_if_for_check)             /* data valid */
 
     val reg2dp_op_en = Input(Bool())
     val reg2dp_conv_mode = Input(Bool())
@@ -266,12 +288,12 @@ val dat_entry_st = withClock(io.nvdla_core_ng_clk){RegInit("b0".asUInt(conf.CSC_
 val dat_entry_end = withClock(io.nvdla_core_ng_clk){RegInit("b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))}
 
 //////////////////////////////////// calculate how many avaliable dat slices in cbuf////////////////////////////////////
-val dat_slice_avl_add = Mux(io.cdma2sc_dat_updt.valid, io.cdma2sc_dat_updt.bits.slices, "b0".asUInt(14.W))
+val dat_slice_avl_add = Mux(io.cdma2sc_dat_updt, io.cdma2sc_dat_updt_slices, "b0".asUInt(14.W))
 val dat_slice_avl_sub = Mux(dat_rls, sc2cdma_dat_slices_w, "b0".asUInt(14.W))
 val dat_slice_avl_w = Mux(cbuf_reset, "b0".asUInt(14.W), dat_slice_avl + dat_slice_avl_add - dat_slice_avl_sub)
 
 //////////////////////////////////// calculate how many avaliable dat entries in cbuf////////////////////////////////////
-val dat_entry_avl_add = Mux(io.cdma2sc_dat_updt.valid, io.cdma2sc_dat_updt.bits.entries, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
+val dat_entry_avl_add = Mux(io.cdma2sc_dat_updt, io.cdma2sc_dat_updt_entries, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
 val dat_entry_avl_sub = Mux(dat_rls, sc2cdma_dat_entries_w, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
 val dat_entry_avl_w = Mux(cbuf_reset,"b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W), dat_entry_avl + dat_entry_avl_add - dat_entry_avl_sub)
 
@@ -289,10 +311,10 @@ val is_dat_entry_end_wrap = dat_entry_end_inc >= Cat(data_bank, Fill(conf.LOG2_C
 val dat_entry_end_w = Mux(cbuf_reset, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W), Mux(is_dat_entry_end_wrap,  dat_entry_end_inc_wrap, dat_entry_end_inc))
 
 //////////////////////////////////// registers and assertions ////////////////////////////////////
-when(io.cdma2sc_dat_updt.valid|dat_rls|cbuf_reset){ dat_slice_avl := dat_slice_avl_w }
-when(io.cdma2sc_dat_updt.valid|dat_rls|cbuf_reset){ dat_entry_avl := dat_entry_avl_w }
+when(io.cdma2sc_dat_updt|dat_rls|cbuf_reset){ dat_slice_avl := dat_slice_avl_w }
+when(io.cdma2sc_dat_updt|dat_rls|cbuf_reset){ dat_entry_avl := dat_entry_avl_w }
 when(dat_rls|cbuf_reset){ dat_entry_st := dat_entry_st_w }
-when(io.cdma2sc_dat_updt.valid|cbuf_reset){ dat_entry_end := dat_entry_end_w }
+when(io.cdma2sc_dat_updt|cbuf_reset){ dat_entry_end := dat_entry_end_w }
 //================  Non-SLCG clock domain end ================//
 
 //////////////////////////////////////////////////////////////
@@ -307,9 +329,9 @@ dat_rls := (reuse_rls & last_slices.orR) | (sub_rls & rls_slices.orR)
 sc2cdma_dat_slices_w := Mux(sub_rls, rls_slices, last_slices)
 sc2cdma_dat_entries_w := Mux(sub_rls, rls_entries, last_entries)
 
-io.sc2cdma_dat_updt.valid := RegNext(dat_rls, false.B)
-io.sc2cdma_dat_updt.bits.slices := RegEnable(sc2cdma_dat_slices_w, "b0".asUInt(14.W), dat_rls)
-io.sc2cdma_dat_updt.bits.entries := RegEnable(sc2cdma_dat_entries_w, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W), dat_rls)
+io.sc2cdma_dat_updt := RegNext(dat_rls, false.B)
+io.sc2cdma_dat_slices := RegEnable(sc2cdma_dat_slices_w, "b0".asUInt(14.W), dat_rls)
+io.sc2cdma_dat_entries := RegEnable(sc2cdma_dat_entries_w, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W), dat_rls)
 
 //////////////////////////////////////////////////////////////
 ///// input sg2dl package                                 /////
@@ -1177,8 +1199,8 @@ io.sc2mac_dat_a.valid := RegNext(dl_out_pvld, false.B)
 io.sc2mac_dat_b.valid := RegNext(dl_out_pvld, false.B)
 io.sc2mac_dat_a.bits.pd := RegEnable(sc2mac_dat_pd_w, "b0".asUInt(9.W), dl_out_pvld | dl_out_pvld_d1)
 io.sc2mac_dat_b.bits.pd := RegEnable(sc2mac_dat_pd_w, "b0".asUInt(9.W), dl_out_pvld | dl_out_pvld_d1)
-io.sc2mac_dat_a.bits.mask := RegEnable(dl_out_mask, VecInit(Seq.fill(conf.CSC_ATOMC)(false.B)), dl_out_pvld | dl_out_pvld_d1)
-io.sc2mac_dat_b.bits.mask := RegEnable(dl_out_mask, VecInit(Seq.fill(conf.CSC_ATOMC)(false.B)), dl_out_pvld | dl_out_pvld_d1)
+io.sc2mac_dat_a.bits.mask := RegEnable(dl_out_mask, VecInit(Seq.fill(conf.CSC_ATOMC)(false.B)), dl_out_pvld | dl_out_pvld_d1).asUInt
+io.sc2mac_dat_b.bits.mask := RegEnable(dl_out_mask, VecInit(Seq.fill(conf.CSC_ATOMC)(false.B)), dl_out_pvld | dl_out_pvld_d1).asUInt
 for(i <- 0 to conf.CSC_ATOMC-1){
     io.sc2mac_dat_a.bits.data(i) := RegEnable(dl_out_data(i), dl_out_mask(i))
     io.sc2mac_dat_b.bits.data(i) := RegEnable(dl_out_data(i), dl_out_mask(i))
