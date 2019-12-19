@@ -288,12 +288,12 @@ val dat_entry_st = withClock(io.nvdla_core_ng_clk){RegInit("b0".asUInt(conf.CSC_
 val dat_entry_end = withClock(io.nvdla_core_ng_clk){RegInit("b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))}
 
 //////////////////////////////////// calculate how many avaliable dat slices in cbuf////////////////////////////////////
-val dat_slice_avl_add = Mux(io.cdma2sc_dat_updt, io.cdma2sc_dat_updt_slices, "b0".asUInt(14.W))
+val dat_slice_avl_add = Mux(io.cdma2sc_dat_updt, io.cdma2sc_dat_slices, "b0".asUInt(14.W))
 val dat_slice_avl_sub = Mux(dat_rls, sc2cdma_dat_slices_w, "b0".asUInt(14.W))
 val dat_slice_avl_w = Mux(cbuf_reset, "b0".asUInt(14.W), dat_slice_avl + dat_slice_avl_add - dat_slice_avl_sub)
 
 //////////////////////////////////// calculate how many avaliable dat entries in cbuf////////////////////////////////////
-val dat_entry_avl_add = Mux(io.cdma2sc_dat_updt, io.cdma2sc_dat_updt_entries, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
+val dat_entry_avl_add = Mux(io.cdma2sc_dat_updt, io.cdma2sc_dat_entries, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
 val dat_entry_avl_sub = Mux(dat_rls, sc2cdma_dat_entries_w, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
 val dat_entry_avl_w = Mux(cbuf_reset,"b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W), dat_entry_avl + dat_entry_avl_add - dat_entry_avl_sub)
 
