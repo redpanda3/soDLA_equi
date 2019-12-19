@@ -14043,7 +14043,7 @@ assign dat_entry_end_w = (cbuf_reset) ? {15{1'b0}} : is_dat_entry_end_wrap ? dat
 //: &eperl::flop("-nodeclare -clk nvdla_core_ng_clk  -rval \"{${kk}{1'b0}}\"  -en \"cbuf_reset | dat_rls\" -d \"dat_entry_st_w\" -q dat_entry_st");
 //: &eperl::flop("-nodeclare -clk nvdla_core_ng_clk  -rval \"{${kk}{1'b0}}\"  -en \"cbuf_reset | cdma2sc_dat_updt\" -d \"dat_entry_end_w\" -q dat_entry_end");
 //| eperl: generated_beg (DO NOT EDIT BELOW)
-always @(posedge nvdla_core_ng_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_ng_clk) begin
    if (!nvdla_core_rstn) begin
        dat_slice_avl <= {14{1'b0}};
    end else begin
@@ -14057,7 +14057,7 @@ always @(posedge nvdla_core_ng_clk or negedge nvdla_core_rstn) begin
        end
    end
 end
-always @(posedge nvdla_core_ng_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_ng_clk) begin
    if (!nvdla_core_rstn) begin
        dat_entry_avl <= {15{1'b0}};
    end else begin
@@ -14071,7 +14071,7 @@ always @(posedge nvdla_core_ng_clk or negedge nvdla_core_rstn) begin
        end
    end
 end
-always @(posedge nvdla_core_ng_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_ng_clk) begin
    if (!nvdla_core_rstn) begin
        dat_entry_st <= {15{1'b0}};
    end else begin
@@ -14085,7 +14085,7 @@ always @(posedge nvdla_core_ng_clk or negedge nvdla_core_rstn) begin
        end
    end
 end
-always @(posedge nvdla_core_ng_clk or negedge nvdla_core_rstn) begin
+always @(posedge nvdla_core_ng_clk) begin
    if (!nvdla_core_rstn) begin
        dat_entry_end <= {15{1'b0}};
    end else begin
