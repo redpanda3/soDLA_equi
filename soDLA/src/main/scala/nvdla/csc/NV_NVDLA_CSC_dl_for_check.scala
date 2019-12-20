@@ -188,12 +188,12 @@ val x_dilate = RegInit("b0".asUInt(6.W))
 val y_dilate = RegInit("b0".asUInt(6.W))
 val pad_value = RegInit("b0".asUInt(16.W))
 val entries_cmp = RegInit("b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
-val h_bias_2_stride = RegInit("b0".asUInt(conf.CBUF_ADDR_WIDTH.W)
-val h_bias_3_stride = RegInit("b0".asUInt(conf.CBUF_ADDR_WIDTH.W)
+val h_bias_2_stride = RegInit("b0".asUInt(conf.CBUF_ADDR_WIDTH.W))
+val h_bias_3_stride = RegInit("b0".asUInt(conf.CBUF_ADDR_WIDTH.W))
 
 val last_slices = RegInit("b0".asUInt(14.W))
-val last_entries = RegInit("b0".asUInt(conf.CBUF_ADDR_WIDTH.W)
-val pra_precision = RegInit("b0".asUInt(8.W))
+val last_entries = RegInit("b0".asUInt(conf.CBUF_ADDR_WIDTH.W))
+val pra_precision = RegInit("b0".asUInt(8.W)))
 
 layer_st_d1 := layer_st
 when(layer_st){
