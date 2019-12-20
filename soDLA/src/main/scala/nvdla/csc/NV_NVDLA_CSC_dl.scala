@@ -310,7 +310,6 @@ sc2cdma_dat_entries_w := Mux(sub_rls, rls_entries, last_entries)
 io.sc2cdma_dat_updt.valid := RegNext(dat_rls, false.B)
 io.sc2cdma_dat_updt.bits.slices := RegEnable(sc2cdma_dat_slices_w, "b0".asUInt(14.W), dat_rls)
 io.sc2cdma_dat_updt.bits.entries := RegEnable(sc2cdma_dat_entries_w, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W), dat_rls)
-
 //////////////////////////////////////////////////////////////
 ///// input sg2dl package                                 /////
 //////////////////////////////////////////////////////////////
@@ -516,7 +515,7 @@ val pixel_w_cnt_w = Mux(layer_st_d1, pixel_x_init,
                     Mux(is_stripe_end & dl_block_end & dl_channel_end & ~is_w_end, pixel_w_ch_ori +& pixel_ch_stride,
                     Mux(is_stripe_end & dl_block_end & next_is_last_channel, pixel_w_ori +& pixel_x_init_offset,
                     Mux(is_stripe_end & dl_block_end & ~next_is_last_channel, pixel_w_ori +& conf.CSC_ENTRY_HEX.U,
-                    Mux(is_stripe_end & ~dl_block_end, pixel_w_ori, pixel_w_cnt +& pixel_x_cnt_add))))))(15, 0)
+                    Mux(is_stripe_end & ~dl_block_end, pixel_w_ori, pixel_w_cnt +& pixel_x_cnt_add))))))
 
 val pixel_w_cur = Cat(Fill(conf.LOG2_ATOMC-1, false.B), pixel_w_cnt(15, conf.LOG2_ATOMC)) //by entry
 val pixel_w_cnt_reg_en = layer_st_d1 | (dat_exec_valid & is_img_d1(2) & (is_sub_h_end | is_w_end))
@@ -599,7 +598,7 @@ when(dat_exec_valid){
     dat_req_sub_h_d1 := sub_h_cnt
     dat_req_sub_c_d1 := dat_req_sub_c_w
     dat_req_ch_end_d1 := is_last_channel
-    dat_req_dummy_d1 := dat_exec_valid
+    dat_req_dummy_d1 := dat_req_dummy
     dat_req_cur_sub_h_d1 := dl_cur_sub_h
     dat_req_flag_d1 := dat_req_flag_w
     dat_req_rls_d1 := dl_dat_release & is_stripe_equal & dat_pipe_valid
@@ -691,6 +690,8 @@ val sc2buf_dat_rd_en_out = RegInit(false.B)
 val sc2buf_dat_rd_addr_out = RegInit(Fill(conf.CBUF_ADDR_WIDTH, true.B))
 val dat_req_pipe_pvld = RegInit(false.B)
 val dat_req_exec_pvld = RegInit(false.B)
+val dat_req_exec_sub_h = RegInit("b0".asUInt(2.W))
+val dat_req_exec_dummy = RegInit(false.B)
 val dat_req_pipe_sub_w = RegInit("b0".asUInt(2.W))
 val dat_req_pipe_sub_h = RegInit("b0".asUInt(2.W)) 
 val dat_req_pipe_sub_c = RegInit(false.B)
@@ -735,7 +736,8 @@ io.sc2buf_dat_rd.addr.valid := sc2buf_dat_rd_en_out
 io.sc2buf_dat_rd.addr.bits := sc2buf_dat_rd_addr_out
 
 dat_req_pipe_pvld := dat_pipe_valid_d1
-dat_req_pipe_flag := dat_exec_valid_d1
+dat_req_exec_pvld := dat_exec_valid_d1
+
 when(dat_exec_valid_d1){ 
     dat_req_pipe_sub_w := dat_req_sub_w_d1
     dat_req_pipe_sub_h := dat_req_sub_h_d1
@@ -747,19 +749,18 @@ when(dat_exec_valid_d1){
     dat_req_pipe_sub_w_st := dat_req_sub_w_st_d1
     dat_req_pipe_rls := dat_req_rls_d1
     dat_req_pipe_flag := dat_req_flag_d1
+    dat_req_exec_dummy := dat_req_dummy_d1
 }
-
-//////////////////////////////////////////////////////////////
-///// sideband pipeline                                  /////
-//////////////////////////////////////////////////////////////
-val dat_req_exec_dummy = dat_req_pipe_dummy
-val dat_req_exec_sub_h = dat_req_pipe_sub_h
 
 // PKT_PACK_WIRE( csc_dat_req_pkg ,  dat_req_pipe_ ,  dat_req_pipe_pd )
 val dat_req_pipe_pd = Cat(dat_req_pipe_flag, dat_req_pipe_rls, dat_req_pipe_sub_w_st,
                         dat_req_pipe_dummy, dat_req_pipe_cur_sub_h, dat_req_pipe_bytes,
                         false.B, dat_req_pipe_ch_end, dat_req_pipe_sub_c, dat_req_pipe_sub_h,
                         dat_req_pipe_sub_w)
+
+//////////////////////////////////////////////////////////////
+///// sideband pipeline                                  /////
+//////////////////////////////////////////////////////////////
 
 //add latency for data request contorl signal
 val dat_rsp_pipe_pvld_d = Wire(Bool()) +: 
