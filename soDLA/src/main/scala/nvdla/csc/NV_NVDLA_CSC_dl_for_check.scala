@@ -187,7 +187,7 @@ val pixel_ch_stride = RegInit("b0".asUInt(12.W))
 val x_dilate = RegInit("b0".asUInt(6.W))
 val y_dilate = RegInit("b0".asUInt(6.W))
 val pad_value = RegInit("b0".asUInt(16.W))
-val entries_cmp = RegInit("b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W)
+val entries_cmp = RegInit("b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
 val h_bias_2_stride = RegInit("b0".asUInt(conf.CBUF_ADDR_WIDTH.W)
 val h_bias_3_stride = RegInit("b0".asUInt(conf.CBUF_ADDR_WIDTH.W)
 
