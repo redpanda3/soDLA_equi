@@ -277,12 +277,12 @@ val dat_entry_end = withClock(io.nvdla_core_ng_clk){RegInit("b0".asUInt(conf.CSC
 //////////////////////////////////// calculate how many avaliable dat slices in cbuf////////////////////////////////////
 val dat_slice_avl_add = Mux(io.cdma2sc_dat_updt.valid, io.cdma2sc_dat_updt.bits.slices, "b0".asUInt(14.W))
 val dat_slice_avl_sub = Mux(dat_rls, sc2cdma_dat_slices_w, "b0".asUInt(14.W))
-val dat_slice_avl_w = Mux(cbuf_reset, "b0".asUInt(14.W), dat_slice_avl + dat_slice_avl_add - dat_slice_avl_sub)
+val dat_slice_avl_w = Mux(cbuf_reset, "b0".asUInt(14.W), dat_slice_avl +& dat_slice_avl_add -& dat_slice_avl_sub)
 
 //////////////////////////////////// calculate how many avaliable dat entries in cbuf////////////////////////////////////
 val dat_entry_avl_add = Mux(io.cdma2sc_dat_updt.valid, io.cdma2sc_dat_updt.bits.entries, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
 val dat_entry_avl_sub = Mux(dat_rls, sc2cdma_dat_entries_w, "b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W))
-val dat_entry_avl_w = Mux(cbuf_reset,"b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W), dat_entry_avl + dat_entry_avl_add - dat_entry_avl_sub)
+val dat_entry_avl_w = Mux(cbuf_reset,"b0".asUInt(conf.CSC_ENTRIES_NUM_WIDTH.W), dat_entry_avl +& dat_entry_avl_add -& dat_entry_avl_sub)
 
 //////////////////////////////////// calculate avilable data entries start offset in cbuf banks ////////////////////////////////////
 // data_bank is the highest bank for storing data
@@ -388,9 +388,12 @@ val is_batch_end = Wire(Bool())
 val dat_exec_valid = Wire(Bool())
 val batch_cnt = RegInit("b0".asUInt(5.W))
 
-batch_cnt := Mux(layer_st, "b0".asUInt(6.W), 
-             Mux(is_batch_end, "b0".asUInt(6.W),
-             batch_cnt +& 1.U))(5, 0)
+when(layer_st | dat_exec_valid){
+    batch_cnt := Mux(layer_st, "b0".asUInt(6.W), 
+                Mux(is_batch_end, "b0".asUInt(6.W),
+                batch_cnt +& 1.U))
+}
+
 
 is_batch_end := batch_cnt === batch_cmp
 
@@ -398,9 +401,9 @@ is_batch_end := batch_cnt === batch_cmp
 val sub_h_cnt = RegInit("b0".asUInt(2.W))
 val is_sub_h_end = Wire(Bool())
 
-val sub_h_cnt_inc = sub_h_cnt + 1.U
+val sub_h_cnt_inc = sub_h_cnt +& 1.U
 is_sub_h_end := (sub_h_cnt_inc === sub_h_cmp_g0)
-val sub_h_cnt_reg_en = layer_st | (is_winograd_d1(2) | ((io.reg2dp_y_extension).orR) & dat_exec_valid)
+val sub_h_cnt_reg_en = layer_st | ((is_winograd_d1(2) | ((io.reg2dp_y_extension).orR)) & dat_exec_valid)
 when(sub_h_cnt_reg_en){
     sub_h_cnt := Mux(layer_st | is_sub_h_end, "b0".asUInt(2.W), sub_h_cnt_inc)
 }
@@ -410,7 +413,7 @@ val stripe_cnt = RegInit("b0".asUInt(7.W))
 val is_stripe_equal = Wire(Bool())
 val is_stripe_end = Wire(Bool())
 
-val stripe_cnt_inc = stripe_cnt +& 1.U
+val stripe_cnt_inc = (stripe_cnt +& 1.U)(6, 0)
 is_stripe_equal := is_batch_end & (stripe_cnt_inc === dl_stripe_length)
 is_stripe_end := is_stripe_equal & is_sub_h_end
 val stripe_cnt_reg_en = layer_st | (dat_exec_valid & is_batch_end)
@@ -419,7 +422,7 @@ when(stripe_cnt_reg_en){
     stripe_cnt := Mux(layer_st, "b0".asUInt(7.W),
                   Mux(is_stripe_equal & ~is_sub_h_end, stripe_cnt,
                   Mux(is_stripe_end, "b0".asUInt(7.W),
-                  stripe_cnt_inc)))(7, 0)
+                  stripe_cnt_inc)))
 }
 
 ////////////////////////// pipe valid generator //////////////////////////
@@ -511,7 +514,7 @@ val datain_w_ori_reg_en = layer_st | (dat_exec_valid & is_stripe_end & dl_channe
 val pixel_x_cnt_add = Mux(is_sub_h_end, pixel_x_add, "b0".asUInt(6.W))
 //channel count.
 val total_channel_op = Mux(io.reg2dp_weight_channel_ext(conf.LOG2_ATOMC-1, 0) === 0.U, io.reg2dp_weight_channel_ext(12, conf.LOG2_ATOMC),
-                        io.reg2dp_weight_channel_ext(12, conf.LOG2_ATOMC)+1.U)
+                        io.reg2dp_weight_channel_ext(12, conf.LOG2_ATOMC) +& 1.U)
 channel_op_cnt := Mux(dl_channel_end&is_stripe_end, 2.U,
                   Mux(dl_block_end&is_stripe_end, channel_op_cnt +& 1.U,
                   channel_op_cnt))
@@ -523,7 +526,7 @@ val pixel_w_cnt_w = Mux(layer_st_d1, pixel_x_init,
                     Mux(is_stripe_end & dl_block_end & dl_channel_end & ~is_w_end, pixel_w_ch_ori +& pixel_ch_stride,
                     Mux(is_stripe_end & dl_block_end & next_is_last_channel, pixel_w_ori +& pixel_x_init_offset,
                     Mux(is_stripe_end & dl_block_end & ~next_is_last_channel, pixel_w_ori +& conf.CSC_ENTRY_HEX.U,
-                    Mux(is_stripe_end & ~dl_block_end, pixel_w_ori, pixel_w_cnt +& pixel_x_cnt_add))))))(15, 0)
+                    Mux(is_stripe_end & ~dl_block_end, pixel_w_ori, pixel_w_cnt +& pixel_x_cnt_add))))))
 
 val pixel_w_cur = Cat(Fill(conf.LOG2_ATOMC-1, false.B), pixel_w_cnt(15, conf.LOG2_ATOMC)) //by entry
 val pixel_w_cnt_reg_en = layer_st_d1 | (dat_exec_valid & is_img_d1(2) & (is_sub_h_end | is_w_end))
