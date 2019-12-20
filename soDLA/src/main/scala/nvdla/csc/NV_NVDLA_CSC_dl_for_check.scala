@@ -766,10 +766,10 @@ val dat_req_exec_dummy = dat_req_pipe_dummy
 val dat_req_exec_sub_h = dat_req_pipe_sub_h
 
 // PKT_PACK_WIRE( csc_dat_req_pkg ,  dat_req_pipe_ ,  dat_req_pipe_pd )
-val dat_req_pipe_pd = Cat(dat_req_pipe_flag(8, 0), dat_req_pipe_rls, dat_req_pipe_sub_w_st,
-                        dat_req_pipe_dummy, dat_req_pipe_cur_sub_h(1, 0), dat_req_pipe_bytes(7, 0),
-                        false.B, dat_req_pipe_ch_end, dat_req_pipe_sub_c, dat_req_pipe_sub_h(1, 0),
-                        dat_req_pipe_sub_w(1, 0))
+val dat_req_pipe_pd = Cat(dat_req_pipe_flag, dat_req_pipe_rls, dat_req_pipe_sub_w_st,
+                        dat_req_pipe_dummy, dat_req_pipe_cur_sub_h, dat_req_pipe_bytes,
+                        false.B, dat_req_pipe_ch_end, dat_req_pipe_sub_c, dat_req_pipe_sub_h,
+                        dat_req_pipe_sub_w)
 
 //add latency for data request contorl signal
 val dat_rsp_pipe_pvld_d = Wire(Bool()) +: 
