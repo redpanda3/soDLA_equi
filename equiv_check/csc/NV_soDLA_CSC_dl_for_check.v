@@ -3,8 +3,8 @@ module NV_soDLA_CSC_dl_for_check( // @[:@3.2]
   input          nvdla_core_ng_clk, // @[:@6.4]
   input          nvdla_core_rstn, // @[:@6.4]
   input  [1:0]   sc_state, // @[:@6.4]
-  input          sg2dl_pd_valid, // @[:@6.4]
-  input  [30:0]  sg2dl_pd_bits, // @[:@6.4]
+  input          sg2dl_pvld, // @[:@6.4]
+  input  [30:0]  sg2dl_pd, // @[:@6.4]
   input          sg2dl_reuse_rls, // @[:@6.4]
   input          cdma2sc_dat_updt, // @[:@6.4]
   input  [14:0]  cdma2sc_dat_entries, // @[:@6.4]
@@ -3584,15 +3584,15 @@ module NV_soDLA_CSC_dl_for_check( // @[:@3.2]
   assign _GEN_55 = _T_638 ? dat_entry_st_w : dat_entry_st; // @[NV_NVDLA_CSC_dl_for_check.scala 303:25:@318.4]
   assign _GEN_57 = dat_rls ? sc2cdma_dat_slices_w : _T_656; // @[Reg.scala 20:19:@342.4]
   assign _GEN_58 = dat_rls ? sc2cdma_dat_entries_w : _T_659; // @[Reg.scala 20:19:@347.4]
-  assign _GEN_59 = sg2dl_pd_valid ? sg2dl_pd_bits : _T_681; // @[NV_NVDLA_CSC_dl_for_check.scala 342:26:@366.4]
+  assign _GEN_59 = sg2dl_pvld ? sg2dl_pd : _T_681; // @[NV_NVDLA_CSC_dl_for_check.scala 342:26:@366.4]
   assign _GEN_60 = _T_664 ? _T_681 : _T_684; // @[NV_NVDLA_CSC_dl_for_check.scala 342:26:@370.4]
   assign _GEN_61 = _T_667 ? _T_684 : _T_687; // @[NV_NVDLA_CSC_dl_for_check.scala 342:26:@374.4]
   assign _GEN_62 = _T_670 ? _T_687 : _T_690; // @[NV_NVDLA_CSC_dl_for_check.scala 342:26:@378.4]
   assign _GEN_63 = _T_673 ? _T_690 : _T_693; // @[NV_NVDLA_CSC_dl_for_check.scala 342:26:@382.4]
   assign _T_694 = is_winograd_d1[0]; // @[NV_NVDLA_CSC_dl_for_check.scala 347:36:@385.4]
-  assign dl_in_pvld = _T_694 ? sg2dl_pd_valid : _T_676; // @[NV_NVDLA_CSC_dl_for_check.scala 347:21:@386.4]
+  assign dl_in_pvld = _T_694 ? sg2dl_pvld : _T_676; // @[NV_NVDLA_CSC_dl_for_check.scala 347:21:@386.4]
   assign _T_695 = is_winograd_d1[1]; // @[NV_NVDLA_CSC_dl_for_check.scala 348:34:@387.4]
-  assign dl_in_pd = _T_695 ? sg2dl_pd_bits : _T_693; // @[NV_NVDLA_CSC_dl_for_check.scala 348:19:@388.4]
+  assign dl_in_pd = _T_695 ? sg2dl_pd : _T_693; // @[NV_NVDLA_CSC_dl_for_check.scala 348:19:@388.4]
   assign _GEN_64 = dl_in_pvld ? dl_in_pd : _T_714; // @[NV_NVDLA_CSC_dl_for_check.scala 361:23:@402.4]
   assign _GEN_65 = _T_700 ? _T_714 : _T_717; // @[NV_NVDLA_CSC_dl_for_check.scala 361:23:@406.4]
   assign _GEN_66 = _T_703 ? _T_717 : _T_720; // @[NV_NVDLA_CSC_dl_for_check.scala 361:23:@410.4]
@@ -8695,7 +8695,7 @@ module NV_soDLA_CSC_dl_for_check( // @[:@3.2]
     if (_T_207) begin
       _T_664 <= 1'h0;
     end else begin
-      _T_664 <= sg2dl_pd_valid;
+      _T_664 <= sg2dl_pvld;
     end
     if (_T_207) begin
       _T_667 <= 1'h0;
@@ -8720,8 +8720,8 @@ module NV_soDLA_CSC_dl_for_check( // @[:@3.2]
     if (_T_207) begin
       _T_681 <= 31'h0;
     end else begin
-      if (sg2dl_pd_valid) begin
-        _T_681 <= sg2dl_pd_bits;
+      if (sg2dl_pvld) begin
+        _T_681 <= sg2dl_pd;
       end
     end
     if (_T_207) begin
@@ -8756,7 +8756,7 @@ module NV_soDLA_CSC_dl_for_check( // @[:@3.2]
       _T_700 <= 1'h0;
     end else begin
       if (_T_694) begin
-        _T_700 <= sg2dl_pd_valid;
+        _T_700 <= sg2dl_pvld;
       end else begin
         _T_700 <= _T_676;
       end
@@ -8781,7 +8781,7 @@ module NV_soDLA_CSC_dl_for_check( // @[:@3.2]
     end else begin
       if (dl_in_pvld) begin
         if (_T_695) begin
-          _T_714 <= sg2dl_pd_bits;
+          _T_714 <= sg2dl_pd;
         end else begin
           _T_714 <= _T_693;
         end
