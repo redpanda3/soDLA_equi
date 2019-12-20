@@ -390,8 +390,8 @@ val batch_cnt = RegInit("b0".asUInt(5.W))
 
 when(layer_st | dat_exec_valid){
     batch_cnt := Mux(layer_st, "b0".asUInt(6.W), 
-                Mux(is_batch_end, "b0".asUInt(6.W),
-                batch_cnt +& 1.U))
+                 Mux(is_batch_end, "b0".asUInt(6.W),
+                 batch_cnt +& 1.U))
 }
 
 
@@ -717,14 +717,10 @@ val dat_req_pipe_flag = RegInit("b0".asUInt(9.W))
 val h_bias_d1 = (h_bias_0_d1 +& h_bias_1_d1 +& h_bias_2_d1 +& h_bias_3_d1)(conf.CBUF_ADDR_WIDTH-1, 0)
 val dat_req_addr_sum = dat_req_base_d1 +& c_bias_d1 +& h_bias_d1 +& w_bias_d1
 val is_dat_req_addr_wrap = dat_req_addr_sum >= Cat(data_bank, Fill(conf.LOG2_CBUF_BANK_DEPTH, false.B))
-val dat_req_addr_wrap = dat_req_addr_sum - Cat(data_bank, Fill(conf.LOG2_CBUF_BANK_DEPTH, false.B))
+val dat_req_addr_wrap = dat_req_addr_sum -& Cat(data_bank, Fill(conf.LOG2_CBUF_BANK_DEPTH, false.B))
 val dat_req_addr_w = Mux(layer_st | dat_req_dummy_d1, Fill(conf.CBUF_ADDR_WIDTH, true.B), 
                      Mux(is_dat_req_addr_wrap, dat_req_addr_wrap, dat_req_addr_sum))    //get the adress sends to cbuf
-val dat_req_addr_minus1 = dat_req_addr_w - 1.U
-val is_dat_req_addr_minus1_wrap = (dat_req_addr_minus1 >= Cat(data_bank, Fill(conf.LOG2_CBUF_BANK_DEPTH, false.B)))
-val dat_req_addr_minus1_wrap = Cat(data_bank, Fill(conf.LOG2_CBUF_BANK_DEPTH, true.B))
-val dat_req_addr_minus1_real = Mux(is_dat_req_addr_minus1_wrap, dat_req_addr_minus1_wrap, dat_req_addr_minus1)
-val dat_req_addr_last = MuxLookup(dat_req_sub_h_d1, 0.U,
+val dat_req_addr_last = MuxLookup(dat_req_sub_h_d1, dat_req_sub_h_addr(3),
                         (0 to 2) map { i => i.U -> dat_req_sub_h_addr(i) })
 val sc2buf_dat_rd_en_w = dat_req_valid_d1 & ((dat_req_addr_last =/= dat_req_addr_w) | pixel_force_fetch_d1)
 val dat_req_sub_h_addr_en = VecInit((0 to 3) map 
@@ -964,8 +960,8 @@ val rsp_sft_cnt_l3_sub = Mux(dat_l3c0_en, conf.CSC_ENTRY_HEX.U, "b0".asUInt(8.W)
 
 val rsp_sft_cnt_l0_inc = Mux(pixel_x_byte_stride > conf.CSC_ENTRY_HEX.U, conf.CSC_ENTRY_HEX.U, rsp_sft_cnt_l0 +& pixel_x_byte_stride -& rsp_sft_cnt_l0_sub)(7, 0)
 val rsp_sft_cnt_l1_inc = Mux(pixel_x_byte_stride > conf.CSC_ENTRY_HEX.U, conf.CSC_ENTRY_HEX.U, rsp_sft_cnt_l1 +& pixel_x_byte_stride -& rsp_sft_cnt_l1_sub)(7, 0)
-val rsp_sft_cnt_l2_inc = Mux(pixel_x_byte_stride > conf.CSC_ENTRY_HEX.U, conf.CSC_ENTRY_HEX.U, rsp_sft_cnt_l2 +& pixel_x_byte_stride +& rsp_sft_cnt_l2_sub)(7, 0)
-val rsp_sft_cnt_l3_inc = Mux(pixel_x_byte_stride > conf.CSC_ENTRY_HEX.U, conf.CSC_ENTRY_HEX.U, rsp_sft_cnt_l3 +& pixel_x_byte_stride +& rsp_sft_cnt_l3_sub)(7, 0)
+val rsp_sft_cnt_l2_inc = Mux(pixel_x_byte_stride > conf.CSC_ENTRY_HEX.U, conf.CSC_ENTRY_HEX.U, rsp_sft_cnt_l2 +& pixel_x_byte_stride -& rsp_sft_cnt_l2_sub)(7, 0)
+val rsp_sft_cnt_l3_inc = Mux(pixel_x_byte_stride > conf.CSC_ENTRY_HEX.U, conf.CSC_ENTRY_HEX.U, rsp_sft_cnt_l3 +& pixel_x_byte_stride -& rsp_sft_cnt_l3_sub)(7, 0)
 
 //the data frm cbuf's low Bytes is always needed. High Bytes maybe unneeded.
 val dat_rsp_l0_block_end = dat_rsp_l0_sub_c
